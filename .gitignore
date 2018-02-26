@@ -1,0 +1,5 @@
+ApplicationServer/bin/
+ApplicationServer/obj/
+WindowsLibrary/bin/
+WindowsLibrary/obj/
+.vs/
