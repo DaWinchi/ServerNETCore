@@ -4,9 +4,9 @@ namespace WindowsLibrary
 {
     public class MainWindow
     {
-        private int left, top, width, height;
-        private string title;
-        private bool isActive;
+        protected int left, top, width, height;
+        protected string title;
+        protected bool isActive;
 
         public int Left
         {
@@ -39,7 +39,7 @@ namespace WindowsLibrary
             set { isActive = value; }
         }
 
-        MainWindow()
+        protected MainWindow()
         {
             left = Console.WindowWidth / 2 - width / 2;
             top = Console.WindowHeight / 2 - height / 2;
@@ -48,5 +48,7 @@ namespace WindowsLibrary
             isActive = false;
             title = "Window1";
         }
+
+        protected virtual void CreateFrame() { }
     }
 }
