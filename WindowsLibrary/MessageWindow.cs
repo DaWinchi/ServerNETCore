@@ -15,15 +15,7 @@ namespace WindowsLibrary
             isActive = true;
             title = "MessageWindow";
         }
-        protected override void CreateFrame()
-        {
-            base.CreateFrame();
-        }
-
-        protected override void WriteTitle()
-        {
-            base.WriteTitle();
-        }
+       
     }
 }
 
