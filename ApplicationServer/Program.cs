@@ -14,12 +14,13 @@ namespace ApplicationServer
             mnWnd.Update();
             msgWnd.Update();
 
-            ListObject list = new ListObject(msgWnd.Left+2, msgWnd.Top+1, msgWnd.Width - 2, msgWnd.Height - 2, msgWnd.IsActive);
-            list.List.Add("Строка 1");
+            ListObject list = new ListObject(msgWnd.Left+2, msgWnd.Top+1, msgWnd.Width - 4, msgWnd.Height - 2, true);
+            list.List.Add("Строка12345678910111213141516171819202122232425");
             list.List.Add("Строка 2");
-            list.CreateList();
-            var ck = Console.ReadKey();
+            list.Update();
+            list.List.Clear();
             list.WaitingPressKey();
+           // list.Update();
 
 
 

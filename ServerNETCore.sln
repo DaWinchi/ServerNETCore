@@ -3,9 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsLibrary", "WindowsLibrary\WindowsLibrary.csproj", "{04B01049-3B75-4E83-B764-1443946C3667}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowsLibrary", "WindowsLibrary\WindowsLibrary.csproj", "{04B01049-3B75-4E83-B764-1443946C3667}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationServer", "ApplicationServer\ApplicationServer.csproj", "{2547418B-E4E8-46E9-BB13-BCF42AE4CE00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationServer", "ApplicationServer\ApplicationServer.csproj", "{2547418B-E4E8-46E9-BB13-BCF42AE4CE00}"
+	ProjectSection(ProjectDependencies) = postProject
+		{04B01049-3B75-4E83-B764-1443946C3667} = {04B01049-3B75-4E83-B764-1443946C3667}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

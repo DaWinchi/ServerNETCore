@@ -9,7 +9,7 @@ namespace WindowsLibrary
         protected int left, top, width, height;
         protected bool isActive;
         public List<string> List;
-        
+        private int oldSize;
         private int activeLine;
 
         public int Left
@@ -47,26 +47,48 @@ namespace WindowsLibrary
             List = new List<string>();
             isActive = p_active;
             if (isActive) activeLine = 0;
+            oldSize = 0;
         }
 
-        public void CreateList()
+        public void Update()
         {
+            for (int i = 0; i < oldSize; i++)
+            {
+                Console.SetCursorPosition(left, top + i);
+                for (int j = 0; j < width; j++)
+                {
+                    Console.Write(" ");
+                }
+
+            }
+
             int size = List.Count;
-            for (int i=0; i<size; i++)
+
+
+            for (int i = 0; i < size; i++)
             {
                 string bufstring;
-                if (List[i].Length >= width) bufstring = List[i].Substring(0, width - 2);
+                if (List[i].Length >= width) bufstring = List[i].Substring(0, width);
                 else bufstring = List[i];
-                Console.SetCursorPosition(left, top+i);
-                Console.WriteLine(bufstring);
+                Console.SetCursorPosition(left, top + i);
+                if (i == activeLine)
+                {
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.White;
+                    Console.WriteLine(bufstring);
+                    Console.ResetColor();
+                }
+                else Console.WriteLine(bufstring);
+
             }
+            oldSize = size;
         }
 
 
         public void WaitingPressKey()
         {
-            var key=Console.ReadKey();
-            if (isActive && Console.ReadKey().Key == ConsoleKey.DownArrow) { List.Clear(); }
+            var key = Console.ReadKey();
+            if (isActive && key.Key == ConsoleKey.DownArrow) { Update(); }
         }
 
 
