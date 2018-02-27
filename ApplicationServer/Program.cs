@@ -9,19 +9,20 @@ namespace ApplicationServer
         {
             MainWindow mnWnd = new MainWindow();
             MessageWindow msgWnd = new MessageWindow(5, 3, 40, 10);
-            msgWnd.IsActive = false;
-            mnWnd.IsActive = true;
+            msgWnd.IsActive = true;
+            mnWnd.IsActive = false;
             mnWnd.Update();
             msgWnd.Update();
 
-            ListObject list = new ListObject(msgWnd.Left+2, msgWnd.Top+1, msgWnd.Width - 4, msgWnd.Height - 2, true);
-            list.List.Add("Строка12345678910111213141516171819202122232425");
+            ListObject list = new ListObject(msgWnd.Left+2, msgWnd.Top+1, msgWnd.Width - 4, msgWnd.Height - 2, msgWnd.IsActive);
+            list.List.Add("Строка 1");
             list.List.Add("Строка 2");
             list.Update();
-            list.List.Clear();
+           // list.List.Clear();
+           while(true)
             list.WaitingPressKey();
            // list.Update();
-
+          
 
 
             Console.SetCursorPosition(Console.WindowWidth - 1, Console.WindowHeight);

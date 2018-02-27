@@ -87,8 +87,17 @@ namespace WindowsLibrary
 
         public void WaitingPressKey()
         {
-            var key = Console.ReadKey();
-            if (isActive && key.Key == ConsoleKey.DownArrow) { Update(); }
+            if (isActive)
+            {
+                var key = Console.ReadKey();
+                switch (key.Key)
+                {
+                    case ConsoleKey.DownArrow: activeLine++; Update(); break;
+                    case ConsoleKey.UpArrow: activeLine--; Update(); break;
+                    case ConsoleKey.Enter: isActive = false;break;
+                    default: break;
+                }
+            }
         }
 
 
