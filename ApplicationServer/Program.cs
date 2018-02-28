@@ -18,6 +18,9 @@ namespace ApplicationServer
             list.List.Add("Строка 1");
             list.List.Add("Строка 2");
             list.Update();
+            ButtonObject button = new ButtonObject(msgWnd.Left + msgWnd.Width / 2-5, msgWnd.Top + msgWnd.Height - 2, 10, 1, false, "Exit");
+            button.Update();
+            
            // list.List.Clear();
            while(true)
             list.WaitingPressKey();
