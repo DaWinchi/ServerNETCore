@@ -4,74 +4,47 @@ using System.Text;
 
 namespace WindowsLibrary
 {
-    public class ListObject
+    public class ListObject:Element
     {
-        protected int left, top, width, height;
-        protected bool isActive;
         public List<string> List;
         private int oldSize;
         private int activeLine;
 
-        public int Left
+       
+        public ListObject(int p_Left, int p_Top, int p_Width, int p_Height, bool p_active, bool p_parentActive)
         {
-            get { return left; }
-            set { left = value; }
-        }
-        public int Top
-        {
-            get { return top; }
-            set { top = value; }
-        }
-        public int Width
-        {
-            get { return width; }
-            set { width = value; }
-        }
-        public int Height
-        {
-            get { return height; }
-            set { height = value; }
-        }
-        public bool IsActive
-        {
-            get { return isActive; }
-            set { isActive = value; }
-        }
-
-        public ListObject(int p_left, int p_top, int p_width, int p_height, bool p_active)
-        {
-            left = p_left;
-            top = p_top;
-            width = p_width;
-            height = p_height;
+            Left = p_Left;
+            Top = p_Top;
+            Width = p_Width;
+            Height = p_Height;
             List = new List<string>();
-            isActive = p_active;
-            if (isActive) activeLine = 0;
+            IsActive = p_active;
+            IsParentActive = p_parentActive;
+
+            if (IsActive) activeLine = 0;
             oldSize = 0;
         }
 
-        public void Update()
+        public override void Update()
         {
             for (int i = 0; i < oldSize; i++)
             {
-                Console.SetCursorPosition(left, top + i);
-                for (int j = 0; j < width; j++)
+                Console.SetCursorPosition(Left, Top + i);
+                for (int j = 0; j < Width; j++)
                 {
                     Console.Write(" ");
                 }
-
             }
 
             int size = List.Count;
 
-
             for (int i = 0; i < size; i++)
             {
                 string bufstring;
-                if (List[i].Length >= width) bufstring = List[i].Substring(0, width);
+                if (List[i].Length >= Width) bufstring = List[i].Substring(0, Width);
                 else bufstring = List[i];
-                Console.SetCursorPosition(left, top + i);
-                if (i == activeLine)
+                Console.SetCursorPosition(Left, Top + i);
+                if ((i == activeLine)&&(IsActive))
                 {
                     Console.ForegroundColor = ConsoleColor.Black;
                     Console.BackgroundColor = ConsoleColor.White;
@@ -79,22 +52,20 @@ namespace WindowsLibrary
                     Console.ResetColor();
                 }
                 else Console.WriteLine(bufstring);
-
             }
             oldSize = size;
         }
 
 
-        public void WaitingPressKey()
+        public override void ReadKey(ConsoleKeyInfo keyInfo)
         {
-            if (isActive)
+            if (IsActive)
             {
-                var key = Console.ReadKey();
-                switch (key.Key)
+                switch (keyInfo.Key)
                 {
                     case ConsoleKey.DownArrow: activeLine++; Update(); break;
                     case ConsoleKey.UpArrow: activeLine--; Update(); break;
-                    case ConsoleKey.Enter: isActive = false;break;
+                    case ConsoleKey.Tab: IsActive = false; break;
                     default: break;
                 }
             }

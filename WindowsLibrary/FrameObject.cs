@@ -5,7 +5,7 @@ namespace WindowsLibrary
     public class FrameObject : Element
     {
 
-        public string Title { get; set; }
+        
         public FrameObject()
         {
             Left = Console.WindowWidth / 2 - Width / 2;
@@ -78,11 +78,10 @@ namespace WindowsLibrary
             }
         }
 
-        public override void ReadKey()
+        public override void ReadKey(ConsoleKeyInfo keyInfo)
         {
             if (IsActive)
             {
-                ConsoleKeyInfo keyInfo = Console.ReadKey();
                 switch (keyInfo.Key)
                 {
                     case ConsoleKey.Enter: { IsActive = false; Update(); break; }
