@@ -85,7 +85,7 @@ namespace WindowsLibrary
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
                 switch (keyInfo.Key)
                 {
-                    case ConsoleKey.Enter: { IsActive = false; break; }
+                    case ConsoleKey.Enter: { IsActive = false; Update(); break; }
                 }
             }
 

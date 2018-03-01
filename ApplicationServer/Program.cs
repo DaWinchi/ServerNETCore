@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using WindowsLibrary;
 
 namespace ApplicationServer
@@ -7,26 +8,26 @@ namespace ApplicationServer
     {
         static void Main(string[] args)
         {
-            MainWindow mnWnd = new MainWindow();
-            MessageWindow msgWnd = new MessageWindow(5, 3, 40, 10);
-            msgWnd.IsActive = true;
-            mnWnd.IsActive = false;
-            mnWnd.Update();
-            msgWnd.Update();
+            FrameObject mnWnd1 = new FrameObject(0, 0, 30, 8, "Окно 1", true);
+            FrameObject mnWnd2 = new FrameObject(32, 9, 30, 8, "Окно 2", false);
 
-            ListObject list = new ListObject(msgWnd.Left+2, msgWnd.Top+1, msgWnd.Width - 4, msgWnd.Height - 2, msgWnd.IsActive);
-            list.List.Add("Строка 1");
-            list.List.Add("Строка 2");
-            list.Update();
-            ButtonObject button = new ButtonObject(msgWnd.Left + msgWnd.Width / 2-5, msgWnd.Top + msgWnd.Height - 2, 10, 1, false, "Exit");
-            button.Update();
-
-            Element element = new Element();
-            
-           // list.List.Clear();
-           while(true)
-            list.WaitingPressKey();
-           // list.Update();
+            List<Element> frames = new List<Element>();
+            frames.Add(mnWnd1); frames[0].Update();
+            frames.Add(mnWnd2); frames[1].Update();
+            int size = frames.Count;
+            while (true)
+            {
+               for (int i=0; i<size; i++)
+                {
+                    if (frames[i].IsActive)
+                    {
+                        frames[i].ReadKey();
+                        if ((i + 1) < size) { frames[i + 1].IsActive = true; frames[i + 1].Update(); }
+                        else { frames[0].IsActive = true; frames[0].Update(); }
+                    }
+                }
+            }
+           
           
 
 

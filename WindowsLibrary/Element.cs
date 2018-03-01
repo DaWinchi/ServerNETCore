@@ -18,7 +18,7 @@ namespace WindowsLibrary
         /*Method to update object Element*/
         public abstract void Update();
         /*Method to read pressed key object Element*/
-        public abstract ConsoleKeyInfo ReadKey();
+        public abstract void ReadKey();
 
     }
 }
