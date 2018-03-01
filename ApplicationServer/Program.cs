@@ -21,7 +21,7 @@ namespace ApplicationServer
             ButtonObject button = new ButtonObject(msgWnd.Left + msgWnd.Width / 2-5, msgWnd.Top + msgWnd.Height - 2, 10, 1, false, "Exit");
             button.Update();
 
-            Element element = new WindowsLibrary.Element();
+            Element element = new Element();
             
            // list.List.Clear();
            while(true)
