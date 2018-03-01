@@ -2,11 +2,11 @@
 
 namespace WindowsLibrary
 {
-    public class MainWindow : Element
+    public class FrameObject : Element
     {
 
-        public string Title{get; set;}
-        public MainWindow()
+        public string Title { get; set; }
+        public FrameObject()
         {
             Left = Console.WindowWidth / 2 - Width / 2;
             Top = Console.WindowHeight / 2 - Height / 2;
@@ -16,7 +16,19 @@ namespace WindowsLibrary
             Title = "Window1";
         }
 
-        protected virtual void CreateFrame() {
+        public FrameObject(int p_left, int p_top, int p_width, int p_height, string p_title, bool p_isactive)
+        {
+            Left = p_left;
+            Top = p_top;
+            Width = p_width;
+            Height = p_height;
+            IsActive = p_isactive;
+            Title = p_title;
+        }
+
+
+        protected virtual void CreateFrame()
+        {
             if (IsActive)
             {
                 for (int i = 0; i < Width; i++)
@@ -54,13 +66,29 @@ namespace WindowsLibrary
                 }
             }
         }
-        protected virtual void WriteTitle() 
+        protected virtual void WriteTitle()
         {
-            string bufTitle;
-            if (Title.Length >= Width) bufTitle = Title.Substring(0, Width - 2);
-            else bufTitle = Title;
-            Console.SetCursorPosition(Left + Width / 2 - bufTitle.Length / 2, Top);
-            Console.WriteLine(bufTitle);
+            if (Title != null)
+            {
+                string bufTitle;
+                if (Title.Length >= Width) bufTitle = Title.Substring(0, Width - 2);
+                else bufTitle = Title;
+                Console.SetCursorPosition(Left + Width / 2 - bufTitle.Length / 2, Top);
+                Console.WriteLine(bufTitle);
+            }
+        }
+
+        public override void ReadKey()
+        {
+            if (IsActive)
+            {
+                ConsoleKeyInfo keyInfo = Console.ReadKey();
+                switch (keyInfo.Key)
+                {
+                    case ConsoleKey.Enter: { IsActive = false; break; }
+                }
+            }
+
         }
 
         public override void Update()
