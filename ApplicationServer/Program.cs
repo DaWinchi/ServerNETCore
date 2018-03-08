@@ -6,15 +6,19 @@ namespace ApplicationServer
 {
     class Program
     {
+        static FrameObject mnWnd1;
+        static FrameObject mnWnd2;
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
-            FrameObject mnWnd1 = new FrameObject(1, 1, 60, 8, "Окно 1", true);
-            FrameObject mnWnd2 = new FrameObject(32, 9, 30, 8, "Окно 2", false);
+            mnWnd1 = new FrameObject(1, 1, 60, 8, "Окно 1", true);
+            mnWnd2 = new FrameObject(32, 9, 30, 8, "Окно 2", false);
             
             ListObject list1 = new ListObject(mnWnd1.Left + 1, mnWnd1.Top + 1, 14, 4, true, mnWnd1.IsActive);
             ListObject list2 = new ListObject(mnWnd1.Left + 1+14, mnWnd1.Top + 1, 14, 4, false, mnWnd1.IsActive);
+            ListObject list3 = new ListObject(mnWnd2.Left +1, mnWnd2.Top + 1, 8, 4, true, mnWnd2.IsActive);
             ButtonObject button1 = new ButtonObject(mnWnd1.Left + mnWnd1.Width - 10, mnWnd1.Top + mnWnd1.Height - 2, 8, 1, false, "Exit");
+            list3.List.Add("Test");
 
             list2.List.Add("Строка1");
             list2.List.Add("Строка2");
@@ -77,7 +81,15 @@ namespace ApplicationServer
                                         }
                                         else { frames[i].Children[0].IsActive = true; frames[i].UpdateChildren(); break; }
                                     }
+                                    if((key.Key==ConsoleKey.Spacebar)&&j==2)
+                                    {
+                                        frames[1].Children.Add(list3);
+                                        frames[1].UpdateChildren();
+                                        break;
+                                    }
                                 }
+
+
                             }
                             
                         }
@@ -92,5 +104,7 @@ namespace ApplicationServer
             Console.CursorVisible = false;
             Console.ReadKey();
         }
+
+        
     }
 }
