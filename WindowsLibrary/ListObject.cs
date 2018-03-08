@@ -65,10 +65,15 @@ namespace WindowsLibrary
                 {
                     case ConsoleKey.DownArrow: activeLine++; Update(); break;
                     case ConsoleKey.UpArrow: activeLine--; Update(); break;
-                    case ConsoleKey.Tab: IsActive = false; break;
+                    case ConsoleKey.Tab: IsActive = false; Update();  break;
                     default: break;
                 }
             }
+        }
+
+        public override void UpdateChildren()
+        {
+            throw new NotImplementedException();
         }
 
 

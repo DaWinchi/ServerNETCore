@@ -25,5 +25,7 @@ namespace WindowsLibrary
         /*Method to read pressed key object Element*/
         public abstract void ReadKey(ConsoleKeyInfo keyInfo);
 
+        public abstract void UpdateChildren();
+
     }
 }

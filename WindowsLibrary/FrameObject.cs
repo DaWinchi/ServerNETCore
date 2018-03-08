@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WindowsLibrary
 {
@@ -14,6 +15,7 @@ namespace WindowsLibrary
             Height = 20;
             IsActive = false;
             Title = "Window1";
+            Children = new List<Element>();
         }
 
         public FrameObject(int p_left, int p_top, int p_width, int p_height, string p_title, bool p_isactive)
@@ -24,6 +26,7 @@ namespace WindowsLibrary
             Height = p_height;
             IsActive = p_isactive;
             Title = p_title;
+            Children = new List<Element>();
         }
 
 
@@ -94,6 +97,16 @@ namespace WindowsLibrary
         {
             CreateFrame();
             WriteTitle();
+        }
+
+        public override void UpdateChildren()
+        {
+            int size = Children.Count;
+            for (int i=0; i<size; i++)
+            {
+                Children[i].IsParentActive = IsActive;
+                Children[i].Update();
+            }
         }
     }
 }
