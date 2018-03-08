@@ -6,7 +6,7 @@ namespace WindowsLibrary
 {
     public class ButtonObject : Element
     {
-        public bool IsClicked{ get; set; }
+       
         public ButtonObject(int p_Left, int p_Top, int p_Width, int p_Height, bool p_active, string p_Title)
         {
             Left = p_Left;
@@ -70,7 +70,7 @@ namespace WindowsLibrary
                 switch (keyInfo.Key)
                 {
                     case ConsoleKey.Tab: IsActive = false; Update(); break;
-                    case ConsoleKey.Select: IsActive = false; Update(); break;
+                    case ConsoleKey.Spacebar: IsClicked = true; Update(); break;
                     default: break;
                 }
             }

@@ -8,8 +8,7 @@ namespace WindowsLibrary
     {
         public List<string> List;
         private int oldSize;
-        private int activeLine;
-        public bool IsClicked { get; set; }
+       
        
         public ListObject(int p_Left, int p_Top, int p_Width, int p_Height, bool p_active, bool p_parentActive)
         {
