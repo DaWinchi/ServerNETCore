@@ -9,7 +9,7 @@ namespace WindowsLibrary
         public List<string> List;
         private int oldSize;
         private int activeLine;
-
+        public bool IsClicked { get; set; }
        
         public ListObject(int p_Left, int p_Top, int p_Width, int p_Height, bool p_active, bool p_parentActive)
         {
@@ -20,7 +20,7 @@ namespace WindowsLibrary
             List = new List<string>();
             IsActive = p_active;
             IsParentActive = p_parentActive;
-
+            IsClicked = false;
             if (IsActive) activeLine = 0;
             oldSize = 0;
         }
@@ -63,9 +63,10 @@ namespace WindowsLibrary
             {
                 switch (keyInfo.Key)
                 {
-                    case ConsoleKey.DownArrow: activeLine++; Update(); break;
-                    case ConsoleKey.UpArrow: activeLine--; Update(); break;
+                    case ConsoleKey.DownArrow: if(activeLine<List.Count-1) activeLine++; Update(); break;
+                    case ConsoleKey.UpArrow: if(activeLine>=1)activeLine--; Update(); break;
                     case ConsoleKey.Tab: IsActive = false; Update();  break;
+                    case ConsoleKey.Spacebar: IsClicked = true; Update(); break;
                     default: break;
                 }
             }
