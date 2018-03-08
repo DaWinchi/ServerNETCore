@@ -18,6 +18,9 @@ namespace ApplicationServer
             ListObject list2 = new ListObject(mnWnd1.Left + 1+14, mnWnd1.Top + 1, 14, 4, false, mnWnd1.IsActive);
             ListObject list3 = new ListObject(mnWnd2.Left +1, mnWnd2.Top + 1, 8, 4, true, mnWnd2.IsActive);
             ButtonObject button1 = new ButtonObject(mnWnd1.Left + mnWnd1.Width - 10, mnWnd1.Top + mnWnd1.Height - 2, 8, 1, false, "Exit");
+            ProgressObject progress1 = new ProgressObject(mnWnd2.Left + 1, mnWnd2.Top + mnWnd2.Height - 4, mnWnd2.Width - 2, 3);
+            progress1.Percent = 70;
+
             list3.List.Add("Test");
 
             list2.List.Add("Строка1");
@@ -84,6 +87,7 @@ namespace ApplicationServer
                                     if((key.Key==ConsoleKey.Spacebar)&&j==2)
                                     {
                                         frames[1].Children.Add(list3);
+                                        frames[1].Children.Add(progress1);
                                         frames[1].UpdateChildren();
                                         break;
                                     }

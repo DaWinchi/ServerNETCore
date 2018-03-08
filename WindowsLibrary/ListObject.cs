@@ -43,7 +43,7 @@ namespace WindowsLibrary
                 if (List[i].Length >= Width) bufstring = List[i].Substring(0, Width);
                 else bufstring = List[i];
                 Console.SetCursorPosition(Left, Top + i);
-                if ((i == activeLine)&&(IsActive))
+                if ((i == activeLine)&&(IsActive)&&(IsParentActive))
                 {
                     Console.ForegroundColor = ConsoleColor.Black;
                     Console.BackgroundColor = ConsoleColor.White;
