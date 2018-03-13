@@ -4,8 +4,10 @@ using System.Text;
 
 namespace WindowsLibrary
 {
-    struct Message
+    public struct Message
     {
-        enum   KeyPressed  {Enter, Space, Up, Down   };
+       public enum   KeyPressed  { Enter, Space, Up, Down   };
+
+       public KeyPressed keyPressed;
     }
 }
