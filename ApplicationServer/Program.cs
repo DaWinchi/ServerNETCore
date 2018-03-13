@@ -6,12 +6,14 @@ namespace ApplicationServer
 {
     class Program
     {
+        
         static FrameObject mnWnd1;
         static FrameObject mnWnd2;
         static void Main(string[] args)
         {
+            Console.Clear();
             Console.CursorVisible = false;
-            mnWnd1 = new FrameObject(1, 1, 60, 8, "Окно 1", true);
+            mnWnd1 = new FrameObject(2, 1, 60, 8, "Окно 1", true);
             mnWnd2 = new FrameObject(32, 9, 30, 8, "Окно 2", false);
             
             ListObject list1 = new ListObject(mnWnd1.Left + 1, mnWnd1.Top + 1, 14, 4, true, mnWnd1.IsActive);
