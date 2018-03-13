@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace WindowsLibrary
 {
-    public class FrameObject : Element
+    public class Window : Element
     {
+        Thread tracking;
+        static object locker = new object();
+        static Queue<Message> queue_messages;
 
-        
-        public FrameObject()
+        public Window()
         {
             Left = Console.WindowWidth / 2 - Width / 2;
             Top = Console.WindowHeight / 2 - Height / 2;
@@ -16,9 +19,10 @@ namespace WindowsLibrary
             IsActive = false;
             Title = "Window1";
             Children = new List<Element>();
+            queue_messages = new Queue<Message>();
         }
 
-        public FrameObject(int p_left, int p_top, int p_width, int p_height, string p_title, bool p_isactive)
+        public Window(int p_left, int p_top, int p_width, int p_height, string p_title, bool p_isactive)
         {
             Left = p_left;
             Top = p_top;
@@ -27,8 +31,45 @@ namespace WindowsLibrary
             IsActive = p_isactive;
             Title = p_title;
             Children = new List<Element>();
+            queue_messages = new Queue<Message>();
         }
 
+        public void InitializeWindow()
+        {
+
+
+        }
+
+
+        static void InitializeTracking()
+        {
+            ConsoleKeyInfo pressed_key;
+            while (true)
+            {
+                pressed_key = Console.ReadKey();
+                Message.KeyPressed msg;
+
+
+                switch (pressed_key.Key)
+                {
+                    case ConsoleKey.Enter: msg = Message.KeyPressed.Enter; break;
+                    case ConsoleKey.Spacebar: msg = Message.KeyPressed.Space; break;
+                    case ConsoleKey.UpArrow: msg = Message.KeyPressed.Up; break;
+                    case ConsoleKey.DownArrow: msg = Message.KeyPressed.Down; break;
+                    default: break;
+                }
+
+
+                msg = Message.KeyPressed.Enter;
+                pressed_key = Console.ReadKey();
+                lock (locker)
+                {
+
+                    queue_messages.Enqueue
+                }
+
+            }
+        }
 
         protected virtual void CreateFrame()
         {
@@ -102,7 +143,7 @@ namespace WindowsLibrary
         public override void UpdateChildren()
         {
             int size = Children.Count;
-            for (int i=0; i<size; i++)
+            for (int i = 0; i < size; i++)
             {
                 Children[i].IsParentActive = IsActive;
                 Children[i].Update();
