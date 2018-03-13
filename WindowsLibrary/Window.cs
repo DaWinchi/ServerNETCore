@@ -6,7 +6,8 @@ namespace WindowsLibrary
 {
     public class Window : Element
     {
-        Thread tracking;
+        Thread tracking_add_queue;
+        Thread tracking_remove_queue;
         static object locker = new object();
         static Queue<Message> queue_messages;
 
@@ -38,18 +39,63 @@ namespace WindowsLibrary
         {
             Update();
             UpdateChildren();
-            tracking = new Thread(InitializeTracking);
-            tracking.Start();
+            tracking_add_queue = new Thread(TrackingKeyboard);
+            tracking_remove_queue = new Thread(HandlingMessages);
+            tracking_add_queue.Start();
+            tracking_remove_queue.Start();
         }
 
+        static void HandlingMessages()
+        {
+            while (true)
+            {
+                lock (locker)
+                {
+                    while (queue_messages.Count > 0)
+                    {
+                        Message msg = new Message();
+                        msg = queue_messages.Dequeue();
 
-        static void InitializeTracking()
+                        switch (msg.keyPressed)
+                        {
+                            case Message.KeyPressed.Down:
+                                foreach (Element elm in Children)
+                                {
+                                    if (elm.IsActive)
+                                    { elm.ReadKey(ConsoleKey.DownArrow); break; }
+                                }
+                                break;
+
+                            case Message.KeyPressed.Up:
+                                foreach (Element elm in Children)
+                                {
+                                    if (elm.IsActive)
+                                    { elm.ReadKey(ConsoleKey.UpArrow); break; }
+
+                                }
+                                break;
+
+                            case Message.KeyPressed.Space:
+                                foreach (Element elm in Children)
+                                {
+                                    if (elm.IsActive)
+                                    { elm.ReadKey(ConsoleKey.Spacebar); break; }
+                                }
+                                break;
+
+                        }
+                    }
+                }
+            }
+        }
+
+        static void TrackingKeyboard()
         {
             ConsoleKeyInfo pressed_key;
             while (true)
             {
                 pressed_key = Console.ReadKey();
-                Message msg=new Message();
+                Message msg = new Message();
 
 
                 switch (pressed_key.Key)
@@ -61,7 +107,6 @@ namespace WindowsLibrary
                     default: break;
                 }
 
-                                
                 pressed_key = Console.ReadKey();
                 lock (locker)
                 {
@@ -122,11 +167,11 @@ namespace WindowsLibrary
             }
         }
 
-        public override void ReadKey(ConsoleKeyInfo keyInfo)
+        public override void ReadKey(ConsoleKey key)
         {
             if (IsActive)
             {
-                switch (keyInfo.Key)
+                switch (key)
                 {
                     case ConsoleKey.Enter: { IsActive = false; Update(); break; }
                 }

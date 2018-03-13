@@ -17,7 +17,7 @@ namespace WindowsLibrary
         public virtual int activeLine { get; set; }
         public virtual bool IsClicked { get; set; }
 
-        public  List<Element> Children;
+        public static List<Element> Children { get; set; }
 
         public virtual bool IsParentActive { get; set; }
 
@@ -26,7 +26,7 @@ namespace WindowsLibrary
         /*Method to update object Element*/
         public abstract void Update();
         /*Method to read pressed key object Element*/
-        public abstract void ReadKey(ConsoleKeyInfo keyInfo);
+        public abstract void ReadKey(ConsoleKey keyInfo);
 
         public abstract void UpdateChildren();
 
