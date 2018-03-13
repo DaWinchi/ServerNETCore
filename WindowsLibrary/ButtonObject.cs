@@ -63,11 +63,11 @@ namespace WindowsLibrary
             }
         }
 
-        public override void ReadKey(ConsoleKeyInfo keyInfo)
+        public override void ReadKey(ConsoleKey key)
         {
             if (IsActive)
             {
-                switch (keyInfo.Key)
+                switch (key)
                 {
                     case ConsoleKey.Tab: IsActive = false; Update(); break;
                     case ConsoleKey.Spacebar: IsClicked = true; Update(); break;

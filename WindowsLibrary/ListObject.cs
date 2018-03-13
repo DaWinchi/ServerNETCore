@@ -56,11 +56,11 @@ namespace WindowsLibrary
         }
 
 
-        public override void ReadKey(ConsoleKeyInfo keyInfo)
+        public override void ReadKey(ConsoleKey key)
         {
             if (IsActive)
             {
-                switch (keyInfo.Key)
+                switch (key)
                 {
                     case ConsoleKey.DownArrow: if(activeLine<List.Count-1) activeLine++; Update(); break;
                     case ConsoleKey.UpArrow: if(activeLine>=1)activeLine--; Update(); break;
