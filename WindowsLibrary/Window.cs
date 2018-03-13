@@ -36,8 +36,10 @@ namespace WindowsLibrary
 
         public void InitializeWindow()
         {
-
-
+            Update();
+            UpdateChildren();
+            tracking = new Thread(InitializeTracking);
+            tracking.Start();
         }
 
 
@@ -47,25 +49,23 @@ namespace WindowsLibrary
             while (true)
             {
                 pressed_key = Console.ReadKey();
-                Message.KeyPressed msg;
+                Message msg=new Message();
 
 
                 switch (pressed_key.Key)
                 {
-                    case ConsoleKey.Enter: msg = Message.KeyPressed.Enter; break;
-                    case ConsoleKey.Spacebar: msg = Message.KeyPressed.Space; break;
-                    case ConsoleKey.UpArrow: msg = Message.KeyPressed.Up; break;
-                    case ConsoleKey.DownArrow: msg = Message.KeyPressed.Down; break;
+                    case ConsoleKey.Enter: msg.keyPressed = Message.KeyPressed.Enter; break;
+                    case ConsoleKey.Spacebar: msg.keyPressed = Message.KeyPressed.Space; break;
+                    case ConsoleKey.UpArrow: msg.keyPressed = Message.KeyPressed.Up; break;
+                    case ConsoleKey.DownArrow: msg.keyPressed = Message.KeyPressed.Down; break;
                     default: break;
                 }
 
-
-                msg = Message.KeyPressed.Enter;
+                                
                 pressed_key = Console.ReadKey();
                 lock (locker)
                 {
-
-                    queue_messages.Enqueue
+                    queue_messages.Enqueue(msg);
                 }
 
             }
