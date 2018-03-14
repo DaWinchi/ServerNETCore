@@ -17,7 +17,7 @@ namespace WindowsLibrary
         public virtual int activeLine { get; set; }
         public virtual bool IsClicked { get; set; }
 
-        public static List<Element> Children;
+       
 
         public virtual bool IsParentActive { get; set; }
 

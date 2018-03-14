@@ -10,7 +10,7 @@ namespace WindowsLibrary
         Thread tracking_remove_queue;
         static object locker = new object();
         static Queue<Message> queue_messages;
-
+        public static List<Element> Children;
         public Window()
         {
             Left = Console.WindowWidth / 2 - Width / 2;
@@ -76,18 +76,19 @@ namespace WindowsLibrary
                                 break;
 
                             case Message.KeyPressed.Tab:
-                                
 
-                                for (int i=0; i<Children.Count; i++)
+
+                                for (int i = 0; i < Children.Count; i++)
                                 {
-                                    if (Children[i].IsActive)
+                                    if (Children[i].IsParentActive)
+                                    if (Children[i].IsActive && Children[i].IsParentActive)
                                     {
                                         Children[i].ReadKey(ConsoleKey.Tab);
                                         if ((i + 1) < Children.Count) { Children[i + 1].IsActive = true; Children[i + 1].Update(); break; }
                                         else { Children[0].IsActive = true; Children[0].Update(); break; }
                                     }
                                 }
-                                
+
                                 break;
 
                             case Message.KeyPressed.Space:
@@ -109,7 +110,7 @@ namespace WindowsLibrary
             ConsoleKeyInfo pressed_key;
             while (true)
             {
-                
+
                 pressed_key = Console.ReadKey();
                 Message msg = new Message();
 
@@ -124,7 +125,7 @@ namespace WindowsLibrary
                     default: break;
                 }
 
-                
+
                 lock (locker)
                 {
                     queue_messages.Enqueue(msg);
@@ -208,13 +209,31 @@ namespace WindowsLibrary
             for (int i = 0; i < size; i++)
             {
                 Children[i].IsParentActive = IsActive;
-                Children[i].Update();
+                if (IsActive) Children[i].Update();
             }
         }
 
         public override void AddChildren(Element p_element)
         {
             Children.Add(p_element);
+        }
+
+        public void DestroyWindow()
+        {
+            tracking_add_queue.Abort();
+            tracking_remove_queue.Abort();
+            Children.Clear();
+
+            for (int i = 0; i < Width; i++)
+            {
+
+                for (int j = 0; j < Height; j++)
+                {
+                    Console.SetCursorPosition(Left + i, Top + j);
+                    Console.Write(" ");
+                }
+            }
+
         }
     }
 }

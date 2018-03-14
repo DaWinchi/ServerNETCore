@@ -74,12 +74,12 @@ namespace WindowsLibrary
 
         public override void UpdateChildren()
         {
-            throw new NotImplementedException();
+           
         }
 
         public override void AddChildren(Element p_element)
         {
-            throw new NotImplementedException();
+            
         }
 
     }
