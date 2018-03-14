@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WindowsLibrary
 {
-    public class MessageWindow : FrameObject
+    public class MessageWindow : Window
     {
         
        

@@ -6,7 +6,7 @@ namespace WindowsLibrary
 {
     public struct Message
     {
-       public enum   KeyPressed  { Enter, Space, Up, Down   };
+       public enum   KeyPressed  { Enter, Space, Up, Down, Tab  };
 
        public KeyPressed keyPressed;
     }

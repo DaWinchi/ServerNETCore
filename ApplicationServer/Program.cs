@@ -35,7 +35,9 @@ namespace ApplicationServer
             list1.List.Add("Строка4");
             list1.List.Add("Строка5");
 
-            
+            mnWnd1.AddChildren(list1);
+            mnWnd1.AddChildren(button1);
+            mnWnd1.InitializeWindow();
           
             Console.SetCursorPosition(Console.WindowWidth - 1, Console.WindowHeight);
             Console.CursorVisible = false;

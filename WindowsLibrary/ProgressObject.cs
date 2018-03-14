@@ -54,7 +54,12 @@ namespace WindowsLibrary
             Console.ResetColor();
         }
 
-        public override void ReadKey(ConsoleKeyInfo keyInfo)
+        public override void ReadKey(ConsoleKey key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void AddChildren(Element p_element)
         {
             throw new NotImplementedException();
         }

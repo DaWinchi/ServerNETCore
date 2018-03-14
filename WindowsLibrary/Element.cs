@@ -25,6 +25,9 @@ namespace WindowsLibrary
         public virtual ConsoleColor Color { get; set; }
         /*Method to update object Element*/
         public abstract void Update();
+
+        public abstract void AddChildren(Element p_element);
+
         /*Method to read pressed key object Element*/
         public abstract void ReadKey(ConsoleKey keyInfo);
 

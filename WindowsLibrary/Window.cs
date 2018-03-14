@@ -75,6 +75,15 @@ namespace WindowsLibrary
                                 }
                                 break;
 
+                            case Message.KeyPressed.Tab:
+                                foreach (Element elm in Children)
+                                {
+                                    if (elm.IsActive)
+                                    { elm.ReadKey(ConsoleKey.Tab); break; }
+
+                                }
+                                break;
+
                             case Message.KeyPressed.Space:
                                 foreach (Element elm in Children)
                                 {
@@ -104,10 +113,11 @@ namespace WindowsLibrary
                     case ConsoleKey.Spacebar: msg.keyPressed = Message.KeyPressed.Space; break;
                     case ConsoleKey.UpArrow: msg.keyPressed = Message.KeyPressed.Up; break;
                     case ConsoleKey.DownArrow: msg.keyPressed = Message.KeyPressed.Down; break;
+                    case ConsoleKey.Tab: msg.keyPressed = Message.KeyPressed.Tab; break;
                     default: break;
                 }
 
-                pressed_key = Console.ReadKey();
+                
                 lock (locker)
                 {
                     queue_messages.Enqueue(msg);
@@ -193,6 +203,11 @@ namespace WindowsLibrary
                 Children[i].IsParentActive = IsActive;
                 Children[i].Update();
             }
+        }
+
+        public override void AddChildren(Element p_element)
+        {
+            Children.Add(p_element);
         }
     }
 }
