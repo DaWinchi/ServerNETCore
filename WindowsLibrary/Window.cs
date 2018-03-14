@@ -76,12 +76,18 @@ namespace WindowsLibrary
                                 break;
 
                             case Message.KeyPressed.Tab:
-                                foreach (Element elm in Children)
-                                {
-                                    if (elm.IsActive)
-                                    { elm.ReadKey(ConsoleKey.Tab); break; }
+                                
 
+                                for (int i=0; i<Children.Count; i++)
+                                {
+                                    if (Children[i].IsActive)
+                                    {
+                                        Children[i].ReadKey(ConsoleKey.Tab);
+                                        if ((i + 1) < Children.Count) { Children[i + 1].IsActive = true; Children[i + 1].Update(); break; }
+                                        else { Children[0].IsActive = true; Children[0].Update(); break; }
+                                    }
                                 }
+                                
                                 break;
 
                             case Message.KeyPressed.Space:
@@ -103,6 +109,7 @@ namespace WindowsLibrary
             ConsoleKeyInfo pressed_key;
             while (true)
             {
+                
                 pressed_key = Console.ReadKey();
                 Message msg = new Message();
 

@@ -53,6 +53,7 @@ namespace WindowsLibrary
                 else Console.WriteLine(bufstring);
             }
             oldSize = size;
+            Console.SetCursorPosition(Console.WindowWidth - 2, Console.WindowHeight - 2);
         }
 
 

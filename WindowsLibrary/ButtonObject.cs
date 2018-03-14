@@ -61,6 +61,8 @@ namespace WindowsLibrary
                 Console.WriteLine(bufstring);
                 Console.ResetColor();
             }
+
+            Console.SetCursorPosition(Console.WindowWidth - 2, Console.WindowHeight - 2);
         }
 
         public override void ReadKey(ConsoleKey key)

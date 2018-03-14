@@ -37,6 +37,7 @@ namespace ApplicationServer
 
             mnWnd1.AddChildren(list1);
             mnWnd1.AddChildren(button1);
+            mnWnd1.AddChildren(list2);
             mnWnd1.InitializeWindow();
           
             Console.SetCursorPosition(Console.WindowWidth - 1, Console.WindowHeight);
