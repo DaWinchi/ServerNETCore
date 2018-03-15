@@ -10,7 +10,7 @@ namespace WindowsLibrary
         Thread tracking_remove_queue;
         static object locker = new object();
         static Queue<Message> queue_messages;
-        public static List<Element> Children;
+        public List<Element> Children;
         public Window()
         {
             Left = Console.WindowWidth / 2 - Width / 2;
@@ -42,10 +42,63 @@ namespace WindowsLibrary
             tracking_add_queue = new Thread(TrackingKeyboard);
             tracking_remove_queue = new Thread(HandlingMessages);
             tracking_add_queue.Start();
-            tracking_remove_queue.Start();
+           // tracking_remove_queue.Start();
+           while(true)
+            {
+                while (queue_messages.Count > 0)
+                {
+                    Message msg = new Message();
+                    msg = queue_messages.Dequeue();
+
+                    switch (msg.keyPressed)
+                    {
+                        case Message.KeyPressed.Down:
+                            foreach (Element elm in Children)
+                            {
+                                if (elm.IsActive)
+                                { elm.ReadKey(ConsoleKey.DownArrow); break; }
+                            }
+                            break;
+
+                        case Message.KeyPressed.Up:
+                            foreach (Element elm in Children)
+                            {
+                                if (elm.IsActive)
+                                { elm.ReadKey(ConsoleKey.UpArrow); break; }
+
+                            }
+                            break;
+
+                        case Message.KeyPressed.Tab:
+
+
+                            for (int i = 0; i < Children.Count; i++)
+                            {
+                                if (Children[i].IsParentActive)
+                                    if (Children[i].IsActive && Children[i].IsParentActive)
+                                    {
+                                        Children[i].ReadKey(ConsoleKey.Tab);
+                                        if ((i + 1) < Children.Count) { Children[i + 1].IsActive = true; Children[i + 1].Update(); break; }
+                                        else { Children[0].IsActive = true; Children[0].Update(); break; }
+                                    }
+                            }
+
+                            break;
+
+                        case Message.KeyPressed.Space:
+                            foreach (Element elm in Children)
+                            {
+                                if (elm.IsActive)
+                                { elm.ReadKey(ConsoleKey.Spacebar); break; }
+                            }
+                            break;
+
+                    }
+                }
+            }
         }
 
-        static void HandlingMessages()
+        void HandlingMessages()
         {
             while (true)
             {
@@ -105,32 +158,33 @@ namespace WindowsLibrary
             }
         }
 
-        static void TrackingKeyboard()
+        void TrackingKeyboard()
         {
             ConsoleKeyInfo pressed_key;
             while (true)
             {
-
-                pressed_key = Console.ReadKey();
-                Message msg = new Message();
-
-
-                switch (pressed_key.Key)
+                if (IsActive)
                 {
-                    case ConsoleKey.Enter: msg.keyPressed = Message.KeyPressed.Enter; break;
-                    case ConsoleKey.Spacebar: msg.keyPressed = Message.KeyPressed.Space; break;
-                    case ConsoleKey.UpArrow: msg.keyPressed = Message.KeyPressed.Up; break;
-                    case ConsoleKey.DownArrow: msg.keyPressed = Message.KeyPressed.Down; break;
-                    case ConsoleKey.Tab: msg.keyPressed = Message.KeyPressed.Tab; break;
-                    default: break;
+                    pressed_key = Console.ReadKey();
+                    Message msg = new Message();
+
+
+                    switch (pressed_key.Key)
+                    {
+                        case ConsoleKey.Enter: msg.keyPressed = Message.KeyPressed.Enter; break;
+                        case ConsoleKey.Spacebar: msg.keyPressed = Message.KeyPressed.Space; break;
+                        case ConsoleKey.UpArrow: msg.keyPressed = Message.KeyPressed.Up; break;
+                        case ConsoleKey.DownArrow: msg.keyPressed = Message.KeyPressed.Down; break;
+                        case ConsoleKey.Tab: msg.keyPressed = Message.KeyPressed.Tab; break;
+                        default: break;
+                    }
+
+
+                    lock (locker)
+                    {
+                        queue_messages.Enqueue(msg);
+                    }
                 }
-
-
-                lock (locker)
-                {
-                    queue_messages.Enqueue(msg);
-                }
-
             }
         }
 

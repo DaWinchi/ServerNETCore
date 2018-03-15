@@ -46,9 +46,10 @@ namespace ApplicationServer
             mnWnd1.AddChildren(list2);
             
             mnWnd2.AddChildren(list3);
-            
-           mnWnd2.InitializeWindow();
+
             mnWnd1.InitializeWindow();
+            mnWnd2.InitializeWindow();
+            
           
             Console.SetCursorPosition(Console.WindowWidth - 1, Console.WindowHeight);
             Console.CursorVisible = false;
