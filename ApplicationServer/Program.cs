@@ -13,8 +13,9 @@ namespace ApplicationServer
             Console.CursorVisible = false;
             Window mnWnd1 = new Window(2, 1, 60, 8, "Окно 1", true);
             Window mnWnd2 = new Window(2, 11, 60, 8, "Окно 2", false);
-           
-            
+            Window mnWnd3 = new Window(6, 5, 60, 8, "Окно 3", false);
+
+
             ListObject list1 = new ListObject(mnWnd1.Left + 1, mnWnd1.Top + 1, 14, 4, true, mnWnd1.IsActive);
             ListObject list2 = new ListObject(mnWnd1.Left + 1+14, mnWnd1.Top + 1, 14, 4, false, mnWnd1.IsActive);
             ListObject list3 = new ListObject(mnWnd2.Left + 1, mnWnd2.Top + 1, 14, 4, true, mnWnd2.IsActive);
@@ -47,12 +48,11 @@ namespace ApplicationServer
             
             mnWnd2.AddChildren(list3);
 
-            mnWnd1.InitializeWindow();
-            mnWnd2.InitializeWindow();
-            
-          
-            Console.SetCursorPosition(Console.WindowWidth - 1, Console.WindowHeight);
-            Console.CursorVisible = false;
+            Application app = new Application();
+            app.windows.Add(mnWnd1);
+            app.windows.Add(mnWnd2);
+            app.windows.Add(mnWnd3);
+            app.Run();
             
         }
 

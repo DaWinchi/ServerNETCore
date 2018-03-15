@@ -5,11 +5,11 @@ using System.Threading;
 
 namespace WindowsLibrary
 {
-    class Application
+   public class Application
     {
-        List<Window> windows;
+        public List<Window> windows;
         bool exit = false;
-        Application()
+       public Application()
         {
             windows = new List<Window>();
         }
@@ -106,8 +106,7 @@ namespace WindowsLibrary
                                         }
                                 }
                                 break;
-
-                                                               
+                                                                                               
 
                             case Message.KeyPressed.Space:
                                 foreach(Window win in windows)
@@ -117,11 +116,41 @@ namespace WindowsLibrary
                                     { child.ReadKey(ConsoleKey.Spacebar); break; }
                                 }
                                 break;
+                            case Message.KeyPressed.Enter:
+                                for (int i = 0; i < windows.Count; i++)
+                                {
 
+                                    if (windows[i].IsActive)
+                                    {
+                                        windows[i].ReadKey(ConsoleKey.Enter);
+                                        if ((i + 1) < windows.Count)
+                                        {
+                                            windows[i + 1].IsActive = true;
+                                            windows[i + 1].Update(); break;
+                                        }
+                                        else
+                                        {
+                                            windows[0].IsActive = true;
+                                            windows[0].Update(); break;
+                                        }
+                                    }
+                                }
+                                break;
                         }
                     }
                 }
             }
+        }
+
+        public void Run()
+        {
+            tracking_adding_queue = new Thread(TrackingKeyboard);
+            queue_messages = new Queue<Message>();
+
+            foreach (Window win in windows) win.InitializeWindow();
+
+            tracking_adding_queue.Start();
+            HandlingMessages();
         }
     }
 }
