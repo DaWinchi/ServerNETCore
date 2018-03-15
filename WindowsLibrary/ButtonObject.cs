@@ -6,9 +6,11 @@ namespace WindowsLibrary
 {
     public class ButtonObject : Element
     {
-       
+
+        public event EventHandler ButtonClicked;
         public ButtonObject(int p_Left, int p_Top, int p_Width, int p_Height, bool p_active, string p_Title)
         {
+            
             Left = p_Left;
             Top = p_Top;
             Width = p_Width;
@@ -19,6 +21,7 @@ namespace WindowsLibrary
 
         }
 
+        
         public override void Update()
         {
             if (IsActive)
@@ -72,7 +75,7 @@ namespace WindowsLibrary
                 switch (key)
                 {
                     case ConsoleKey.Tab: IsActive = false; Update(); break;
-                    case ConsoleKey.Spacebar: IsClicked = true; Update(); break;
+                    case ConsoleKey.Spacebar: IsClicked = true; ButtonClicked(this, new EventArgs()); Update(); break;
                     default: break;
                 }
             }
