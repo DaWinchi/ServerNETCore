@@ -12,13 +12,14 @@ namespace ApplicationServer
             Console.Clear();
             Console.CursorVisible = false;
             Window mnWnd1 = new Window(2, 1, 60, 8, "Окно 1", true);
+
             Window mnWnd2 = new Window(2, 11, 60, 8, "Окно 2", false);
             Window mnWnd3 = new Window(6, 5, 60, 8, "Окно 3", false);
 
 
             ListObject list1 = new ListObject(mnWnd1.Left + 1, mnWnd1.Top + 1, 14, 4, true, mnWnd1.IsActive);
             ListObject list2 = new ListObject(mnWnd1.Left + 1+14, mnWnd1.Top + 1, 14, 4, false, mnWnd1.IsActive);
-            ListObject list3 = new ListObject(mnWnd2.Left + 1, mnWnd2.Top + 1, 14, 4, true, mnWnd2.IsActive);
+            ListObject list3 = new ListObject(mnWnd2.Left + 1, mnWnd2.Top + 1, 14, 4, true, true);
             ButtonObject button1 = new ButtonObject(mnWnd1.Left + mnWnd1.Width - 10, mnWnd1.Top + mnWnd1.Height - 2, 8, 1, false, "Exit");
         
            

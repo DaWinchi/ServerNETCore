@@ -126,12 +126,14 @@ namespace WindowsLibrary
                                         if ((i + 1) < windows.Count)
                                         {
                                             windows[i + 1].IsActive = true;
-                                            windows[i + 1].Update(); break;
+                                            windows[i + 1].Update();
+                                             break;
                                         }
                                         else
                                         {
                                             windows[0].IsActive = true;
-                                            windows[0].Update(); break;
+                                            windows[0].Update();
+                                             break;
                                         }
                                     }
                                 }
@@ -148,6 +150,8 @@ namespace WindowsLibrary
             queue_messages = new Queue<Message>();
 
             foreach (Window win in windows) win.InitializeWindow();
+            foreach (Window win in windows) if(win.IsActive) win.Update();
+
 
             tracking_adding_queue.Start();
             HandlingMessages();

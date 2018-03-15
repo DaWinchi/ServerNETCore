@@ -6,40 +6,58 @@ namespace WindowsLibrary
 {
     public class Window : Element
     {
-       
+        public event EventHandler ChangeActive;
+        public override bool IsActive
+        {
+            get => base.IsActive;
+            set
+            {
+                
+                base.IsActive = value;
+                ChangeActive(this, new EventArgs());
+            }
+        }
         public List<Element> Children;
+        
+
         public Window()
         {
+            Children = new List<Element>();
+           ChangeActive += Window_ChangeActive;
             Left = Console.WindowWidth / 2 - Width / 2;
             Top = Console.WindowHeight / 2 - Height / 2;
             Width = 20;
             Height = 20;
             IsActive = false;
             Title = "Window1";
-            Children = new List<Element>();
+
         }
 
         public Window(int p_left, int p_top, int p_width, int p_height, string p_title, bool p_isactive)
         {
+            Children = new List<Element>();
+            ChangeActive += Window_ChangeActive;
             Left = p_left;
             Top = p_top;
             Width = p_width;
             Height = p_height;
             IsActive = p_isactive;
             Title = p_title;
-            Children = new List<Element>();
+
         }
 
         public void InitializeWindow()
         {
+
             Update();
             UpdateChildren();
-            
+
         }
 
-       
-
-       
+        private void Window_ChangeActive(object sender, EventArgs e)
+        {
+            foreach (Element child in Children) child.IsParentActive = IsActive;
+        }
 
         protected virtual void CreateFrame()
         {
@@ -126,7 +144,7 @@ namespace WindowsLibrary
         }
 
         public void DestroyWindow()
-        {           
+        {
             Children.Clear();
 
             for (int i = 0; i < Width; i++)
@@ -140,5 +158,7 @@ namespace WindowsLibrary
             }
 
         }
+
+
     }
 }
