@@ -218,10 +218,11 @@ namespace WindowsLibrary
                                     }
                                 }
                             }
-                            lock (locker)
-                                windows.RemoveAt(m);
+                            lock (locker) windows.RemoveAt(m);
                             Console.Clear();
+
                             foreach (Window win in windows) win.Update();
+                            foreach (Window win in windows) if(win.IsActive) win.Update();
                             break;
                     }
                 }

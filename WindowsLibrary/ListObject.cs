@@ -94,14 +94,5 @@ namespace WindowsLibrary
 
     }
 
-    public class EventButtonClickedParams : EventArgs
-    {
-        public int ActiveLine { get; set; }
-
-        public EventButtonClickedParams(int activeline)
-        {
-            ActiveLine = activeline;
-        }
-
-    }
+    
 }

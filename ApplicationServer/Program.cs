@@ -23,7 +23,7 @@ namespace ApplicationServer
 
             ListObject list1 = new ListObject(mnWnd1.Left + 1, mnWnd1.Top + 1, 14, 4, true, mnWnd1.IsActive);
             ListObject list2 = new ListObject(mnWnd1.Left + 1 + 14, mnWnd1.Top + 1, 14, 4, false, mnWnd1.IsActive);
-            ListObject list3 = new ListObject(mnWnd2.Left + 1, mnWnd2.Top + 1, 14, 4, true, true);
+            ListObject list3 = new ListObject(mnWnd2.Left + 1, mnWnd2.Top + 1, 14, 4, true, false);
             ButtonObject button1 = new ButtonObject(mnWnd1.Left + mnWnd1.Width - 10, mnWnd1.Top + mnWnd1.Height - 2, 8, 1, false, "Exit");
             button1.ButtonClicked += Button1_ButtonClicked;
 
