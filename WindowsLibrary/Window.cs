@@ -7,31 +7,38 @@ namespace WindowsLibrary
     public class Window : Element
     {
         public event EventHandler ChangeActive;
+        
         public override bool IsActive
         {
             get => base.IsActive;
             set
             {
-                
+
                 base.IsActive = value;
                 ChangeActive(this, new EventArgs());
             }
         }
+        public bool IsClosed { get; set; }
+        public bool IsInQueueToClose{ get; set; }
         public List<Element> Children;
-        
+
 
         public Window()
         {
             Children = new List<Element>();
-           ChangeActive += Window_ChangeActive;
+            ChangeActive += Window_ChangeActive;
             Left = Console.WindowWidth / 2 - Width / 2;
             Top = Console.WindowHeight / 2 - Height / 2;
             Width = 20;
             Height = 20;
             IsActive = false;
+            IsClosed = false;
+            IsInQueueToClose = false;
             Title = "Window1";
 
         }
+
+        
 
         public Window(int p_left, int p_top, int p_width, int p_height, string p_title, bool p_isactive)
         {
@@ -42,6 +49,8 @@ namespace WindowsLibrary
             Width = p_width;
             Height = p_height;
             IsActive = p_isactive;
+            IsClosed = false;
+            IsInQueueToClose = false;
             Title = p_title;
 
         }
@@ -143,20 +152,9 @@ namespace WindowsLibrary
             Children.Add(p_element);
         }
 
-        public void DestroyWindow()
+        public void CloseWindow()
         {
-            Children.Clear();
-
-            for (int i = 0; i < Width; i++)
-            {
-
-                for (int j = 0; j < Height; j++)
-                {
-                    Console.SetCursorPosition(Left + i, Top + j);
-                    Console.Write(" ");
-                }
-            }
-
+            IsClosed = true;
         }
 
 

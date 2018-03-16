@@ -7,9 +7,9 @@ namespace WindowsLibrary
     public struct Message
     {
         public enum KeyPressed { Null, Enter=1, Space=2, Up=3, Down=4, Tab=5 };
-        public enum ButtonClicked { Null, Exit};
+        public enum Window { Null, Exit};
         public KeyPressed keyPressed;
-        public ButtonClicked buttonClicked;
+        public Window window;
 
     }
 }

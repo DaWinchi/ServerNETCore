@@ -14,10 +14,26 @@ namespace WindowsLibrary
             windows = new List<Window>();
         }
 
-        Thread tracking_adding_queue;
+        Thread tracking_adding_queue_from_keyboard;
+        Thread tracking_adding_queue_from_windows;
         static object locker = new object();
         public Queue<Message> queue_messages;
 
+        private void TrackingWindows()
+        {
+            while (true)
+            {
+                lock (locker)
+                    for (int i = 0; i < windows.Count; i++)
+                        if (windows[i].IsClosed && !windows[i].IsInQueueToClose)
+                        {
+                            Message msg = new Message();
+                            msg.window = Message.Window.Exit;
+                            queue_messages.Enqueue(msg);
+                            windows[i].IsInQueueToClose = true;
+                        }
+            }
+        }
 
         private void TrackingKeyboard()
         {
@@ -77,7 +93,7 @@ namespace WindowsLibrary
                 {
                     Message msg = new Message();
                     lock (locker) msg = queue_messages.Dequeue();
-                    
+
                     switch (msg.keyPressed)
                     {
                         case Message.KeyPressed.Down:
@@ -161,40 +177,50 @@ namespace WindowsLibrary
                             break;
                     }
 
-                    switch (msg.buttonClicked)
+                    switch (msg.window)
                     {
-                        case Message.ButtonClicked.Exit:
-                            int i = 0;
+                        case Message.Window.Exit:
+                            int i = 0, m = 0;
+
+                            while (m < windows.Count)
+                            {
+                                if (windows[m].IsClosed) break;
+                                m++;
+                            }
+
                             while (i < windows.Count)
                             {
                                 if (windows[i].IsActive) break;
                                 i++;
                             }
 
-                            for (int j = 0; j < windows.Count; j++)
+                            if (i == m)
                             {
-
-                                if (windows[j].IsActive)
+                                for (int j = 0; j < windows.Count; j++)
                                 {
-                                    windows[j].ReadKey(ConsoleKey.Enter);
-                                    if ((j + 1) < windows.Count)
+
+                                    if (windows[j].IsActive)
                                     {
-                                        windows[j + 1].IsActive = true;
-                                        windows[j + 1].Update();
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        windows[0].IsActive = true;
-                                        windows[0].Update();
-                                        break;
+                                        windows[j].ReadKey(ConsoleKey.Enter);
+                                        if ((j + 1) < windows.Count)
+                                        {
+                                            windows[j + 1].IsActive = true;
+                                            windows[j + 1].Update();
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            windows[0].IsActive = true;
+                                            windows[0].Update();
+                                            break;
+                                        }
                                     }
                                 }
                             }
-
-                            windows.RemoveAt(i);
+                            lock (locker)
+                                windows.RemoveAt(m);
                             Console.Clear();
-                            foreach (Window win in windows) windows[i].Update();
+                            foreach (Window win in windows) win.Update();
                             break;
                     }
                 }
@@ -204,14 +230,16 @@ namespace WindowsLibrary
 
         public void Run()
         {
-            tracking_adding_queue = new Thread(TrackingKeyboard);
+            tracking_adding_queue_from_keyboard = new Thread(TrackingKeyboard);
+            tracking_adding_queue_from_windows = new Thread(TrackingWindows);
             queue_messages = new Queue<Message>();
 
             foreach (Window win in windows) win.InitializeWindow();
             foreach (Window win in windows) if (win.IsActive) win.Update();
 
 
-            tracking_adding_queue.Start();
+            tracking_adding_queue_from_keyboard.Start();
+            tracking_adding_queue_from_windows.Start();
             HandlingMessages();
         }
     }

@@ -63,10 +63,7 @@ namespace ApplicationServer
 
         private static void Button1_ButtonClicked(object sender, EventArgs e)
         {
-            Message message = new Message();
-            message.buttonClicked = Message.ButtonClicked.Exit;
-            app.queue_messages.Enqueue(message);
-            
+            app.windows[0].CloseWindow();
 
         }
     }
