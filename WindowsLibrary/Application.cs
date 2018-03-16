@@ -147,6 +147,7 @@ namespace WindowsLibrary
 
                         case Message.KeyPressed.Space:
                             foreach (Window win in windows)
+                                if (win.IsActive)
                                 foreach (Element child in win.Children)
                                 {
                                     if (child.IsActive)

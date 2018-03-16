@@ -8,10 +8,12 @@ namespace WindowsLibrary
     {
         public List<string> List;
         private int oldSize;
-       
+        public int ActiveLine { get; set; }
+        public event EventHandler ButtonClicked;
        
         public ListObject(int p_Left, int p_Top, int p_Width, int p_Height, bool p_active, bool p_parentActive)
         {
+            ButtonClicked += ListObject_ButtonClicked;
             Left = p_Left;
             Top = p_Top;
             Width = p_Width;
@@ -20,8 +22,13 @@ namespace WindowsLibrary
             IsActive = p_active;
             IsParentActive = p_parentActive;
             IsClicked = false;
-            if (IsActive) activeLine = 0;
+            if (IsActive) ActiveLine = 0;
             oldSize = 0;
+        }
+
+        private void ListObject_ButtonClicked(object sender, EventArgs e)
+        {
+           
         }
 
         public override void Update()
@@ -43,7 +50,7 @@ namespace WindowsLibrary
                 if (List[i].Length >= Width) bufstring = List[i].Substring(0, Width);
                 else bufstring = List[i];
                 Console.SetCursorPosition(Left, Top + i);
-                if ((i == activeLine)&&(IsActive)&&(IsParentActive))
+                if ((i == ActiveLine)&&(IsActive)&&(IsParentActive))
                 {
                     Console.ForegroundColor = ConsoleColor.Black;
                     Console.BackgroundColor = ConsoleColor.White;
@@ -63,10 +70,13 @@ namespace WindowsLibrary
             {
                 switch (key)
                 {
-                    case ConsoleKey.DownArrow: if(activeLine<List.Count-1) activeLine++; Update(); break;
-                    case ConsoleKey.UpArrow: if(activeLine>=1)activeLine--; Update(); break;
+                    case ConsoleKey.DownArrow: if(ActiveLine<List.Count-1) ActiveLine++; Update(); break;
+                    case ConsoleKey.UpArrow: if(ActiveLine>=1)ActiveLine--; Update(); break;
                     case ConsoleKey.Tab: IsActive = false; Update();  break;
-                    case ConsoleKey.Spacebar: IsClicked = true; Update(); break;
+                    case ConsoleKey.Spacebar:
+                        IsClicked = true;
+                        ButtonClicked(this, new EventArgs());
+                        Update(); break;
                     default: break;
                 }
             }
@@ -80,6 +90,17 @@ namespace WindowsLibrary
         public override void AddChildren(Element p_element)
         {
             
+        }
+
+    }
+
+    public class EventButtonClickedParams : EventArgs
+    {
+        public int ActiveLine { get; set; }
+
+        public EventButtonClickedParams(int activeline)
+        {
+            ActiveLine = activeline;
         }
 
     }

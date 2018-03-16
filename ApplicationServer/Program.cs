@@ -29,10 +29,11 @@ namespace ApplicationServer
 
 
             list2.List.Add("Строка1");
-            list2.List.Add("Строка2");
+            list2.List.Add("Закрыть окно");
             list2.List.Add("Строка3");
             list2.List.Add("Строка4");
             list2.List.Add("Строка5");
+            list2.ButtonClicked += List2_ButtonClicked;
 
             list1.List.Add("Строка1");
             list1.List.Add("Строка2");
@@ -61,10 +62,19 @@ namespace ApplicationServer
 
         }
 
+        private static void List2_ButtonClicked(object sender, EventArgs e)
+        {
+            if (((ListObject)sender).ActiveLine == 1) app.windows[0].CloseWindow();
+
+        }
+
+    
         private static void Button1_ButtonClicked(object sender, EventArgs e)
         {
             app.windows[0].CloseWindow();
 
         }
     }
+
+    
 }
