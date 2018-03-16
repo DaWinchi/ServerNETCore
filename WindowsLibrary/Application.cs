@@ -35,6 +35,11 @@ namespace WindowsLibrary
             }
         }
 
+        public void AddWindow(Window win)
+        {
+            lock(locker)
+            windows.Add(win);
+        }
         private void TrackingKeyboard()
         {
             ConsoleKeyInfo pressed_key;
@@ -146,13 +151,16 @@ namespace WindowsLibrary
 
 
                         case Message.KeyPressed.Space:
-                            foreach (Window win in windows)
-                                if (win.IsActive)
-                                foreach (Element child in win.Children)
-                                {
-                                    if (child.IsActive)
-                                    { child.ReadKey(ConsoleKey.Spacebar); break; }
-                                }
+                            lock (locker) foreach (Window win in windows)
+                                    if (win.IsActive)
+                                    {
+                                        foreach (Element child in win.Children)
+                                        {
+                                            if (child.IsActive)
+                                            { child.ReadKey(ConsoleKey.Spacebar); break; }
+                                        }
+                                        break;
+                                    }
                             break;
                         case Message.KeyPressed.Enter:
                             for (int i = 0; i < windows.Count; i++)
