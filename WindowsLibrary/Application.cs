@@ -37,8 +37,13 @@ namespace WindowsLibrary
 
         public void AddWindow(Window win)
         {
-            lock(locker)
-            windows.Add(win);
+            lock (locker)
+            {
+                win.IsClosed = false;
+                win.IsInQueueToClose = false;
+                windows.Add(win);
+
+            }
         }
         private void TrackingKeyboard()
         {

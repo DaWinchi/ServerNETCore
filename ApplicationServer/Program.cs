@@ -15,9 +15,9 @@ namespace ApplicationServer
         {
             Console.Clear();
             Console.CursorVisible = false;
-            mnWnd1 = new Window(2, 1, 30, 8, "Окно 1", true);
-            mnWnd2 = new Window(50, 1, 50, 8, "Окно 2", false);
-            mnWnd3 = new Window(30, 10, 30, 8, "Окно 3", false);
+            mnWnd1 = new Window(2, 1, 30, 8, "Окно 1", true, 0);
+            mnWnd2 = new Window(50, 1, 50, 8, "Окно 2", false, 1);
+            mnWnd3 = new Window(30, 10, 30, 8, "Окно 3", false, 2);
 
 
             ListObject list1 = new ListObject(mnWnd1.Left + 1, mnWnd1.Top + 1, 14, 2, true, mnWnd1.IsActive);
@@ -56,15 +56,13 @@ namespace ApplicationServer
         {
             if (((ListObject)sender).ActiveLine == 0)
             {
-                
-                
+                foreach (Window win in app.windows) if (win.IdentificationNumber == 1) win.CloseWindow();
 
             }
 
             if (((ListObject)sender).ActiveLine == 1)
             {
-                mnWnd3.InitializeWindow();
-                app.AddWindow(mnWnd3);
+                foreach (Window win in app.windows) if (win.IdentificationNumber == 2) win.CloseWindow();
 
             }
         }
@@ -88,6 +86,7 @@ namespace ApplicationServer
 
         private static void Button1_ButtonClicked(object sender, EventArgs e)
         {
+            
             app.windows[0].CloseWindow();
 
         }

@@ -20,6 +20,7 @@ namespace WindowsLibrary
         }
         public bool IsClosed { get; set; }
         public bool IsInQueueToClose{ get; set; }
+        public int IdentificationNumber { get; set; }
         public List<Element> Children;
 
 
@@ -40,7 +41,8 @@ namespace WindowsLibrary
 
         
 
-        public Window(int p_left, int p_top, int p_width, int p_height, string p_title, bool p_isactive)
+        public Window(int p_left, int p_top, int p_width, int p_height,
+            string p_title, bool p_isactive, int p_identification)
         {
             Children = new List<Element>();
             ChangeActive += Window_ChangeActive;
@@ -51,6 +53,7 @@ namespace WindowsLibrary
             IsActive = p_isactive;
             IsClosed = false;
             IsInQueueToClose = false;
+            IdentificationNumber = p_identification;
             Title = p_title;
 
         }
