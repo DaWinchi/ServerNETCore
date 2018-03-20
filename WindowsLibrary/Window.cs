@@ -7,7 +7,8 @@ namespace WindowsLibrary
     public class Window : Element
     {
         public event EventHandler ChangeActive;
-        
+        public event TimerCallback TimerTick;
+
         public override bool IsActive
         {
             get => base.IsActive;
@@ -19,10 +20,10 @@ namespace WindowsLibrary
             }
         }
         public bool IsClosed { get; set; }
-        public bool IsInQueueToClose{ get; set; }
+        public bool IsInQueueToClose { get; set; }
         public int IdentificationNumber { get; set; }
         public List<Element> Children;
-
+        public Timer timer;
 
         public Window()
         {
@@ -39,7 +40,7 @@ namespace WindowsLibrary
 
         }
 
-        
+
 
         public Window(int p_left, int p_top, int p_width, int p_height,
             string p_title, bool p_isactive, int p_identification)
@@ -55,7 +56,15 @@ namespace WindowsLibrary
             IsInQueueToClose = false;
             IdentificationNumber = p_identification;
             Title = p_title;
+            //TimerTick += Window_TimerTick;
+            //timer = new Timer(TimerTick,null, 2000, 1000);
 
+        }
+
+        private void Window_TimerTick(object state)
+        {
+            Title = DateTime.Now.ToString();
+            Update();
         }
 
         public void InitializeWindow()
@@ -110,7 +119,7 @@ namespace WindowsLibrary
                 }
             }
         }
-        protected virtual void WriteTitle()
+        public virtual void WriteTitle()
         {
             if (Title != null)
             {

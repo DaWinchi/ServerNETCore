@@ -20,7 +20,7 @@ namespace WindowsLibrary
             Height = p_Height;
             Percent = 50;
             IsClicked = false;
-
+            IsActive = false;
         }
 
         public override void Update()
@@ -56,7 +56,14 @@ namespace WindowsLibrary
 
         public override void ReadKey(ConsoleKey key)
         {
-            throw new NotImplementedException();
+            if (IsActive)
+            {
+                switch (key)
+                {
+                    case ConsoleKey.Tab: IsActive = false; Update(); break;                    
+                    default: break;
+                }
+            }
         }
 
         public override void AddChildren(Element p_element)
