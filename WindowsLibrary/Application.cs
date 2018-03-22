@@ -31,10 +31,16 @@ namespace WindowsLibrary
         /*Метод, добавляющий окна в набор*/
         public void AddWindow(Window win)
         {
-
-            win.IsClosed = false;
-            windows.Add(win);
-
+            bool isNewWindow = true;
+            foreach(Window window in windows)
+            {
+                if (window.IdentificationNumber == win.IdentificationNumber) isNewWindow = false;                
+            }
+            if (isNewWindow)
+            {
+                win.IsClosed = false;
+                windows.Add(win);
+            }
         }
         /*Функция потока, следящего за клавиатурой*/
         private void TrackingKeyboard()

@@ -4,6 +4,7 @@ using System.Text;
 
 namespace WindowsLibrary
 {
+    /*Структура сообщения*/
     public struct Message
     {
         public enum KeyPressed { Null, Enter=1, Space=2, Up=3, Down=4, Tab=5 };

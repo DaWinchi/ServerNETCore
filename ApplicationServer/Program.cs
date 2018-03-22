@@ -28,12 +28,14 @@ namespace ApplicationServer
             list1.ButtonClicked += List1_ButtonClicked;
             ListObject list2 = new ListObject(mnWnd3.Left + 1, mnWnd3.Top + 1, 14, 2, true, false);
             list2.ButtonClicked += List2_ButtonClicked;
-            ButtonObject button1 = new ButtonObject(mnWnd1.Left + mnWnd1.Width - 10, mnWnd1.Top + mnWnd1.Height - 2, 8, 1, false, "Exit");
-            ButtonObject button2 = new ButtonObject(mnWnd2.Left + mnWnd2.Width/2 - 4, mnWnd2.Top +2, 8, 1, true, "Пуск");
+            ButtonObject button1 = new ButtonObject(mnWnd1.Left + mnWnd1.Width - 10, mnWnd1.Top + mnWnd1.Height - 2, 8, 1, false, true, "Exit");
+            ButtonObject button2 = new ButtonObject(mnWnd2.Left + mnWnd2.Width/2 - 4, mnWnd2.Top +2, 8, 1, true, false, "Пуск");
             //ButtonObject button3 = new ButtonObject(mnWnd2.Left + mnWnd2.Width / 2 - 4, mnWnd2.Top + 2, 8, 1, true, "Пуск");
 
-            progress1 = new ProgressObject(mnWnd2.Left + 1, mnWnd2.Top + mnWnd2.Height - 2, mnWnd2.Width - 2, 1);
-            progress1.Percent = 78;
+            progress1 = new ProgressObject(mnWnd2.Left + 1, mnWnd2.Top + mnWnd2.Height - 2, mnWnd2.Width - 2, 1)
+            {
+                Percent = 78
+            };
 
             button1.ButtonClicked += Button1_ButtonClicked;
             button2.ButtonClicked += Button2_ButtonClicked;
