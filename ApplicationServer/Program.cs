@@ -103,14 +103,14 @@ namespace ApplicationServer
         {
             if(((ListObject)sender).ActiveLine==0)
             {
-                mnWnd2.InitializeWindow();
+                mnWnd2.Update();
                 app.AddWindow(mnWnd2);
                 
             }
 
             if (((ListObject)sender).ActiveLine == 1)
             {
-                mnWnd3.InitializeWindow();
+                mnWnd3.Update();
                 app.AddWindow(mnWnd3);
 
             }

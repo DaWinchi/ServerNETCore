@@ -4,10 +4,10 @@ using System.Text;
 
 namespace WindowsLibrary
 {
-    public class MessageWindow : Window
-    {
+    //public class MessageWindow : Window
+    //{
         
        
-    }
+    //}
 }
 

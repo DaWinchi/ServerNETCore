@@ -5,29 +5,38 @@ using System.Threading;
 
 namespace WindowsLibrary
 {
+    /*Класс приложения*/
     public class Application
     {
-        public List<Window> windows;
+        /*Условие закрытия приложения*/
         bool exit = false;
+
+        /*Поток, производящий слежение за клавиатурой*/
+        Thread tracking_adding_queue_from_keyboard;
+        /*Объект синхронизации*/
+        static object locker = new object();
+        /*Очередь сообщений*/
+        public Queue<Message> queue_messages;
+        /*Набор окон данного приложения*/
+        public List<Window> windows;
+
+
+
+        /*Конструктор*/
         public Application()
         {
             windows = new List<Window>();
         }
 
-        Thread tracking_adding_queue_from_keyboard;       
-        static object locker = new object();
-        public Queue<Message> queue_messages;
-
-       
-
+        /*Метод, добавляющий окна в набор*/
         public void AddWindow(Window win)
         {
-            
-                win.IsClosed = false;
-                win.IsInQueueToClose = false;
-                windows.Add(win);
-            
+
+            win.IsClosed = false;
+            windows.Add(win);
+
         }
+        /*Функция потока, следящего за клавиатурой*/
         private void TrackingKeyboard()
         {
             ConsoleKeyInfo pressed_key;
@@ -77,6 +86,7 @@ namespace WindowsLibrary
             }
         }
 
+        /*Цикл обработки сообщений*/
         private void HandlingMessages()
         {
             while (!exit)
@@ -218,7 +228,7 @@ namespace WindowsLibrary
                             Console.Clear();
 
                             foreach (Window win in windows) win.Update();
-                            foreach (Window win in windows) if(win.IsActive) win.Update();
+                            foreach (Window win in windows) if (win.IsActive) win.Update();
                             break;
                     }
                 }
@@ -226,16 +236,16 @@ namespace WindowsLibrary
             }
         }
 
+        /*Главная функция приложения*/
         public void Run()
         {
-            tracking_adding_queue_from_keyboard = new Thread(TrackingKeyboard);           
+            tracking_adding_queue_from_keyboard = new Thread(TrackingKeyboard);
             queue_messages = new Queue<Message>();
 
-            foreach (Window win in windows) win.InitializeWindow();
+            foreach (Window win in windows) win.Update();
             foreach (Window win in windows) if (win.IsActive) win.Update();
-
-
-            tracking_adding_queue_from_keyboard.Start();          
+            
+            tracking_adding_queue_from_keyboard.Start();
             HandlingMessages();
         }
     }
