@@ -7,7 +7,7 @@ namespace ApplicationServer
     
     class Program
     {
-        static int a = 1;
+        
         static Window mnWnd1;
         static Window mnWnd2;
         static Window mnWnd3;
@@ -38,7 +38,7 @@ namespace ApplicationServer
             };
 
             button1.ButtonClicked += Button1_ButtonClicked;
-            button2.ButtonClicked += Button2_ButtonClicked;
+          
             
             list1.List.Add("Открыть окно 2");
             list1.List.Add("Открыть окно 3");
@@ -61,30 +61,7 @@ namespace ApplicationServer
 
         }
 
-        private static void Button2_ButtonClicked(object sender, EventArgs e)
-        {
-            foreach (Window win in app.windows) if (win.IdentificationNumber == 1)
-                {
-                    //win.TimerTick += Test_TimerTick;
-                    //win.timer = new System.Threading.Timer(Test_TimerTick, null, 0, 2000);
-                }
-            
-        }
-
-        private static void Test_TimerTick(object state)
-        {
-            foreach (Window win in app.windows) if (win.IdentificationNumber == 1)
-                {
-                    if (a < 100) progress1.Percent = a++;
-                    else progress1.Percent = 0;
-                    progress1.Update();
-                }
-        }
-
-        private static void MnWnd1_TimerTick(object state)
-        {
-           
-        }
+        
 
         private static void List2_ButtonClicked(object sender, EventArgs e)
         {
@@ -119,10 +96,8 @@ namespace ApplicationServer
         }
 
         private static void Button1_ButtonClicked(object sender, EventArgs e)
-        {
-            
+        {            
             app.windows[0].CloseWindow();
-
         }
     }
 
