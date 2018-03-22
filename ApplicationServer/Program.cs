@@ -62,8 +62,8 @@ namespace ApplicationServer
         {
             foreach (Window win in app.windows) if (win.IdentificationNumber == 1)
                 {
-                    win.TimerTick += Test_TimerTick;
-                    win.timer = new System.Threading.Timer(Test_TimerTick, null, 0, 2000);
+                    //win.TimerTick += Test_TimerTick;
+                    //win.timer = new System.Threading.Timer(Test_TimerTick, null, 0, 2000);
                 }
             
         }
