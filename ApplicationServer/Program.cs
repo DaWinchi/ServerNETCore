@@ -32,7 +32,7 @@ namespace ApplicationServer
             ButtonObject button2 = new ButtonObject(mnWnd2.Left + mnWnd2.Width/2 - 4, mnWnd2.Top +2, 8, 1, true, false, "Пуск");
             //ButtonObject button3 = new ButtonObject(mnWnd2.Left + mnWnd2.Width / 2 - 4, mnWnd2.Top + 2, 8, 1, true, "Пуск");
 
-            progress1 = new ProgressObject(mnWnd2.Left + 1, mnWnd2.Top + mnWnd2.Height - 2, mnWnd2.Width - 2, 1)
+            progress1 = new ProgressObject(mnWnd2.Left + 1, mnWnd2.Top + mnWnd2.Height - 2, mnWnd2.Width - 2, 1, false, false)
             {
                 Percent = 78
             };
