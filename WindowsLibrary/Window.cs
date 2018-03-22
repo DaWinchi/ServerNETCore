@@ -6,6 +6,7 @@ namespace WindowsLibrary
 {
     public class Window : Element
     {
+        private Application ParentApp;
         public event EventHandler ChangeActive;
         public event TimerCallback TimerTick;
 
@@ -43,7 +44,7 @@ namespace WindowsLibrary
 
 
         public Window(int p_left, int p_top, int p_width, int p_height,
-            string p_title, bool p_isactive, int p_identification)
+            string p_title, bool p_isactive, int p_identification, ref Application application)
         {
             Children = new List<Element>();
             ChangeActive += Window_ChangeActive;
@@ -56,6 +57,7 @@ namespace WindowsLibrary
             IsInQueueToClose = false;
             IdentificationNumber = p_identification;
             Title = p_title;
+            ParentApp = application;
             //TimerTick += Window_TimerTick;
             //timer = new Timer(TimerTick,null, 2000, 1000);
 
@@ -166,7 +168,10 @@ namespace WindowsLibrary
 
         public void CloseWindow()
         {
+            Message msg = new Message();
+            msg.window = Message.Window.Exit;
             IsClosed = true;
+            ParentApp.queue_messages.Enqueue(msg);
         }
 
 

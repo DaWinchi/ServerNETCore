@@ -16,11 +16,12 @@ namespace ApplicationServer
 
         static void Main(string[] args)
         {
+            app = new Application();
             Console.Clear();
             Console.CursorVisible = false;
-            mnWnd1 = new Window(2, 1, 30, 8, "Окно 1", true, 0);
-            mnWnd2 = new Window(50, 1, 50, 8, "Тест таймера", false, 1);
-            mnWnd3 = new Window(30, 10, 30, 8, "Окно 3", false, 2);
+            mnWnd1 = new Window(2, 1, 30, 8, "Окно 1", true, 0, ref app);
+            mnWnd2 = new Window(50, 1, 50, 8, "Тест таймера", false, 1, ref app);
+            mnWnd3 = new Window(30, 10, 30, 8, "Окно 3", false, 2, ref app);
 
            
             ListObject list1 = new ListObject(mnWnd1.Left + 1, mnWnd1.Top + 1, 14, 2, true, mnWnd1.IsActive);
@@ -51,7 +52,7 @@ namespace ApplicationServer
             mnWnd2.AddChildren(button2);
             mnWnd3.AddChildren(list2);
 
-            app = new Application();
+            
             app.windows.Add(mnWnd1);
             app.Run();
             
@@ -80,8 +81,7 @@ namespace ApplicationServer
 
         private static void MnWnd1_TimerTick(object state)
         {
-            app.windows[0].Title = DateTime.Now.ToString();
-            app.windows[0].WriteTitle();
+           
         }
 
         private static void List2_ButtonClicked(object sender, EventArgs e)

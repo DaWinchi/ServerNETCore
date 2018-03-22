@@ -14,36 +14,19 @@ namespace WindowsLibrary
             windows = new List<Window>();
         }
 
-        Thread tracking_adding_queue_from_keyboard;
-        Thread tracking_adding_queue_from_windows;
+        Thread tracking_adding_queue_from_keyboard;       
         static object locker = new object();
         public Queue<Message> queue_messages;
 
-        private void TrackingWindows()
-        {
-            while (true)
-            {
-                lock (locker)
-                    for (int i = 0; i < windows.Count; i++)
-                        if (windows[i].IsClosed && !windows[i].IsInQueueToClose)
-                        {
-                            Message msg = new Message();
-                            msg.window = Message.Window.Exit;
-                            queue_messages.Enqueue(msg);
-                            windows[i].IsInQueueToClose = true;
-                        }
-            }
-        }
+       
 
         public void AddWindow(Window win)
         {
-            lock (locker)
-            {
+            
                 win.IsClosed = false;
                 win.IsInQueueToClose = false;
                 windows.Add(win);
-
-            }
+            
         }
         private void TrackingKeyboard()
         {
@@ -245,16 +228,14 @@ namespace WindowsLibrary
 
         public void Run()
         {
-            tracking_adding_queue_from_keyboard = new Thread(TrackingKeyboard);
-            tracking_adding_queue_from_windows = new Thread(TrackingWindows);
+            tracking_adding_queue_from_keyboard = new Thread(TrackingKeyboard);           
             queue_messages = new Queue<Message>();
 
             foreach (Window win in windows) win.InitializeWindow();
             foreach (Window win in windows) if (win.IsActive) win.Update();
 
 
-            tracking_adding_queue_from_keyboard.Start();
-            tracking_adding_queue_from_windows.Start();
+            tracking_adding_queue_from_keyboard.Start();          
             HandlingMessages();
         }
     }
