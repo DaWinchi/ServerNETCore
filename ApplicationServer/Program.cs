@@ -30,7 +30,7 @@ namespace ApplicationServer
             list2.ButtonClicked += List2_ButtonClicked;
             ButtonObject button1 = new ButtonObject(mnWnd1.Left + mnWnd1.Width - 10, mnWnd1.Top + mnWnd1.Height - 2, 8, 1, false, true, "Exit");
             ButtonObject button2 = new ButtonObject(mnWnd2.Left + mnWnd2.Width/2 - 4, mnWnd2.Top +2, 8, 1, true, false, "Пуск");
-            //ButtonObject button3 = new ButtonObject(mnWnd2.Left + mnWnd2.Width / 2 - 4, mnWnd2.Top + 2, 8, 1, true, "Пуск");
+           // ButtonObject button3 = new ButtonObject(mnWnd2.Left + mnWnd2.Width / 2 - 4, mnWnd2.Top + 2, 8, 1, true, "Пуск");
             LabelObject label = new LabelObject(mnWnd3.Left + 30, mnWnd3.Top + 1, 19, 2, false, false, "Hello world!Hello world!Hello world!Hello world!Hello world!Hello world!Hello world!");
             progress1 = new ProgressObject(mnWnd2.Left + 1, mnWnd2.Top + mnWnd2.Height - 2, mnWnd2.Width - 2, 1, false, false)
             {
@@ -38,7 +38,7 @@ namespace ApplicationServer
             };
             label.Text = "Это просто текстовая метка";
             button1.ButtonClicked += Button1_ButtonClicked;
-          
+            button2.ButtonClicked += Button2_ButtonClicked;
             
             list1.List.Add("Открыть окно 2");
             list1.List.Add("Открыть окно 3");
@@ -62,7 +62,24 @@ namespace ApplicationServer
 
         }
 
-        
+        static void setter()
+        {
+            foreach (Window win in app.windows)
+            {
+                if (win.IdentificationNumber == 1)
+                {
+
+                }
+            }
+        }
+
+        private static void Button2_ButtonClicked(object sender, EventArgs e)
+        {
+            foreach(Window win in app.windows)
+            {
+                if(win.IdentificationNumber==1) win.Timer=new System.Threading.Timer()
+            }
+        }
 
         private static void List2_ButtonClicked(object sender, EventArgs e)
         {
