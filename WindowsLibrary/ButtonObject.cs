@@ -20,7 +20,8 @@ namespace WindowsLibrary
         @ p_Title - надпись на кнопке        
         */
         public ButtonObject(int p_Left, int p_Top, int p_Width, int p_Height, bool p_active, bool p_parentActive, string p_Title)
-        {            
+        {
+            ButtonClicked += ButtonObject_ButtonClicked;
             Left = p_Left;
             Top = p_Top;
             Width = p_Width;
@@ -29,6 +30,12 @@ namespace WindowsLibrary
             Title = p_Title;
             IsParentActive = p_parentActive;
             IsClicked = false;
+        }
+
+        /*Пустой обработчик события клика*/
+        private void ButtonObject_ButtonClicked(object sender, EventArgs e)
+        {
+            
         }
 
         /*Метод перерисовывает кнопку и отображает на ней текст*/
