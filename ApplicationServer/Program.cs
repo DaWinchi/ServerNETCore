@@ -7,7 +7,7 @@ namespace ApplicationServer
     
     class Program
     {
-        
+       static int a = 0;
         static Window mnWnd1;
         static Window mnWnd2;
         static Window mnWnd3;
@@ -46,6 +46,7 @@ namespace ApplicationServer
 
             list2.List.Add("Закрыть окно 2");
             list2.List.Add("Закрыть");
+            list2.List.Add("Включить часы");
 
 
             mnWnd1.AddChildren(list1);
@@ -62,14 +63,29 @@ namespace ApplicationServer
 
         }
 
-        static void setter()
+        static void Setter(object o)
         {
             foreach (Window win in app.windows)
             {
                 if (win.IdentificationNumber == 1)
                 {
-
+                    ((ProgressObject)win.Children[0]).Percent = a++;
+                    win.Children[0].Update();
                 }
+
+            }
+        }
+
+        static void Time(object o)
+        {
+            foreach (Window win in app.windows)
+            {
+                if (win.IdentificationNumber == 2)
+                {
+                    ((LabelObject)win.Children[1]).Text = DateTime.Now.ToLongTimeString();
+                    win.Children[1].Update();
+                }
+
             }
         }
 
@@ -77,7 +93,12 @@ namespace ApplicationServer
         {
             foreach(Window win in app.windows)
             {
-                if(win.IdentificationNumber==1) win.Timer=new System.Threading.Timer()
+                if (win.IdentificationNumber == 1)
+                {
+                    a = 0;
+                    win.Timer = new System.Threading.Timer(Setter, null, 1000, 1000);
+                }
+                
             }
         }
 
@@ -94,6 +115,11 @@ namespace ApplicationServer
                 foreach (Window win in app.windows) if (win.IdentificationNumber == 2) win.CloseWindow();
 
             }
+            if(((ListObject)sender).ActiveLine==2)
+            {
+                foreach (Window win in app.windows) if (win.IdentificationNumber == 2) win.Timer=
+                            new System.Threading.Timer(Time, null, 1, 1000);
+            }
         }
 
         private static void List1_ButtonClicked(object sender, EventArgs e)
@@ -109,6 +135,7 @@ namespace ApplicationServer
             {
                 mnWnd3.Update();
                 app.AddWindow(mnWnd3);
+                            
 
             }
         }

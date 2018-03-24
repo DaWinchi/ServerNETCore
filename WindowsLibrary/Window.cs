@@ -28,8 +28,8 @@ namespace WindowsLibrary
 
         /*Набор дочерних элементов*/
         public List<Element> Children;
-        
 
+        public Timer Timer;
         /*Событие, возникающее при изменении свойства IsActive окна*/
         protected event EventHandler ChangeActive;
 
@@ -167,6 +167,7 @@ namespace WindowsLibrary
                 window = Message.Window.Exit
             };
             IsClosed = true;
+            if (Timer != null) Timer.Dispose();
             ParentApp.queue_messages.Enqueue(msg);
         }
 

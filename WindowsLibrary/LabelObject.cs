@@ -38,6 +38,16 @@ namespace WindowsLibrary
             int size = text.Length;
             int counterSymbol = 0;
 
+            for (int i=0; i<Height; i++)
+            {
+                for (int j=0; j<Width; j++)
+                {
+                    Console.SetCursorPosition(Left + j, Top + i);
+                    Console.Write(" ");
+                }
+            }
+
+
             for (int i = 0; i < Height&&endOftext==false; i++)
             {
                 for (int j = 0; j < Width; j++)
@@ -50,6 +60,7 @@ namespace WindowsLibrary
 
             }
 
+            Console.SetCursorPosition(Console.WindowWidth - 2, Console.WindowHeight - 2);
 
         }
 
