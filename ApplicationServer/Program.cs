@@ -21,7 +21,7 @@ namespace ApplicationServer
             Console.CursorVisible = false;
             mnWnd1 = new Window(2, 1, 30, 8, "Окно 1", true, 0, ref app);
             mnWnd2 = new Window(50, 1, 50, 8, "Тест таймера", false, 1, ref app);
-            mnWnd3 = new Window(30, 10, 30, 8, "Окно 3", false, 2, ref app);
+            mnWnd3 = new Window(30, 10, 50, 8, "Окно 3", false, 2, ref app);
 
            
             ListObject list1 = new ListObject(mnWnd1.Left + 1, mnWnd1.Top + 1, 14, 2, true, mnWnd1.IsActive);
@@ -31,12 +31,12 @@ namespace ApplicationServer
             ButtonObject button1 = new ButtonObject(mnWnd1.Left + mnWnd1.Width - 10, mnWnd1.Top + mnWnd1.Height - 2, 8, 1, false, true, "Exit");
             ButtonObject button2 = new ButtonObject(mnWnd2.Left + mnWnd2.Width/2 - 4, mnWnd2.Top +2, 8, 1, true, false, "Пуск");
             //ButtonObject button3 = new ButtonObject(mnWnd2.Left + mnWnd2.Width / 2 - 4, mnWnd2.Top + 2, 8, 1, true, "Пуск");
-
+            LabelObject label = new LabelObject(mnWnd3.Left + 30, mnWnd3.Top + 1, 19, 2, false, false, "Hello world!Hello world!Hello world!Hello world!Hello world!Hello world!Hello world!");
             progress1 = new ProgressObject(mnWnd2.Left + 1, mnWnd2.Top + mnWnd2.Height - 2, mnWnd2.Width - 2, 1, false, false)
             {
                 Percent = 78
             };
-
+            label.Text = "Это просто текстовая метка";
             button1.ButtonClicked += Button1_ButtonClicked;
           
             
@@ -53,6 +53,7 @@ namespace ApplicationServer
             mnWnd2.AddChildren(progress1);
             mnWnd2.AddChildren(button2);
             mnWnd3.AddChildren(list2);
+            mnWnd3.AddChildren(label);
 
             
             app.windows.Add(mnWnd1);
