@@ -63,30 +63,54 @@ namespace WindowsLibrary
 
 
         /*Метод отображает окно и дочерние элементы*/
-        public override void Update()
+        internal override void ReDraw()
         {
             CreateFrame();
             WriteTitle();
-            UpdateChildren();
+            ReDrawChildren();
         }
 
         /*Метод отображает все дочерние элементы*/
-        public override void UpdateChildren()
+        internal override void ReDrawChildren()
         {
             int size = Children.Count;
             for (int i = 0; i < size; i++)
             {
-                Children[i].Update();
+                Children[i].ReDraw();
             }
         }
 
         /*Метод отображает все дочерние элементы*/
         public void UpdateChildren(int numberElement)
         {
-
-            Children[numberElement].Update();
+            Message.Update update = new Message.Update
+            {
+                type = Message.TypeElement.Children,
+                identificatorWindow = IdentificationNumber,
+                identificatorChild = numberElement
+            };
+            Message msgupdate = new Message { update = update };
+            ParentApp.queue_messages.Enqueue(msgupdate);
 
         }
+
+        public void Update()
+        {
+            Message.Update update = new Message.Update
+            {
+                type = Message.TypeElement.Window,
+                identificatorWindow = IdentificationNumber,
+                identificatorChild = 0                          //при обновлении окна идентификатор дочернего элемента может быть любым
+            };
+
+            Message msg = new Message
+            {
+                update = update
+            };
+
+            ParentApp.queue_messages.Enqueue(msg);
+        }
+
 
         /*Обработчик события изменения активности окна*/
         protected void Window_ChangeActive(object sender, EventArgs e)

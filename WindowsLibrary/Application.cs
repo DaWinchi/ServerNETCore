@@ -109,10 +109,26 @@ namespace WindowsLibrary
                             foreach (Window win in windows)
                             {
                                 if (win.IsActive)
+                                {
+                                    int i = 0;
                                     foreach (Element child in win.Children)
                                     {
-                                        if (child.IsActive) { child.ReadKey(ConsoleKey.DownArrow); break; }
+                                        if (child.IsActive)
+                                        {
+                                            child.ReadKey(ConsoleKey.DownArrow);
+                                            Message.Update update = new Message.Update
+                                            {
+                                                type = Message.TypeElement.Children,
+                                                identificatorWindow = win.IdentificationNumber,
+                                                identificatorChild = i
+                                            };
+                                            Message msgupdate = new Message { update = update };
+                                            lock (locker) queue_messages.Enqueue(msgupdate);
+                                            break;
+                                        }
+                                        i++;
                                     }
+                                }
                             }
                             break;
 
@@ -120,10 +136,26 @@ namespace WindowsLibrary
                             foreach (Window win in windows)
                             {
                                 if (win.IsActive)
+                                {
+                                    int i = 0;
                                     foreach (Element child in win.Children)
                                     {
-                                        if (child.IsActive) { child.ReadKey(ConsoleKey.UpArrow); break; }
+                                        if (child.IsActive)
+                                        {
+                                            child.ReadKey(ConsoleKey.UpArrow);
+                                            Message.Update update = new Message.Update
+                                            {
+                                                type = Message.TypeElement.Children,
+                                                identificatorWindow = win.IdentificationNumber,
+                                                identificatorChild = i
+                                            };
+                                            Message msgupdate = new Message { update = update };
+                                            lock (locker) queue_messages.Enqueue(msgupdate);
+                                            break;
+                                        }
+                                        i++;
                                     }
+                                }
                             }
                             break;
 
@@ -141,12 +173,38 @@ namespace WindowsLibrary
                                             if ((i + 1) < win.Children.Count)
                                             {
                                                 win.Children[i + 1].IsActive = true;
-                                                win.Children[i + 1].Update(); break;
+                                                Message.Update update = new Message.Update
+                                                {
+                                                    type = Message.TypeElement.Children,
+                                                    identificatorWindow = win.IdentificationNumber,
+                                                    identificatorChild = i
+                                                };
+                                                Message msgupdate = new Message { update = update };
+                                                lock (locker) queue_messages.Enqueue(msgupdate);
+
+                                                update.identificatorChild = i + 1;
+                                                msgupdate.update = update;
+                                                lock (locker) queue_messages.Enqueue(msgupdate);
+
+                                                break;
                                             }
                                             else
                                             {
                                                 win.Children[0].IsActive = true;
-                                                win.Children[0].Update(); break;
+                                                Message.Update update = new Message.Update
+                                                {
+                                                    type = Message.TypeElement.Children,
+                                                    identificatorWindow = win.IdentificationNumber,
+                                                    identificatorChild = i
+                                                };
+                                                Message msgupdate = new Message { update = update };
+                                                lock (locker) queue_messages.Enqueue(msgupdate);
+
+                                                update.identificatorChild = 0;
+                                                msgupdate.update = update;
+                                                lock (locker) queue_messages.Enqueue(msgupdate);
+
+                                                break;
                                             }
                                         }
                                     }
@@ -158,10 +216,25 @@ namespace WindowsLibrary
                             lock (locker) foreach (Window win in windows)
                                     if (win.IsActive)
                                     {
+                                        int i = 0;
                                         foreach (Element child in win.Children)
                                         {
                                             if (child.IsActive)
-                                            { child.ReadKey(ConsoleKey.Spacebar); break; }
+                                            {
+                                                child.ReadKey(ConsoleKey.Spacebar);
+
+                                                Message.Update update = new Message.Update
+                                                {
+                                                    type = Message.TypeElement.Children,
+                                                    identificatorWindow = win.IdentificationNumber,
+                                                    identificatorChild = i
+                                                };
+                                                Message msgupdate = new Message { update = update };
+                                                lock (locker) queue_messages.Enqueue(msgupdate);
+
+                                                break;
+                                            }
+                                            i++;
                                         }
                                         break;
                                     }
@@ -236,6 +309,29 @@ namespace WindowsLibrary
                             foreach (Window win in windows) win.Update();
                             foreach (Window win in windows) if (win.IsActive) win.Update();
                             break;
+                    }
+
+                    switch(msg.update.type)
+                    {
+                        case Message.TypeElement.Window:
+                            {
+                                foreach(Window win in windows)
+                                {
+                                    if (win.IdentificationNumber == msg.update.identificatorWindow) win.ReDraw();
+                                }
+                                break;
+                            }
+                        case Message.TypeElement.Children:
+                            {
+                                foreach (Window win in windows)
+                                {
+                                    if (win.IdentificationNumber == msg.update.identificatorWindow)
+                                    {
+                                        win.Children[msg.update.identificatorChild].ReDraw();
+                                    }
+                                }
+                                break;
+                            }
                     }
                 }
 

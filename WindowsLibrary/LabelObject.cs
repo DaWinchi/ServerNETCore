@@ -31,7 +31,7 @@ namespace WindowsLibrary
             IsParentActive = p_parentActive;
         }
 
-        public override void Update()
+        internal override void ReDraw()
         {
             bool endOftext = false;
             char[] text = Text.ToCharArray();
@@ -71,14 +71,14 @@ namespace WindowsLibrary
             {
                 switch (key)
                 {
-                    case ConsoleKey.Tab: IsActive = false; Update(); break;
+                    case ConsoleKey.Tab: IsActive = false; break;
                     default: break;
                 }
             }
         }
 
         /*Метод обновления дочерних элементов(не используется)*/
-        public override void UpdateChildren()
+        internal override void ReDrawChildren()
         {
             throw new NotImplementedException();
         }

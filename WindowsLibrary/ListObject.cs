@@ -49,7 +49,7 @@ namespace WindowsLibrary
         }
 
         /*Метод обновляет список на экране*/
-        public override void Update()
+        internal override void ReDraw()
         {
             for (int i = 0; i < oldSize; i++)
             {
@@ -88,20 +88,20 @@ namespace WindowsLibrary
             {
                 switch (key)
                 {
-                    case ConsoleKey.DownArrow: if(ActiveLine<List.Count-1) ActiveLine++; Update(); break;
-                    case ConsoleKey.UpArrow: if(ActiveLine>=1)ActiveLine--; Update(); break;
-                    case ConsoleKey.Tab: IsActive = false; Update();  break;
+                    case ConsoleKey.DownArrow: if(ActiveLine<List.Count-1) ActiveLine++; break;
+                    case ConsoleKey.UpArrow: if(ActiveLine>=1)ActiveLine--; break;
+                    case ConsoleKey.Tab: IsActive = false;  break;
                     case ConsoleKey.Spacebar:
                         IsClicked = true;
                         ButtonClicked(this, new EventArgs());
-                        Update(); break;
+                        break;
                     default: break;
                 }
             }
         }
 
         /*Метод обновления дочерних элементов(не используется)*/
-        public override void UpdateChildren()
+        internal override void ReDrawChildren()
         {
            
         }

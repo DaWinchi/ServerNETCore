@@ -39,7 +39,7 @@ namespace WindowsLibrary
         }
 
         /*Метод перерисовывает кнопку и отображает на ней текст*/
-        public override void Update()
+        internal override void ReDraw()
         {
             if (IsActive)
             {
@@ -92,15 +92,15 @@ namespace WindowsLibrary
             {
                 switch (key)
                 {
-                    case ConsoleKey.Tab: IsActive = false; Update(); break;
-                    case ConsoleKey.Spacebar: IsClicked = true; ButtonClicked(this, new EventArgs()); Update(); break;
+                    case ConsoleKey.Tab: IsActive = false;break;
+                    case ConsoleKey.Spacebar: IsClicked = true; ButtonClicked(this, new EventArgs()); break;
                     default: break;
                 }
             }
         }
 
         /*Метод обновления дочерних элементов(не используется)*/
-        public override void UpdateChildren()
+        internal override void ReDrawChildren()
         {
             throw new NotImplementedException();
         }

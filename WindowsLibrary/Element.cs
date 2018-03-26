@@ -21,7 +21,7 @@ namespace WindowsLibrary
         public virtual bool IsParentActive { get; set; }
         
         /*Метод обновления элемента*/
-        public abstract void Update();
+        internal abstract void ReDraw();
 
         /*Метод добавления дочернего элемента*/
         public abstract void AddChildren(Element p_element);
@@ -30,7 +30,7 @@ namespace WindowsLibrary
         public abstract void ReadKey(ConsoleKey keyInfo);
 
         /*Метод обновления дочерних элементов*/
-        public abstract void UpdateChildren();
+        internal abstract void ReDrawChildren();
 
     }
 }

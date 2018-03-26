@@ -70,7 +70,7 @@ namespace ApplicationServer
                 if (win.IdentificationNumber == 1)
                 {
                     ((ProgressObject)win.Children[0]).Percent = a++;
-                    win.Children[0].Update();
+                    win.UpdateChildren(0);
                 }
 
             }
@@ -83,7 +83,7 @@ namespace ApplicationServer
                 if (win.IdentificationNumber == 2)
                 {
                     ((LabelObject)win.Children[1]).Text = DateTime.Now.ToLongTimeString();
-                    win.Children[1].Update();
+                    win.UpdateChildren(1);
                 }
 
             }

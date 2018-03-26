@@ -32,7 +32,7 @@ namespace WindowsLibrary
         }
 
         /*Метод обновляет прогресс-бар и отображает процент*/
-        public override void Update()
+        internal override void ReDraw()
         {
             for (int i = 0; i < Width; i++)
             {
@@ -73,14 +73,14 @@ namespace WindowsLibrary
             {
                 switch (key)
                 {
-                    case ConsoleKey.Tab: IsActive = false; Update(); break;                    
+                    case ConsoleKey.Tab: IsActive = false; break;                    
                     default: break;
                 }
             }
         }
 
         /*Метод обновления дочерних элементов(не используется)*/
-        public override void UpdateChildren()
+        internal override void ReDrawChildren()
         {
             throw new NotImplementedException();
         }
