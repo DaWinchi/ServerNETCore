@@ -16,6 +16,8 @@ namespace WindowsLibrary
             public TypeElement type;
             public int identificator;
         }
+
+        public Update update;
         public KeyPressed keyPressed;
         public Window window;
 
