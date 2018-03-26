@@ -86,7 +86,7 @@ namespace WindowsLibrary
         }
 
         /*Метод обработки нажатой на клавиатуре клавиши для данной кнопки*/
-        public override void ReadKey(ConsoleKey key)
+        internal override void ReadKey(ConsoleKey key)
         {
             if (IsActive)
             {
@@ -99,7 +99,7 @@ namespace WindowsLibrary
             }
         }
 
-        /*Метод обновления дочерних элементов(не используется)*/
+        /*Метод перерисовки дочерних элементов(не используется)*/
         internal override void ReDrawChildren()
         {
             throw new NotImplementedException();

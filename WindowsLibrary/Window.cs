@@ -29,7 +29,9 @@ namespace WindowsLibrary
         /*Набор дочерних элементов*/
         public List<Element> Children;
 
+        /*Таймер окна*/
         public Timer Timer;
+
         /*Событие, возникающее при изменении свойства IsActive окна*/
         protected event EventHandler ChangeActive;
 
@@ -62,7 +64,7 @@ namespace WindowsLibrary
         }
 
 
-        /*Метод отображает окно и дочерние элементы*/
+        /*Метод перерисовывает окно и дочерние элементы*/
         internal override void ReDraw()
         {
             CreateFrame();
@@ -70,7 +72,7 @@ namespace WindowsLibrary
             ReDrawChildren();
         }
 
-        /*Метод отображает все дочерние элементы*/
+        /*Метод перерисовывает все дочерние элементы*/
         internal override void ReDrawChildren()
         {
             int size = Children.Count;
@@ -80,7 +82,7 @@ namespace WindowsLibrary
             }
         }
 
-        /*Метод отображает все дочерние элементы*/
+        /*Метод ставит в очередь на перерисовку дочерний элемент с индексом в параметре*/
         public void UpdateChildren(int numberElement)
         {
             Message.UpdateElement update = new Message.UpdateElement
@@ -94,6 +96,7 @@ namespace WindowsLibrary
 
         }
 
+        /*Метод ставит в очередь на перерисовку данного окна*/
         public void Update()
         {
             Message.UpdateElement update = new Message.UpdateElement
@@ -175,7 +178,7 @@ namespace WindowsLibrary
         }
 
         /*Метод обработки нажатой на клавиатуре клавиши для данного окна*/
-        public override void ReadKey(ConsoleKey key)
+        internal override void ReadKey(ConsoleKey key)
         {
             if (IsActive)
             {

@@ -31,6 +31,7 @@ namespace WindowsLibrary
             IsParentActive = p_parentActive;
         }
 
+        /*Метод перерисовывает элемент*/
         internal override void ReDraw()
         {
             bool endOftext = false;
@@ -65,7 +66,7 @@ namespace WindowsLibrary
         }
 
         /*Метод обработки нажатой на клавиатуре клавиши для данного элемента*/
-        public override void ReadKey(ConsoleKey key)
+        internal override void ReadKey(ConsoleKey key)
         {
             if (IsActive)
             {
@@ -77,7 +78,7 @@ namespace WindowsLibrary
             }
         }
 
-        /*Метод обновления дочерних элементов(не используется)*/
+        /*Метод перерисовки дочерних элементов(не используется)*/
         internal override void ReDrawChildren()
         {
             throw new NotImplementedException();

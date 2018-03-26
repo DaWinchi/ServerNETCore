@@ -20,16 +20,16 @@ namespace WindowsLibrary
         /*Свойство показывает активность элемента-родителя*/
         public virtual bool IsParentActive { get; set; }
         
-        /*Метод обновления элемента*/
+        /*Метод перерисовки элемента*/
         internal abstract void ReDraw();
 
         /*Метод добавления дочернего элемента*/
         public abstract void AddChildren(Element p_element);
 
         /*Метод обработки нажатой на клавиатуре клавиши для данного элемента*/
-        public abstract void ReadKey(ConsoleKey keyInfo);
+        internal abstract void ReadKey(ConsoleKey keyInfo);
 
-        /*Метод обновления дочерних элементов*/
+        /*Метод перерисовки дочерних элементов*/
         internal abstract void ReDrawChildren();
 
     }

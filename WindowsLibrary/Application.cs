@@ -19,8 +19,7 @@ namespace WindowsLibrary
         public Queue<Message> queue_messages;
         /*Набор окон данного приложения*/
         public List<Window> windows;
-
-
+        
 
         /*Конструктор*/
         public Application()

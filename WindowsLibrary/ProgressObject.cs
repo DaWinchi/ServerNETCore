@@ -31,7 +31,7 @@ namespace WindowsLibrary
             IsParentActive = p_parentActive;
         }
 
-        /*Метод обновляет прогресс-бар и отображает процент*/
+        /*Метод перерисовывает прогресс-бар и отображает процент*/
         internal override void ReDraw()
         {
             for (int i = 0; i < Width; i++)
@@ -67,7 +67,7 @@ namespace WindowsLibrary
 
 
         /*Метод обработки нажатой на клавиатуре клавиши для данного элемента*/
-        public override void ReadKey(ConsoleKey key)
+        internal override void ReadKey(ConsoleKey key)
         {
             if (IsActive)
             {
@@ -79,7 +79,7 @@ namespace WindowsLibrary
             }
         }
 
-        /*Метод обновления дочерних элементов(не используется)*/
+        /*Метод перерисовки дочерних элементов(не используется)*/
         internal override void ReDrawChildren()
         {
             throw new NotImplementedException();
