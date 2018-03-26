@@ -7,7 +7,7 @@ namespace WindowsLibrary
     public class Window : Element
     {
         /*Приложение, которому принадлежит данное окно*/
-        protected Application ParentApp;       
+        protected Application ParentApp;
 
         /*Свойство, отвечающее за активность окна*/
         public override bool IsActive
@@ -21,8 +21,8 @@ namespace WindowsLibrary
         }
 
         /*Свойство, показывающее не закрыто ли окно*/
-        public bool IsClosed { get; set; }  
-        
+        public bool IsClosed { get; set; }
+
         /*Целочисленный идентификатор окна*/
         public int IdentificationNumber { get; set; }
 
@@ -70,7 +70,7 @@ namespace WindowsLibrary
             UpdateChildren();
         }
 
-        /*Метод отображает дочерние элементы*/
+        /*Метод отображает все дочерние элементы*/
         public override void UpdateChildren()
         {
             int size = Children.Count;
@@ -78,6 +78,14 @@ namespace WindowsLibrary
             {
                 Children[i].Update();
             }
+        }
+
+        /*Метод отображает все дочерние элементы*/
+        public void UpdateChildren(int numberElement)
+        {
+
+            Children[numberElement].Update();
+
         }
 
         /*Обработчик события изменения активности окна*/
@@ -153,7 +161,7 @@ namespace WindowsLibrary
 
         }
 
-       /*Метод добавляет дочерний элемент в окно*/       
+        /*Метод добавляет дочерний элемент в окно*/
         public override void AddChildren(Element p_element)
         {
             Children.Add(p_element);
