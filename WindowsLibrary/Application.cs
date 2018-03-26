@@ -116,7 +116,7 @@ namespace WindowsLibrary
                                         if (child.IsActive)
                                         {
                                             child.ReadKey(ConsoleKey.DownArrow);
-                                            Message.Update update = new Message.Update
+                                            Message.UpdateElement update = new Message.UpdateElement
                                             {
                                                 type = Message.TypeElement.Children,
                                                 identificatorWindow = win.IdentificationNumber,
@@ -143,7 +143,7 @@ namespace WindowsLibrary
                                         if (child.IsActive)
                                         {
                                             child.ReadKey(ConsoleKey.UpArrow);
-                                            Message.Update update = new Message.Update
+                                            Message.UpdateElement update = new Message.UpdateElement
                                             {
                                                 type = Message.TypeElement.Children,
                                                 identificatorWindow = win.IdentificationNumber,
@@ -173,7 +173,7 @@ namespace WindowsLibrary
                                             if ((i + 1) < win.Children.Count)
                                             {
                                                 win.Children[i + 1].IsActive = true;
-                                                Message.Update update = new Message.Update
+                                                Message.UpdateElement update = new Message.UpdateElement
                                                 {
                                                     type = Message.TypeElement.Children,
                                                     identificatorWindow = win.IdentificationNumber,
@@ -191,7 +191,7 @@ namespace WindowsLibrary
                                             else
                                             {
                                                 win.Children[0].IsActive = true;
-                                                Message.Update update = new Message.Update
+                                                Message.UpdateElement update = new Message.UpdateElement
                                                 {
                                                     type = Message.TypeElement.Children,
                                                     identificatorWindow = win.IdentificationNumber,
@@ -223,7 +223,7 @@ namespace WindowsLibrary
                                             {
                                                 child.ReadKey(ConsoleKey.Spacebar);
 
-                                                Message.Update update = new Message.Update
+                                                Message.UpdateElement update = new Message.UpdateElement
                                                 {
                                                     type = Message.TypeElement.Children,
                                                     identificatorWindow = win.IdentificationNumber,

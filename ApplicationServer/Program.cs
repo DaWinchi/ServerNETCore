@@ -69,6 +69,7 @@ namespace ApplicationServer
             {
                 if (win.IdentificationNumber == 1)
                 {
+                    if (a > 100) a = 0;
                     ((ProgressObject)win.Children[0]).Percent = a++;
                     win.UpdateChildren(0);
                 }
@@ -96,7 +97,7 @@ namespace ApplicationServer
                 if (win.IdentificationNumber == 1)
                 {
                     a = 0;
-                    win.Timer = new System.Threading.Timer(Setter, null, 1000, 1000);
+                    win.Timer = new System.Threading.Timer(Setter, null, 1000, 100);
                 }
                 
             }

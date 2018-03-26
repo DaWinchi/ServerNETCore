@@ -83,7 +83,7 @@ namespace WindowsLibrary
         /*Метод отображает все дочерние элементы*/
         public void UpdateChildren(int numberElement)
         {
-            Message.Update update = new Message.Update
+            Message.UpdateElement update = new Message.UpdateElement
             {
                 type = Message.TypeElement.Children,
                 identificatorWindow = IdentificationNumber,
@@ -96,7 +96,7 @@ namespace WindowsLibrary
 
         public void Update()
         {
-            Message.Update update = new Message.Update
+            Message.UpdateElement update = new Message.UpdateElement
             {
                 type = Message.TypeElement.Window,
                 identificatorWindow = IdentificationNumber,
@@ -157,6 +157,7 @@ namespace WindowsLibrary
                     }
                 }
             }
+            Console.SetCursorPosition(Console.WindowWidth - 2, Console.WindowHeight - 2);
         }
 
         /*Метод отображает заголовок окна*/
@@ -170,6 +171,7 @@ namespace WindowsLibrary
                 Console.SetCursorPosition(Left + Width / 2 - bufTitle.Length / 2, Top);
                 Console.WriteLine(bufTitle);
             }
+            Console.SetCursorPosition(Console.WindowWidth - 2, Console.WindowHeight - 2);
         }
 
         /*Метод обработки нажатой на клавиатуре клавиши для данного окна*/
