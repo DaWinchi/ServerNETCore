@@ -48,39 +48,7 @@ namespace WindowsLibrary
            
         }
 
-        ///*Метод перерисовывает список на экране*/
-        //internal override void ReDraw()
-        //{
-        //    for (int i = 0; i < oldSize; i++)
-        //    {
-        //        Console.SetCursorPosition(Left, Top + i);
-        //        for (int j = 0; j < Width; j++)
-        //        {
-        //            Console.Write(" ");
-        //        }
-        //    }
-
-        //    int size = List.Count;
-
-        //    for (int i = 0; i < size; i++)
-        //    {
-        //        string bufstring;
-        //        if (List[i].Length >= Width) bufstring = List[i].Substring(0, Width);
-        //        else bufstring = List[i];
-        //        Console.SetCursorPosition(Left, Top + i);
-        //        if ((i == ActiveLine)&&(IsActive)&&(IsParentActive))
-        //        {
-        //            Console.ForegroundColor = ConsoleColor.Black;
-        //            Console.BackgroundColor = ConsoleColor.White;
-        //            Console.WriteLine(bufstring);
-        //            Console.ResetColor();
-        //        }
-        //        else Console.WriteLine(bufstring);
-        //    }
-        //    oldSize = size;
-        //    Console.SetCursorPosition(Console.WindowWidth - 2, Console.WindowHeight - 2);
-        //}
-
+      
         /*Метод перерисовывает список на экране*/
         internal override void ReDraw()
         {
