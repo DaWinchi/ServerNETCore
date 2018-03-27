@@ -9,9 +9,7 @@ namespace WindowsLibrary
         /*Список имен строк списка*/
         public List<string> List;
 
-        /*Размер списка до изменения*/
-        private int oldSize;
-
+     
         /*Свойство отображает или задаёт какая строка в данный момент активна*/
         public int ActiveLine { get; private set; }
 
@@ -39,7 +37,6 @@ namespace WindowsLibrary
             IsParentActive = p_parentActive;
             IsClicked = false;
             if (IsActive) ActiveLine = 0;
-            oldSize = 0;
         }
 
         /*Пустой обработчик события клика*/
