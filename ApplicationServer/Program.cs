@@ -24,7 +24,7 @@ namespace ApplicationServer
             mnWnd3 = new Window(30, 10, 50, 8, "Окно 3", false, 2, ref app);
 
            
-            ListObject list1 = new ListObject(mnWnd1.Left + 1, mnWnd1.Top + 1, 14, 2, true, mnWnd1.IsActive);
+            ListObject list1 = new ListObject(mnWnd1.Left + 1, mnWnd1.Top + 1, 14, 4, true, mnWnd1.IsActive);
             list1.ButtonClicked += List1_ButtonClicked;
             ListObject list2 = new ListObject(mnWnd3.Left + 1, mnWnd3.Top + 1, 14, 2, true, false);
             list2.ButtonClicked += List2_ButtonClicked;
@@ -42,12 +42,16 @@ namespace ApplicationServer
             
             list1.List.Add("Открыть окно 2");
             list1.List.Add("Открыть окно 3");
-           
+            list1.List.Add("Строка 3");
+            list1.List.Add("Строка 4");
+            list1.List.Add("Строка 5");
+            list1.List.Add("Строка 6");
 
             list2.List.Add("Закрыть окно 2");
             list2.List.Add("Закрыть");
             list2.List.Add("Включить часы");
 
+            
 
             mnWnd1.AddChildren(list1);
             mnWnd1.AddChildren(button1);
@@ -97,7 +101,7 @@ namespace ApplicationServer
                 if (win.IdentificationNumber == 1)
                 {
                     a = 0;
-                    win.Timer = new System.Threading.Timer(Setter, null, 1000, 100);
+                    win.Timer = new System.Threading.Timer(Setter, null, 1000, 500);
                 }
                 
             }

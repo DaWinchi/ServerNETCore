@@ -48,10 +48,43 @@ namespace WindowsLibrary
            
         }
 
+        ///*Метод перерисовывает список на экране*/
+        //internal override void ReDraw()
+        //{
+        //    for (int i = 0; i < oldSize; i++)
+        //    {
+        //        Console.SetCursorPosition(Left, Top + i);
+        //        for (int j = 0; j < Width; j++)
+        //        {
+        //            Console.Write(" ");
+        //        }
+        //    }
+
+        //    int size = List.Count;
+
+        //    for (int i = 0; i < size; i++)
+        //    {
+        //        string bufstring;
+        //        if (List[i].Length >= Width) bufstring = List[i].Substring(0, Width);
+        //        else bufstring = List[i];
+        //        Console.SetCursorPosition(Left, Top + i);
+        //        if ((i == ActiveLine)&&(IsActive)&&(IsParentActive))
+        //        {
+        //            Console.ForegroundColor = ConsoleColor.Black;
+        //            Console.BackgroundColor = ConsoleColor.White;
+        //            Console.WriteLine(bufstring);
+        //            Console.ResetColor();
+        //        }
+        //        else Console.WriteLine(bufstring);
+        //    }
+        //    oldSize = size;
+        //    Console.SetCursorPosition(Console.WindowWidth - 2, Console.WindowHeight - 2);
+        //}
+
         /*Метод перерисовывает список на экране*/
         internal override void ReDraw()
         {
-            for (int i = 0; i < oldSize; i++)
+            for (int i = 0; i < Height; i++)
             {
                 Console.SetCursorPosition(Left, Top + i);
                 for (int j = 0; j < Width; j++)
@@ -60,24 +93,73 @@ namespace WindowsLibrary
                 }
             }
 
-            int size = List.Count;
-
-            for (int i = 0; i < size; i++)
+           
+            if (List.Count <= Height)
             {
-                string bufstring;
-                if (List[i].Length >= Width) bufstring = List[i].Substring(0, Width);
-                else bufstring = List[i];
-                Console.SetCursorPosition(Left, Top + i);
-                if ((i == ActiveLine)&&(IsActive)&&(IsParentActive))
+                int size = List.Count;
+                for (int i = 0; i < size; i++)
                 {
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    Console.BackgroundColor = ConsoleColor.White;
-                    Console.WriteLine(bufstring);
-                    Console.ResetColor();
-                }
-                else Console.WriteLine(bufstring);
+                    string bufstring;
+
+                    if (List[i].Length >= Width) bufstring = List[i].Substring(0, Width);
+                    else bufstring = List[i];
+                    Console.SetCursorPosition(Left, Top + i);
+                    if ((i == ActiveLine) && (IsActive) && (IsParentActive))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.White;
+                        Console.WriteLine(bufstring);
+                        Console.ResetColor();
+                    }
+                    else Console.WriteLine(bufstring);
+                }           
+                
             }
-            oldSize = size;
+            else
+            {
+                if (ActiveLine> Height-1)
+                {
+                    int begin = ActiveLine - Height+1;
+                    int size = Height;
+                    for (int i = begin; i < size + begin; i++)
+                    {
+                        string bufstring;
+
+                        if (List[i].Length >= Width) bufstring = List[i].Substring(0, Width);
+                        else bufstring = List[i];
+                        Console.SetCursorPosition(Left, Top + i-begin);
+                        if ((i == size+begin-1) && (IsActive) && (IsParentActive))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.White;
+                            Console.WriteLine(bufstring);
+                            Console.ResetColor();
+                        }
+                        else Console.WriteLine(bufstring);
+                    }
+                }
+                else
+                {
+                    int size = Height;
+                    for (int i = 0; i < size; i++)
+                    {
+                        string bufstring;
+
+                        if (List[i].Length >= Width) bufstring = List[i].Substring(0, Width);
+                        else bufstring = List[i];
+                        Console.SetCursorPosition(Left, Top + i);
+                        if ((i == ActiveLine) && (IsActive) && (IsParentActive))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.White;
+                            Console.WriteLine(bufstring);
+                            Console.ResetColor();
+                        }
+                        else Console.WriteLine(bufstring);
+                    }
+                }
+            }
+            
             Console.SetCursorPosition(Console.WindowWidth - 2, Console.WindowHeight - 2);
         }
 
