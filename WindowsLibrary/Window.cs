@@ -176,8 +176,8 @@ namespace WindowsLibrary
             if (Title != null)
             {
                 string bufTitle;
-                if (Title.Length >= Width) bufTitle = Title.Substring(0, Width - 2);
-                else bufTitle = Title;
+                if (Title.Length >= Width) bufTitle = " " + Title.Substring(0, Width - 2)+" ";
+                else bufTitle =" "+ Title + " ";
                 Console.SetCursorPosition(Left + Width / 2 - bufTitle.Length / 2, Top);
                 Console.WriteLine(bufTitle);
             }

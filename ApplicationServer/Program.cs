@@ -20,10 +20,12 @@ namespace ApplicationServer
             Console.Clear();
             Console.CursorVisible = false;
             mnWnd1 = new Window(2, 1, 30, 8, "Окно 1", true, 0, ref app);
+            
             mnWnd2 = new Window(50, 1, 50, 8, "Тест таймера", false, 1, ref app);
+            mnWnd2.BackgroundColor = ConsoleColor.Green;
             mnWnd3 = new Window(30, 10, 50, 8, "Окно 3", false, 2, ref app);
+            mnWnd3.TextColor = ConsoleColor.Magenta;
 
-           
             ListObject list1 = new ListObject(mnWnd1.Left + 1, mnWnd1.Top + 1, 14, 4, true, mnWnd1.IsActive);
             list1.ButtonClicked += List1_ButtonClicked;
             ListObject list2 = new ListObject(mnWnd3.Left + 1, mnWnd3.Top + 1, 14, 2, true, false);
