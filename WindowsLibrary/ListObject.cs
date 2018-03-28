@@ -52,7 +52,7 @@ namespace WindowsLibrary
            
         }
 
-      
+
         /*Метод перерисовывает список на экране*/
         internal override void ReDraw()
         {

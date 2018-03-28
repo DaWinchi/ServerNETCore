@@ -38,7 +38,7 @@ namespace WindowsLibrary
         }
 
         /*Пустой обработчик события клика*/
-        private void ButtonObject_ButtonClicked(object sender, EventArgs e)
+        protected void ButtonObject_ButtonClicked(object sender, EventArgs e)
         {
             
         }

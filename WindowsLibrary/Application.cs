@@ -9,11 +9,11 @@ namespace WindowsLibrary
     public class Application
     {
         /*Условие закрытия приложения*/
-        bool exit = false;
+        public bool exit = false;
         public ConsoleColor GlobalBackgroundColor { get; set; }
 
         /*Поток, производящий слежение за клавиатурой*/
-        Thread tracking_adding_queue_from_keyboard;
+       private Thread tracking_adding_queue_from_keyboard;
         /*Объект синхронизации*/
         static object locker = new object();
         /*Очередь сообщений*/
