@@ -21,7 +21,7 @@ namespace ApplicationServer
             Console.CursorVisible = false;
             mnWnd1 = new Window(2, 1, 30, 8, "Окно 1", true, 0, ref app);
             
-            mnWnd2 = new Window(50, 1, 50, 8, "Тест таймера", false, 1, ref app);
+            mnWnd2 = new Window(50, 5, 50, 8, "Тест таймера", false, 1, ref app);
             mnWnd2.BackgroundColor = ConsoleColor.Green;
             mnWnd3 = new Window(30, 10, 50, 8, "Окно 3", false, 2, ref app);
             mnWnd3.TextColor = ConsoleColor.Magenta;

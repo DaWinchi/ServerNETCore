@@ -10,6 +10,7 @@ namespace WindowsLibrary
     {
         /*Условие закрытия приложения*/
         bool exit = false;
+        public ConsoleColor GlobalBackgroundColor { get; set; }
 
         /*Поток, производящий слежение за клавиатурой*/
         Thread tracking_adding_queue_from_keyboard;
@@ -25,6 +26,9 @@ namespace WindowsLibrary
         public Application()
         {
             windows = new List<Window>();
+            GlobalBackgroundColor = ConsoleColor.Cyan;
+            Console.BackgroundColor = GlobalBackgroundColor;
+            Console.Clear();
         }
 
         /*Метод, добавляющий окна в набор*/
@@ -52,15 +56,9 @@ namespace WindowsLibrary
 
 
                 switch (pressed_key.Key)
-                {
+                {                   
                     case ConsoleKey.Enter:
                         msg.keyPressed = Message.KeyPressed.Enter; lock (locker)
-                        {
-                            queue_messages.Enqueue(msg);
-                        }
-                        break;
-                    case ConsoleKey.Spacebar:
-                        msg.keyPressed = Message.KeyPressed.Space; lock (locker)
                         {
                             queue_messages.Enqueue(msg);
                         }
@@ -78,11 +76,22 @@ namespace WindowsLibrary
                         }
                         break;
                     case ConsoleKey.Tab:
-                        msg.keyPressed = Message.KeyPressed.Tab; lock (locker)
+                        if (ConsoleModifiers.Shift == pressed_key.Modifiers)
                         {
-                            queue_messages.Enqueue(msg);
+                            msg.keyPressed = Message.KeyPressed.TabShift; lock (locker)
+                            {
+                                queue_messages.Enqueue(msg);
+                            }
+                            break;
                         }
-                        break;
+                        else
+                        {
+                            msg.keyPressed = Message.KeyPressed.Tab; lock (locker)
+                            {
+                                queue_messages.Enqueue(msg);
+                            }
+                            break;
+                        }
                     default: break;
                 }
 
@@ -211,7 +220,7 @@ namespace WindowsLibrary
                             break;
 
 
-                        case Message.KeyPressed.Space:
+                        case Message.KeyPressed.Enter:
                             lock (locker) foreach (Window win in windows)
                                     if (win.IsActive)
                                     {
@@ -238,7 +247,7 @@ namespace WindowsLibrary
                                         break;
                                     }
                             break;
-                        case Message.KeyPressed.Enter:
+                        case Message.KeyPressed.TabShift:
                             for (int i = 0; i < windows.Count; i++)
                             {
 
@@ -303,6 +312,7 @@ namespace WindowsLibrary
                                 }
                             }
                             lock (locker) windows.RemoveAt(m);
+                            Console.BackgroundColor = GlobalBackgroundColor;
                             Console.Clear();
 
                             foreach (Window win in windows) win.Update();
@@ -324,7 +334,7 @@ namespace WindowsLibrary
                             {
                                 foreach (Window win in windows)
                                 {
-                                    if (win.IdentificationNumber == msg.update.identificatorWindow)
+                                    if (win.IdentificationNumber == msg.update.identificatorWindow&&win.IsActive)
                                     {
                                         win.Children[msg.update.identificatorChild].ReDraw();
                                     }

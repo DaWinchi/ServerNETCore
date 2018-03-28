@@ -38,34 +38,36 @@ namespace WindowsLibrary
         /*Метод перерисовывает прогресс-бар и отображает процент*/
         internal override void ReDraw()
         {
-            for (int i = 0; i < Width; i++)
-            {
-                for (int j = 0; j < Height; j++)
+            if (IsParentActive)
+            
+                for (int i = 0; i < Width; i++)
                 {
-                    Console.SetCursorPosition(Left + i, Top + j);
-                    Console.BackgroundColor = BackgroundColor;
-                    Console.Write(" ");
+                    for (int j = 0; j < Height; j++)
+                    {
+                        Console.SetCursorPosition(Left + i, Top + j);
+                        Console.BackgroundColor = BackgroundColor;
+                        Console.Write(" ");
+                    }
                 }
-            }
 
-            float real_percent = (float)Width / 100 * Percent;
-        
-            for (int i=0; i < (int)real_percent; i++)
-            {
-                for (int j = 0; j < Height; j++)
+                float real_percent = (float)Width / 100 * Percent;
+
+                for (int i = 0; i < (int)real_percent; i++)
                 {
-                    Console.SetCursorPosition(Left + i, Top + j);
-                    Console.BackgroundColor = PercentColor ;
-                    Console.Write(" ");
+                    for (int j = 0; j < Height; j++)
+                    {
+                        Console.SetCursorPosition(Left + i, Top + j);
+                        Console.BackgroundColor = PercentColor;
+                        Console.Write(" ");
+                    }
                 }
-            }
 
-            string bufstring = Title+Percent.ToString()+"%";
-            Console.ForegroundColor = TextColor;
-            Console.SetCursorPosition(Left + Width / 2 - bufstring.Length / 2, Top + Height / 2);
-            Console.WriteLine(bufstring);
-            Console.ResetColor();
-
+                string bufstring = Title + Percent.ToString() + "%";
+                Console.ForegroundColor = TextColor;
+                Console.SetCursorPosition(Left + Width / 2 - bufstring.Length / 2, Top + Height / 2);
+                Console.WriteLine(bufstring);
+                Console.ResetColor();
+            
             Console.SetCursorPosition(Console.WindowWidth - 2, Console.WindowHeight - 2);
         }
 
