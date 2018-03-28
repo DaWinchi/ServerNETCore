@@ -9,7 +9,9 @@ namespace WindowsLibrary
         /*Список имен строк списка*/
         public List<string> List;
 
-     
+        public ConsoleColor TextActiveColor { get; set; }
+        public ConsoleColor BackgroundActiveColor { get; set; }
+
         /*Свойство отображает или задаёт какая строка в данный момент активна*/
         public int ActiveLine { get; private set; }
 
@@ -37,6 +39,11 @@ namespace WindowsLibrary
             IsParentActive = p_parentActive;
             IsClicked = false;
             if (IsActive) ActiveLine = 0;
+
+            BackgroundColor = ConsoleColor.Black;
+            TextColor = ConsoleColor.White;
+            BackgroundActiveColor = ConsoleColor.DarkGray;
+            TextActiveColor = ConsoleColor.Black;
         }
 
         /*Пустой обработчик события клика*/
@@ -49,6 +56,8 @@ namespace WindowsLibrary
         /*Метод перерисовывает список на экране*/
         internal override void ReDraw()
         {
+            Console.BackgroundColor = BackgroundColor;
+            Console.ForegroundColor = TextColor;
             for (int i = 0; i < Height; i++)
             {
                 Console.SetCursorPosition(Left, Top + i);
@@ -71,8 +80,8 @@ namespace WindowsLibrary
                     Console.SetCursorPosition(Left, Top + i);
                     if ((i == ActiveLine) && (IsActive) && (IsParentActive))
                     {
-                        Console.ForegroundColor = ConsoleColor.Black;
-                        Console.BackgroundColor = ConsoleColor.White;
+                        Console.ForegroundColor = TextActiveColor;
+                        Console.BackgroundColor = BackgroundActiveColor;
                         Console.WriteLine(bufstring);
                         Console.ResetColor();
                     }
@@ -95,8 +104,8 @@ namespace WindowsLibrary
                         Console.SetCursorPosition(Left, Top + i-begin);
                         if ((i == size+begin-1) && (IsActive) && (IsParentActive))
                         {
-                            Console.ForegroundColor = ConsoleColor.Black;
-                            Console.BackgroundColor = ConsoleColor.White;
+                            Console.ForegroundColor = TextActiveColor;
+                            Console.BackgroundColor = BackgroundActiveColor;
                             Console.WriteLine(bufstring);
                             Console.ResetColor();
                         }
@@ -115,8 +124,8 @@ namespace WindowsLibrary
                         Console.SetCursorPosition(Left, Top + i);
                         if ((i == ActiveLine) && (IsActive) && (IsParentActive))
                         {
-                            Console.ForegroundColor = ConsoleColor.Black;
-                            Console.BackgroundColor = ConsoleColor.White;
+                            Console.ForegroundColor = TextActiveColor;
+                            Console.BackgroundColor = BackgroundActiveColor;
                             Console.WriteLine(bufstring);
                             Console.ResetColor();
                         }

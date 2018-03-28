@@ -9,7 +9,8 @@ namespace WindowsLibrary
 
         /*Событие нажатия кнопки*/
         public event EventHandler ButtonClicked;
-
+        public ConsoleColor TextActiveColor { get; set; }
+        public ConsoleColor BackgroundActiveColor { get; set; }
         /*Конструктор кнопки
         @ p_Left - координата левой верхней границы кнопки по горизонтали
         @ p_Top - координата левой верхней границы кнопки по вертикали
@@ -30,6 +31,10 @@ namespace WindowsLibrary
             Title = p_Title;
             IsParentActive = p_parentActive;
             IsClicked = false;
+            BackgroundColor = ConsoleColor.White;
+            TextColor = ConsoleColor.Black;
+            BackgroundActiveColor = ConsoleColor.DarkGray;
+            TextActiveColor = ConsoleColor.Black;
         }
 
         /*Пустой обработчик события клика*/
@@ -43,6 +48,8 @@ namespace WindowsLibrary
         {
             if (IsActive)
             {
+                Console.BackgroundColor = BackgroundActiveColor;
+                Console.ForegroundColor = TextActiveColor;
                 for (int i = 0; i < Width; i++)
                 {
                     for (int j = 0; j < Height; j++)
@@ -63,6 +70,8 @@ namespace WindowsLibrary
             }
             else
             {
+                Console.BackgroundColor = BackgroundColor;
+                Console.ForegroundColor = TextColor;
                 for (int i = 0; i < Width; i++)
                 {
                     for (int j = 0; j < Height; j++)

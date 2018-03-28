@@ -13,7 +13,8 @@ namespace WindowsLibrary
         public virtual int Height { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual string Title { get; set; }
-
+        public virtual ConsoleColor TextColor { get; set; }
+        public virtual ConsoleColor BackgroundColor { get; set; }
         /*Свойство показывает было ли событие клика на элементе*/
         public virtual bool IsClicked { get; set; }
 

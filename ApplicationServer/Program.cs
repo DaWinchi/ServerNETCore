@@ -36,7 +36,7 @@ namespace ApplicationServer
             {
                 Percent = 78
             };
-            label.Text = "Это просто текстовая метка";
+            label.Text = "Это просто\n текстовая метка";
             button1.ButtonClicked += Button1_ButtonClicked;
             button2.ButtonClicked += Button2_ButtonClicked;
             

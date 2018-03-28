@@ -61,6 +61,9 @@ namespace WindowsLibrary
             Title = p_title;
             ParentApp = application;
 
+            TextColor = ConsoleColor.White;
+            BackgroundColor = ConsoleColor.Black;
+
         }
 
 
@@ -124,6 +127,8 @@ namespace WindowsLibrary
         /*Метод рисует рамку окна*/
         protected virtual void CreateFrame()
         {
+            Console.BackgroundColor = BackgroundColor;
+            Console.ForegroundColor = TextColor;
             if (IsActive)
             {
                 for (int i = 0; i < Width; i++)
@@ -166,6 +171,8 @@ namespace WindowsLibrary
         /*Метод отображает заголовок окна*/
         public virtual void WriteTitle()
         {
+            Console.BackgroundColor = BackgroundColor;
+            Console.ForegroundColor = TextColor;
             if (Title != null)
             {
                 string bufTitle;

@@ -10,6 +10,7 @@ namespace WindowsLibrary
         /*Целочисленный процент*/
         public int Percent { get; set; }
 
+        public ConsoleColor PercentColor;
 
         /*Конструктор прогресс-бара
       @ p_Left - координата левой верхней границы  по горизонтали
@@ -29,6 +30,9 @@ namespace WindowsLibrary
             IsClicked = false;
             IsActive = p_active;
             IsParentActive = p_parentActive;
+            BackgroundColor = ConsoleColor.Gray;
+            TextColor = ConsoleColor.Black;
+            PercentColor = ConsoleColor.DarkBlue;
         }
 
         /*Метод перерисовывает прогресс-бар и отображает процент*/
@@ -39,7 +43,7 @@ namespace WindowsLibrary
                 for (int j = 0; j < Height; j++)
                 {
                     Console.SetCursorPosition(Left + i, Top + j);
-                    Console.BackgroundColor = ConsoleColor.Blue;
+                    Console.BackgroundColor = BackgroundColor;
                     Console.Write(" ");
                 }
             }
@@ -51,13 +55,13 @@ namespace WindowsLibrary
                 for (int j = 0; j < Height; j++)
                 {
                     Console.SetCursorPosition(Left + i, Top + j);
-                    Console.BackgroundColor = ConsoleColor.Yellow;
+                    Console.BackgroundColor = PercentColor ;
                     Console.Write(" ");
                 }
             }
 
             string bufstring = Title+Percent.ToString()+"%";
-            Console.ForegroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = TextColor;
             Console.SetCursorPosition(Left + Width / 2 - bufstring.Length / 2, Top + Height / 2);
             Console.WriteLine(bufstring);
             Console.ResetColor();

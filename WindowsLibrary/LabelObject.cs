@@ -29,11 +29,15 @@ namespace WindowsLibrary
             IsClicked = false;
             IsActive = p_active;
             IsParentActive = p_parentActive;
+            BackgroundColor = ConsoleColor.Gray;
+            TextColor= ConsoleColor.Black;
         }
 
         /*Метод перерисовывает элемент*/
         internal override void ReDraw()
         {
+            Console.BackgroundColor = BackgroundColor;
+            Console.ForegroundColor = TextColor;
             bool endOftext = false;
             char[] text = Text.ToCharArray();
             int size = text.Length;
