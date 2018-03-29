@@ -9,6 +9,7 @@ namespace WindowsLibrary
         /*Приложение, которому принадлежит данное окно*/
         protected Application ParentApp;
 
+        internal Timer timer;
         /*Свойство, отвечающее за активность окна*/
         public override bool IsActive
         {
@@ -29,9 +30,8 @@ namespace WindowsLibrary
         /*Набор дочерних элементов*/
         public List<Element> Children;
 
-        /*Таймер окна*/
-        public Timer Timer;
-
+        
+           
         /*Событие, возникающее при изменении свойства IsActive окна*/
         protected event EventHandler ChangeActive;
 
@@ -66,7 +66,16 @@ namespace WindowsLibrary
 
         }
 
+        /*Таймер окна*/
+        public void TimerStart(int timeInterval)
+        {
+            timer = new Timer(AddTimerMessage, null, 0, timeInterval);
+        }
 
+        private void AddTimerMessage(object obj)
+        {
+
+        }
         /*Метод перерисовывает окно и дочерние элементы*/
         internal override void ReDraw()
         {
