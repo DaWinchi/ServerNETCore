@@ -26,6 +26,9 @@ namespace ApplicationServer
             mnWnd3 = new Window(30, 10, 50, 8, "Окно 3", false, 2, ref app);
             mnWnd3.TextColor = ConsoleColor.Magenta;
 
+
+            mnWnd3.TimerTick += Win2_TimerTick;
+
             ListObject list1 = new ListObject(mnWnd1.Left + 1, mnWnd1.Top + 1, 14, 4, true, mnWnd1.IsActive);
             list1.ButtonClicked += List1_ButtonClicked;
             ListObject list2 = new ListObject(mnWnd3.Left + 1, mnWnd3.Top + 1, 14, 2, true, false);
@@ -85,15 +88,7 @@ namespace ApplicationServer
 
         static void Time(object o)
         {
-            foreach (Window win in app.windows)
-            {
-                if (win.IdentificationNumber == 2)
-                {
-                    ((LabelObject)win.Children[1]).Text = DateTime.Now.ToLongTimeString();
-                    win.UpdateChildren(1);
-                }
-
-            }
+            
         }
 
         private static void Button2_ButtonClicked(object sender, EventArgs e)
@@ -103,7 +98,7 @@ namespace ApplicationServer
                 if (win.IdentificationNumber == 1)
                 {
                     a = 0;
-                    win.Timer = new System.Threading.Timer(Setter, null, 1000, 500);
+                    win.TimerStart(1000);
                 }
                 
             }
@@ -124,8 +119,25 @@ namespace ApplicationServer
             }
             if(((ListObject)sender).ActiveLine==2)
             {
-                foreach (Window win in app.windows) if (win.IdentificationNumber == 2) win.Timer=
-                            new System.Threading.Timer(Time, null, 1, 1000);
+                foreach (Window win in app.windows)
+                    if (win.IdentificationNumber == 2)
+                    {
+                        win.TimerStart(1000);
+                    }
+                            
+            }
+        }
+
+        private static void Win2_TimerTick(object sender, EventArgs e)
+        {
+            foreach (Window win in app.windows)
+            {
+                if (win.IdentificationNumber == 2)
+                {
+                    ((LabelObject)win.Children[1]).Text = DateTime.Now.ToLongTimeString();
+                    win.UpdateChildren(1);
+                }
+
             }
         }
 

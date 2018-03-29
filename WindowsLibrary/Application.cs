@@ -342,6 +342,20 @@ namespace WindowsLibrary
                                 break;
                             }
                     }
+                    switch(msg.timermsg.timer)
+                    {
+                        case Message.Timer.Tick:
+                            {
+                                foreach (Window win in windows)
+                                {
+                                    if(win.IdentificationNumber==msg.timermsg.identificatorWindow)
+                                    {
+                                        win.TickFunction();
+                                    }
+                                }
+                                break;
+                            }
+                    }
                 }
 
             }

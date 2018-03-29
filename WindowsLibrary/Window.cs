@@ -9,7 +9,7 @@ namespace WindowsLibrary
         /*Приложение, которому принадлежит данное окно*/
         protected Application ParentApp;
 
-        internal Timer timer;
+        
         /*Свойство, отвечающее за активность окна*/
         public override bool IsActive
         {
@@ -30,8 +30,8 @@ namespace WindowsLibrary
         /*Набор дочерних элементов*/
         public List<Element> Children;
 
-        
-           
+
+
         /*Событие, возникающее при изменении свойства IsActive окна*/
         protected event EventHandler ChangeActive;
 
@@ -61,21 +61,52 @@ namespace WindowsLibrary
             Title = p_title;
             ParentApp = application;
 
+            TimerTick += Window_TimerTick;
+
             TextColor = ConsoleColor.White;
             BackgroundColor = ConsoleColor.Black;
 
         }
 
-        /*Таймер окна*/
+
+
+        #region Таймер окна
+        /*Сам таёмер*/
+        internal Timer timer;
+        /*Событие "тика" таймера*/
+        public event EventHandler TimerTick;
+        /*Функция запуска таймера
+         @timeInterval - интервал срабатывания в миллисекундах*/
         public void TimerStart(int timeInterval)
         {
+            if (timer != null) timer.Dispose();
             timer = new Timer(AddTimerMessage, null, 0, timeInterval);
         }
-
+        public void TimerStop()
+        {
+            if (timer != null) timer.Dispose();
+        }
+        /*Функция добавляет сообщения таймера в очередь*/
         private void AddTimerMessage(object obj)
         {
-
+            Message.TimerMsg msgtimer = new Message.TimerMsg
+            {
+                timer = Message.Timer.Tick,
+                identificatorWindow = IdentificationNumber
+            };
+            Message msg = new Message { timermsg = msgtimer };
+            ParentApp.queue_messages.Enqueue(msg);
         }
+        /*Метод вызывает функцию-событие таймера*/
+        internal void TickFunction()
+        {
+            TimerTick(this, new EventArgs());
+        }
+        /*Функция события, возможно переопределить в дочернем классе*/
+        protected virtual void Window_TimerTick(object sender, EventArgs e) { }
+
+        #endregion
+
         /*Метод перерисовывает окно и дочерние элементы*/
         internal override void ReDraw()
         {
@@ -185,8 +216,8 @@ namespace WindowsLibrary
             if (Title != null)
             {
                 string bufTitle;
-                if (Title.Length >= Width) bufTitle = " " + Title.Substring(0, Width - 2)+" ";
-                else bufTitle =" "+ Title + " ";
+                if (Title.Length >= Width) bufTitle = " " + Title.Substring(0, Width - 2) + " ";
+                else bufTitle = " " + Title + " ";
                 Console.SetCursorPosition(Left + Width / 2 - bufTitle.Length / 2, Top);
                 Console.WriteLine(bufTitle);
             }
@@ -220,7 +251,7 @@ namespace WindowsLibrary
                 window = Message.Window.Exit
             };
             IsClosed = true;
-            if (Timer != null) Timer.Dispose();
+            TimerStop();
             ParentApp.queue_messages.Enqueue(msg);
         }
 

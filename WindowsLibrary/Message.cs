@@ -9,7 +9,7 @@ namespace WindowsLibrary
     {
         public enum KeyPressed { Null, TabShift=1, Enter=2, Up=3, Down=4, Tab=5 };
         public enum Window { Null, Exit};
-
+        public enum Timer {Null, Tick };
         public enum TypeElement {Null, Window, Children};
         public struct UpdateElement
         {
@@ -17,10 +17,11 @@ namespace WindowsLibrary
             public int identificatorWindow; //индентификатор окна
             public int identificatorChild; //идентификатор дочернего элемента
         }
-
+        public struct TimerMsg {public Timer timer; public int identificatorWindow; }
         public UpdateElement update;
         public KeyPressed keyPressed;
         public Window window;
+        public TimerMsg timermsg;
 
     }
 }
