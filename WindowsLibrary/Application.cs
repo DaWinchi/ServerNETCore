@@ -35,6 +35,7 @@ namespace WindowsLibrary
         public void AddWindow(Window win)
         {
             bool isNewWindow = true;
+            if(windows!=null)
             foreach(Window window in windows)
             {
                 if (window.IdentificationNumber == win.IdentificationNumber) isNewWindow = false;                

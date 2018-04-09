@@ -21,15 +21,22 @@ namespace ApplicationServer
         ListObject listWnd;  //Список для выбора между просмотром требуемых характеристик
         ButtonObject btnExit; //Кнопка закрытия приложения
 
-
         /******************************/
+
+        /******Окно характеристик системы****/
+        Window characterWindow;
+
+        /************************************/
 
         private void InitializeApplication()
         {
             app = new Application();
             app.GlobalBackgroundColor = ConsoleColor.Gray;
             InitializeMainWindow();
+            InitializeCharacterWindow();
+
             app.AddWindow(mainWindow);
+          
 
         }
 
@@ -50,6 +57,11 @@ namespace ApplicationServer
 
             mainWindow.AddChildren(btnExit);
             mainWindow.AddChildren(listWnd);
+        }
+
+        private void InitializeCharacterWindow()
+        {
+            characterWindow = new Window(50, 10, 50, 10, "Характеристики системы", false, 1, ref app);
         }
 
         /*Обработка нажатия кнопки закрытия приложения*/
