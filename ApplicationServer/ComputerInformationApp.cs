@@ -173,7 +173,9 @@ namespace ApplicationServer
             labelTimeinfo.TextColor = ConsoleColor.White;
             #endregion
 
-
+            ButtonObject btnExitCharacterWindow = new ButtonObject(characterWindow.Left + characterWindow.Width - 10,
+                                            characterWindow.Top + characterWindow.Height - 2, 9, 1, true, false, "Закрыть");
+            btnExitCharacterWindow.ButtonClicked += BtnExitCharacterWindow_ButtonClicked;
 
             characterWindow.AddChildren(labelOS);
             characterWindow.AddChildren(labelOSinfo);
@@ -189,7 +191,16 @@ namespace ApplicationServer
             characterWindow.AddChildren(labelCataloginfo);
             characterWindow.AddChildren(labelTime);
             characterWindow.AddChildren(labelTimeinfo);
+            characterWindow.AddChildren(btnExitCharacterWindow);
+        }
 
+        private void BtnExitCharacterWindow_ButtonClicked(object sender, EventArgs e)
+        {
+            foreach (Window win in app.windows)
+            {
+                if (win.IdentificationNumber == 1) win.CloseWindow();
+            }
+            
         }
 
         private void CharacterWindow_TimerTick(object sender, EventArgs e)
