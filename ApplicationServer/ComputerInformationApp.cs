@@ -66,19 +66,23 @@ namespace ApplicationServer
             {
                 characterWindow.Update();
                 app.AddWindow(characterWindow);
+                foreach(Window win in app.windows)
+                {
+                    if (win.IdentificationNumber == 1) win.TimerStart(1000);
+                }
 
             }
         }
         private void InitializeCharacterWindow()
         {
             characterWindow = new Window(40, 10, 70, 20, "Характеристики системы", false, 1, ref app);
-
+            characterWindow.TimerTick += CharacterWindow_TimerTick;
             #region Операционная система
             LabelObject labelOS = new LabelObject(characterWindow.Left + 2, characterWindow.Top + 2,
                                     21, 1, false, false, "Операционная система:");
             labelOS.BackgroundColor = ConsoleColor.Black;
             labelOS.TextColor = ConsoleColor.White;
-            
+
 
             LabelObject labelOSinfo = new LabelObject(characterWindow.Left + 2 + 24, characterWindow.Top + 2,
                                     40, 2, false, false, Environment.OSVersion.VersionString +
@@ -97,7 +101,7 @@ namespace ApplicationServer
             string bit;
             if (Is64) bit = "x64";
             else bit = "x86";
-            
+
 
             LabelObject labelBitinfo = new LabelObject(labelOSinfo.Left, labelOSinfo.Top + 2,
                                     40, 2, false, false, bit);
@@ -105,14 +109,26 @@ namespace ApplicationServer
             labelBitinfo.TextColor = ConsoleColor.White;
             #endregion
 
+            #region Число ядер процессора
+            LabelObject labelCore = new LabelObject(labelOS.Left, labelBitinfo.Top + 2,
+                                   21, 1, false, false, "Число ядер:");
+            labelCore.BackgroundColor = ConsoleColor.Black;
+            labelCore.TextColor = ConsoleColor.White;
+
+            LabelObject labelCoreinfo = new LabelObject(labelOSinfo.Left, labelBitinfo.Top + 2,
+                        40, 2, false, false, Environment.ProcessorCount.ToString());
+            labelCoreinfo.BackgroundColor = ConsoleColor.Black;
+            labelCoreinfo.TextColor = ConsoleColor.White;
+            #endregion
+
             #region Имя компьютера
-            LabelObject labelMachineName = new LabelObject(labelOS.Left, labelBit.Top + 2,
+            LabelObject labelMachineName = new LabelObject(labelOS.Left, labelCoreinfo.Top + 2,
                                     21, 1, false, false, "Имя компьютера:");
             labelMachineName.BackgroundColor = ConsoleColor.Black;
             labelMachineName.TextColor = ConsoleColor.White;
-            
 
-            LabelObject labelMachineNameinfo = new LabelObject(labelOSinfo.Left, labelBit.Top + 2,
+
+            LabelObject labelMachineNameinfo = new LabelObject(labelOSinfo.Left, labelCoreinfo.Top + 2,
                                     40, 2, false, false, Environment.MachineName);
             labelMachineNameinfo.BackgroundColor = ConsoleColor.Black;
             labelMachineNameinfo.TextColor = ConsoleColor.White;
@@ -144,19 +160,48 @@ namespace ApplicationServer
             labelCataloginfo.TextColor = ConsoleColor.White;
             #endregion
 
-           
+            #region Системное время
+            LabelObject labelTime = new LabelObject(labelOS.Left, labelCataloginfo.Top + 2,
+                                   21, 1, false, false, "Системное время:");
+            labelTime.BackgroundColor = ConsoleColor.Black;
+            labelTime.TextColor = ConsoleColor.White;
+
+
+            LabelObject labelTimeinfo = new LabelObject(labelOSinfo.Left, labelCataloginfo.Top + 2,
+                                    40, 2, false, false, DateTime.Now.ToLongTimeString());
+            labelTimeinfo.BackgroundColor = ConsoleColor.Black;
+            labelTimeinfo.TextColor = ConsoleColor.White;
+            #endregion
+
+
 
             characterWindow.AddChildren(labelOS);
             characterWindow.AddChildren(labelOSinfo);
             characterWindow.AddChildren(labelBit);
             characterWindow.AddChildren(labelBitinfo);
+            characterWindow.AddChildren(labelCore);
+            characterWindow.AddChildren(labelCoreinfo);
             characterWindow.AddChildren(labelMachineName);
             characterWindow.AddChildren(labelMachineNameinfo);
             characterWindow.AddChildren(labelUserName);
             characterWindow.AddChildren(labelUserNameinfo);
             characterWindow.AddChildren(labelCatalog);
             characterWindow.AddChildren(labelCataloginfo);
-          
+            characterWindow.AddChildren(labelTime);
+            characterWindow.AddChildren(labelTimeinfo);
+
+        }
+
+        private void CharacterWindow_TimerTick(object sender, EventArgs e)
+        {
+           foreach(Window win in app.windows)
+            {
+                if(win.IdentificationNumber==1)
+                {
+                    ((LabelObject)win.Children[13]).Text = DateTime.Now.ToLongTimeString();
+                    win.UpdateChildren(13);
+                }
+            }
         }
 
         /*Обработка нажатия кнопки закрытия приложения*/
