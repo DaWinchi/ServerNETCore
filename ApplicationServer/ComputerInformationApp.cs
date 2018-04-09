@@ -71,7 +71,7 @@ namespace ApplicationServer
         }
         private void InitializeCharacterWindow()
         {
-            characterWindow = new Window(50, 10, 70, 20, "Характеристики системы", false, 1, ref app);
+            characterWindow = new Window(40, 10, 70, 20, "Характеристики системы", false, 1, ref app);
 
             #region Операционная система
             LabelObject labelOS = new LabelObject(characterWindow.Left + 2, characterWindow.Top + 2,
@@ -87,14 +87,32 @@ namespace ApplicationServer
             labelOSinfo.TextColor = ConsoleColor.White;
             #endregion
 
+            #region Разрядность
+            LabelObject labelBit = new LabelObject(labelOS.Left, labelOSinfo.Top + 2,
+                                   21, 1, false, false, "Разрядность:");
+            labelBit.BackgroundColor = ConsoleColor.Black;
+            labelBit.TextColor = ConsoleColor.White;
+
+            bool Is64 = Environment.Is64BitOperatingSystem;
+            string bit;
+            if (Is64) bit = "x64";
+            else bit = "x86";
+            
+
+            LabelObject labelBitinfo = new LabelObject(labelOSinfo.Left, labelOSinfo.Top + 2,
+                                    40, 2, false, false, bit);
+            labelBitinfo.BackgroundColor = ConsoleColor.Black;
+            labelBitinfo.TextColor = ConsoleColor.White;
+            #endregion
+
             #region Имя компьютера
-            LabelObject labelMachineName = new LabelObject(labelOS.Left, labelOS.Top + 2,
+            LabelObject labelMachineName = new LabelObject(labelOS.Left, labelBit.Top + 2,
                                     21, 1, false, false, "Имя компьютера:");
             labelMachineName.BackgroundColor = ConsoleColor.Black;
             labelMachineName.TextColor = ConsoleColor.White;
             
 
-            LabelObject labelMachineNameinfo = new LabelObject(labelOSinfo.Left, labelOSinfo.Top + 2,
+            LabelObject labelMachineNameinfo = new LabelObject(labelOSinfo.Left, labelBit.Top + 2,
                                     40, 2, false, false, Environment.MachineName);
             labelMachineNameinfo.BackgroundColor = ConsoleColor.Black;
             labelMachineNameinfo.TextColor = ConsoleColor.White;
@@ -113,28 +131,32 @@ namespace ApplicationServer
             labelUserNameinfo.TextColor = ConsoleColor.White;
             #endregion
 
-            #region Имя пользователя
-            LabelObject Name = new LabelObject(labelOS.Left, labelUserNameinfo.Top + 2,
-                                   21, 1, false, false, "Что-то нвоое:");
-            labelUserName.BackgroundColor = ConsoleColor.Black;
-            labelUserName.TextColor = ConsoleColor.White;
+            #region Системный каталог
+            LabelObject labelCatalog = new LabelObject(labelOS.Left, labelUserNameinfo.Top + 2,
+                                   21, 1, false, false, "Системный каталог:");
+            labelCatalog.BackgroundColor = ConsoleColor.Black;
+            labelCatalog.TextColor = ConsoleColor.White;
 
 
-            LabelObject info = new LabelObject(labelOSinfo.Left, labelUserNameinfo.Top + 2,
+            LabelObject labelCataloginfo = new LabelObject(labelOSinfo.Left, labelUserNameinfo.Top + 2,
                                     40, 2, false, false, Environment.SystemDirectory);
-            labelUserNameinfo.BackgroundColor = ConsoleColor.Black;
-            labelUserNameinfo.TextColor = ConsoleColor.White;
+            labelCataloginfo.BackgroundColor = ConsoleColor.Black;
+            labelCataloginfo.TextColor = ConsoleColor.White;
             #endregion
+
+           
 
             characterWindow.AddChildren(labelOS);
             characterWindow.AddChildren(labelOSinfo);
+            characterWindow.AddChildren(labelBit);
+            characterWindow.AddChildren(labelBitinfo);
             characterWindow.AddChildren(labelMachineName);
             characterWindow.AddChildren(labelMachineNameinfo);
             characterWindow.AddChildren(labelUserName);
             characterWindow.AddChildren(labelUserNameinfo);
-            characterWindow.AddChildren(Name);
-            characterWindow.AddChildren(info);
-
+            characterWindow.AddChildren(labelCatalog);
+            characterWindow.AddChildren(labelCataloginfo);
+          
         }
 
         /*Обработка нажатия кнопки закрытия приложения*/
