@@ -36,7 +36,7 @@ namespace ApplicationServer
             InitializeCharacterWindow();
 
             app.AddWindow(mainWindow);
-          
+
 
         }
 
@@ -48,6 +48,7 @@ namespace ApplicationServer
 
             listWnd = new ListObject(mainWindow.Left + 2, mainWindow.Top + 1, 29, 3, true, true);
             listWnd.List = new List<string>();
+            listWnd.ButtonClicked += ListWnd_ButtonClicked;
             listWnd.List.Add("Характеристики системы");
             listWnd.List.Add("Список процессов");
             listWnd.List.Add("Сетевая статистика");
@@ -59,9 +60,81 @@ namespace ApplicationServer
             mainWindow.AddChildren(listWnd);
         }
 
+        private void ListWnd_ButtonClicked(object sender, EventArgs e)
+        {
+            if (((ListObject)sender).ActiveLine == 0)
+            {
+                characterWindow.Update();
+                app.AddWindow(characterWindow);
+
+            }
+        }
         private void InitializeCharacterWindow()
         {
-            characterWindow = new Window(50, 10, 50, 10, "Характеристики системы", false, 1, ref app);
+            characterWindow = new Window(50, 10, 70, 20, "Характеристики системы", false, 1, ref app);
+
+            #region Операционная система
+            LabelObject labelOS = new LabelObject(characterWindow.Left + 2, characterWindow.Top + 2,
+                                    21, 1, false, false, "Операционная система:");
+            labelOS.BackgroundColor = ConsoleColor.Black;
+            labelOS.TextColor = ConsoleColor.White;
+            
+
+            LabelObject labelOSinfo = new LabelObject(characterWindow.Left + 2 + 24, characterWindow.Top + 2,
+                                    40, 2, false, false, Environment.OSVersion.VersionString +
+                                    " " + Environment.OSVersion.Platform.ToString());
+            labelOSinfo.BackgroundColor = ConsoleColor.Black;
+            labelOSinfo.TextColor = ConsoleColor.White;
+            #endregion
+
+            #region Имя компьютера
+            LabelObject labelMachineName = new LabelObject(labelOS.Left, labelOS.Top + 2,
+                                    21, 1, false, false, "Имя компьютера:");
+            labelMachineName.BackgroundColor = ConsoleColor.Black;
+            labelMachineName.TextColor = ConsoleColor.White;
+            
+
+            LabelObject labelMachineNameinfo = new LabelObject(labelOSinfo.Left, labelOSinfo.Top + 2,
+                                    40, 2, false, false, Environment.MachineName);
+            labelMachineNameinfo.BackgroundColor = ConsoleColor.Black;
+            labelMachineNameinfo.TextColor = ConsoleColor.White;
+            #endregion
+
+            #region Имя пользователя
+            LabelObject labelUserName = new LabelObject(labelOS.Left, labelMachineName.Top + 2,
+                                   21, 1, false, false, "Имя пользователя:");
+            labelUserName.BackgroundColor = ConsoleColor.Black;
+            labelUserName.TextColor = ConsoleColor.White;
+
+
+            LabelObject labelUserNameinfo = new LabelObject(labelOSinfo.Left, labelMachineName.Top + 2,
+                                    40, 2, false, false, Environment.UserName);
+            labelUserNameinfo.BackgroundColor = ConsoleColor.Black;
+            labelUserNameinfo.TextColor = ConsoleColor.White;
+            #endregion
+
+            #region Имя пользователя
+            LabelObject Name = new LabelObject(labelOS.Left, labelUserNameinfo.Top + 2,
+                                   21, 1, false, false, "Что-то нвоое:");
+            labelUserName.BackgroundColor = ConsoleColor.Black;
+            labelUserName.TextColor = ConsoleColor.White;
+
+
+            LabelObject info = new LabelObject(labelOSinfo.Left, labelUserNameinfo.Top + 2,
+                                    40, 2, false, false, Environment.SystemDirectory);
+            labelUserNameinfo.BackgroundColor = ConsoleColor.Black;
+            labelUserNameinfo.TextColor = ConsoleColor.White;
+            #endregion
+
+            characterWindow.AddChildren(labelOS);
+            characterWindow.AddChildren(labelOSinfo);
+            characterWindow.AddChildren(labelMachineName);
+            characterWindow.AddChildren(labelMachineNameinfo);
+            characterWindow.AddChildren(labelUserName);
+            characterWindow.AddChildren(labelUserNameinfo);
+            characterWindow.AddChildren(Name);
+            characterWindow.AddChildren(info);
+
         }
 
         /*Обработка нажатия кнопки закрытия приложения*/
