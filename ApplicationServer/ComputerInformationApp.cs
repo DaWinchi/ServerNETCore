@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using WindowsLibrary;
 
@@ -28,12 +29,15 @@ namespace ApplicationServer
 
         /************************************/
 
+        Window processWindow;
+
         private void InitializeApplication()
         {
             app = new Application();
             app.GlobalBackgroundColor = ConsoleColor.Gray;
             InitializeMainWindow();
             InitializeCharacterWindow();
+            InitializeProcessWindow();
 
             app.AddWindow(mainWindow);
 
@@ -66,10 +70,17 @@ namespace ApplicationServer
             {
                 characterWindow.Update();
                 app.AddWindow(characterWindow);
-                foreach(Window win in app.windows)
+                foreach (Window win in app.windows)
                 {
                     if (win.IdentificationNumber == 1) win.TimerStart(1000);
                 }
+
+            }
+            if (((ListObject)sender).ActiveLine == 1)
+            {
+                processWindow.Update();
+                app.AddWindow(processWindow);
+
 
             }
         }
@@ -173,7 +184,7 @@ namespace ApplicationServer
             labelTimeinfo.TextColor = ConsoleColor.White;
             #endregion
 
-            ButtonObject btnExitCharacterWindow = new ButtonObject(characterWindow.Left + characterWindow.Width - 10,
+            ButtonObject btnExitCharacterWindow = new ButtonObject(characterWindow.Left + characterWindow.Width - 11,
                                             characterWindow.Top + characterWindow.Height - 2, 9, 1, true, false, "Закрыть");
             btnExitCharacterWindow.ButtonClicked += BtnExitCharacterWindow_ButtonClicked;
 
@@ -200,14 +211,14 @@ namespace ApplicationServer
             {
                 if (win.IdentificationNumber == 1) win.CloseWindow();
             }
-            
+
         }
 
         private void CharacterWindow_TimerTick(object sender, EventArgs e)
         {
-           foreach(Window win in app.windows)
+            foreach (Window win in app.windows)
             {
-                if(win.IdentificationNumber==1)
+                if (win.IdentificationNumber == 1)
                 {
                     ((LabelObject)win.Children[13]).Text = DateTime.Now.ToLongTimeString();
                     win.UpdateChildren(13);
@@ -219,6 +230,38 @@ namespace ApplicationServer
         private void BtnExit_ButtonClicked(object sender, EventArgs e)
         {
             app.exit = true;
+        }
+
+        private void InitializeProcessWindow()
+        {
+            processWindow = new Window(10, 15, 60, 12, "Список процессов", false, 2, ref app);
+
+            ButtonObject btnExitProcessWindow = new ButtonObject(processWindow.Left + processWindow.Width - 12,
+                processWindow.Top + processWindow.Height - 3, 9, 1, false, false, "Закрыть");
+            btnExitProcessWindow.ButtonClicked += BtnExitProcessWindow_ButtonClicked;
+
+            ListObject listProcess = new ListObject(processWindow.Left + 1, processWindow.Top + 1,
+                20, 10, true, false);
+            listProcess.List = new List<string>();
+
+            Process[] process = Process.GetProcesses();
+            List<string> allprocess = new List<string>();
+            for (int i = 0; i < process.Length; i++)
+            {
+                allprocess.Add(process[i].ProcessName);
+            }
+            listProcess.List.AddRange(allprocess);
+
+            processWindow.AddChildren(listProcess);
+            processWindow.AddChildren(btnExitProcessWindow);
+        }
+
+        private void BtnExitProcessWindow_ButtonClicked(object sender, EventArgs e)
+        {
+            foreach (Window win in app.windows)
+            {
+                if (win.IdentificationNumber == 2) win.CloseWindow();
+            }
         }
     }
 }
