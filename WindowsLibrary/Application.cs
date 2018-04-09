@@ -26,7 +26,7 @@ namespace WindowsLibrary
         public Application()
         {
             windows = new List<Window>();
-            GlobalBackgroundColor = ConsoleColor.Cyan;
+            GlobalBackgroundColor = ConsoleColor.Gray;
             Console.BackgroundColor = GlobalBackgroundColor;
             Console.Clear();
         }
@@ -49,7 +49,7 @@ namespace WindowsLibrary
         private void TrackingKeyboard()
         {
             ConsoleKeyInfo pressed_key;
-            while (true)
+            while (!exit)
             {
                 pressed_key = Console.ReadKey();
                 Message msg = new Message();
@@ -359,6 +359,10 @@ namespace WindowsLibrary
                 }
 
             }
+            Console.Clear();
+            tracking_adding_queue_from_keyboard.Join();
+            
+            
         }
 
         /*Главная функция приложения*/
