@@ -34,6 +34,7 @@ namespace ApplicationServer
 
         Window networkWindow;
         List<NetworkInterface> networkInterfaces;
+        int currentInterface;
 
         private void InitializeApplication()
         {
@@ -299,7 +300,7 @@ namespace ApplicationServer
                 if (allInterfaces[i].OperationalStatus == OperationalStatus.Up)
                     networkInterfaces.Add(allInterfaces[i]);
             }
-
+            currentInterface = 0;
 
             networkWindow = new Window(70, 18, 70, 22, "Сетевая статистика", false, 3, ref app);
             networkWindow.BackgroundColor = ConsoleColor.DarkRed;
@@ -324,7 +325,7 @@ namespace ApplicationServer
                 listInterfaces.List.Add(networkInterfaces[i].Name);
             }
 
-            /////////////////////////////////////////
+            /////////////////////////////////////////Заголовки подписей/////////////////
             LabelObject labelTitle = new LabelObject(listInterfaces.Left, listInterfaces.Top + 4, 9, 1, false, false, "Название: ");
             labelTitle.BackgroundColor = ConsoleColor.DarkRed;
             labelTitle.TextColor = ConsoleColor.White;
@@ -342,8 +343,14 @@ namespace ApplicationServer
             labelStatistics.BackgroundColor = ConsoleColor.Green;
             labelStatistics.TextColor = ConsoleColor.Black;
 
+            LabelObject labelDownload = new LabelObject(listInterfaces.Left, labelStatistics.Top + 1, 35, 1, false, false, "Пакетов принято(входящий траффик): ");
+            labelDownload.BackgroundColor = ConsoleColor.DarkRed;
+            labelDownload.TextColor = ConsoleColor.White;
 
-            ///////////////////////////////////////////
+            LabelObject labelUpload = new LabelObject(listInterfaces.Left, labelDownload.Top + 1, 40, 1, false, false, "Пакетов отправлено(исходящий траффик): ");
+            labelUpload.BackgroundColor = ConsoleColor.DarkRed;
+            labelUpload.TextColor = ConsoleColor.White;
+            ///////////////////////////////////////////Вставляемая информация/////////////////
             LabelObject labelTitleinfo = new LabelObject(labelTitle.Left+labelTitle.Width+1, labelTitle.Top, 40, 1, false, false, 
                 networkInterfaces[listInterfaces.ActiveLine].Name);
             labelTitleinfo.BackgroundColor = ConsoleColor.DarkRed;
@@ -359,21 +366,40 @@ namespace ApplicationServer
             labelMACinfo.BackgroundColor = ConsoleColor.DarkRed;
             labelMACinfo.TextColor = ConsoleColor.White;
 
+            var ipstat = networkInterfaces[currentInterface].GetIPv4Statistics();
+            LabelObject labelDownloadinfo = new LabelObject(labelDownload.Left+ labelDownload.Width, labelDownload.Top, 20, 1, false, false,
+                ipstat.UnicastPacketsReceived.ToString()+"/"+(ipstat.BytesReceived/1024/1024).ToString()+
+                " Мбайт");
+            labelDownloadinfo.BackgroundColor = ConsoleColor.DarkRed;
+            labelDownloadinfo.TextColor = ConsoleColor.White;
 
-            ProgressObject progressOutput = new ProgressObject(labelStatistics.Left, labelStatistics.Top + 2, 50, 3, false, false);
+            LabelObject labelUploadinfo = new LabelObject(labelUpload.Left + labelUpload.Width, labelUpload.Top, 20, 1, false, false,
+                ipstat.UnicastPacketsSent.ToString() + "/" + (ipstat.BytesSent / 1024 / 1024).ToString() +
+                " Мбайт");
+            labelUploadinfo.BackgroundColor = ConsoleColor.DarkRed;
+            labelUploadinfo.TextColor = ConsoleColor.White;
+
+            ProgressObject progressOutput = new ProgressObject(labelStatistics.Left, labelStatistics.Top + 5, 50, 3, false, false);
             progressOutput.TextColor = ConsoleColor.White;
             progressOutput.BackgroundTextColor = ConsoleColor.DarkRed;
-            
+            progressOutput.BackgroundColor = ConsoleColor.DarkCyan;
+            progressOutput.PercentColor = ConsoleColor.Yellow;
+            progressOutput.Max = (networkInterfaces[currentInterface].Speed/ 1000 / 1000).ToString();
+
             networkWindow.AddChildren(btnExitNetwork);
             networkWindow.AddChildren(labelName);
             networkWindow.AddChildren(listInterfaces);
             networkWindow.AddChildren(labelTitle);
             networkWindow.AddChildren(labelMAC);
             networkWindow.AddChildren(labelStatistics);
+            networkWindow.AddChildren(labelDownload);
+            networkWindow.AddChildren(labelUpload);
             networkWindow.AddChildren(labelDescription);
             networkWindow.AddChildren(labelTitleinfo);
             networkWindow.AddChildren(labelDescriptioninfo);
             networkWindow.AddChildren(labelMACinfo);
+            networkWindow.AddChildren(labelDownloadinfo);
+            networkWindow.AddChildren(labelUploadinfo);
             networkWindow.AddChildren(progressOutput);
         }
 
