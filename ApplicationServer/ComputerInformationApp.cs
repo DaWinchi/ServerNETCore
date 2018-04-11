@@ -338,9 +338,9 @@ namespace ApplicationServer
             labelMAC.BackgroundColor = ConsoleColor.DarkRed;
             labelMAC.TextColor = ConsoleColor.White;
 
-            LabelObject labelStatictic = new LabelObject(labelMAC.Left, labelMAC.Top + 2, 40, 1, false, false, "Статистика");
-            labelStatictic.BackgroundColor = ConsoleColor.Green;
-            labelStatictic.TextColor = ConsoleColor.Black;
+            LabelObject labelStatistics = new LabelObject(labelMAC.Left, labelMAC.Top + 2, 40, 1, false, false, "Статистика");
+            labelStatistics.BackgroundColor = ConsoleColor.Green;
+            labelStatistics.TextColor = ConsoleColor.Black;
 
 
             ///////////////////////////////////////////
@@ -360,16 +360,21 @@ namespace ApplicationServer
             labelMACinfo.TextColor = ConsoleColor.White;
 
 
+            ProgressObject progressOutput = new ProgressObject(labelStatistics.Left, labelStatistics.Top + 2, 50, 3, false, false);
+            progressOutput.TextColor = ConsoleColor.White;
+            progressOutput.BackgroundTextColor = ConsoleColor.DarkRed;
+            
             networkWindow.AddChildren(btnExitNetwork);
             networkWindow.AddChildren(labelName);
             networkWindow.AddChildren(listInterfaces);
             networkWindow.AddChildren(labelTitle);
             networkWindow.AddChildren(labelMAC);
-            networkWindow.AddChildren(labelStatictic);
+            networkWindow.AddChildren(labelStatistics);
             networkWindow.AddChildren(labelDescription);
             networkWindow.AddChildren(labelTitleinfo);
             networkWindow.AddChildren(labelDescriptioninfo);
             networkWindow.AddChildren(labelMACinfo);
+            networkWindow.AddChildren(progressOutput);
         }
 
         private void BtnExit_ButtonClicked1(object sender, EventArgs e)

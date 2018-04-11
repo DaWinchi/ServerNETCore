@@ -10,6 +10,7 @@ namespace WindowsLibrary
         /*Целочисленный процент*/
         public int Percent { get; set; }
 
+        public ConsoleColor BackgroundTextColor;
         public ConsoleColor PercentColor;
 
         public string Min { get; set; }
@@ -37,6 +38,7 @@ namespace WindowsLibrary
             BackgroundColor = ConsoleColor.Gray;
             TextColor = ConsoleColor.Black;
             PercentColor = ConsoleColor.DarkBlue;
+            BackgroundTextColor = ConsoleColor.White;
             Min = "1";
             Max = "100";
             Value = "50";
@@ -45,17 +47,16 @@ namespace WindowsLibrary
         /*Метод перерисовывает прогресс-бар и отображает процент*/
         internal override void ReDraw()
         {
-            if (IsParentActive)
 
-                for (int i = 0; i < Width; i++)
+            for (int i = 0; i < Width; i++)
+            {
+                for (int j = 0; j < Height-1; j++)
                 {
-                    for (int j = 0; j < Height; j++)
-                    {
-                        Console.SetCursorPosition(Left + i, Top + j);
-                        Console.BackgroundColor = BackgroundColor;
-                        Console.Write(" ");
-                    }
+                    Console.SetCursorPosition(Left + i, Top + j);
+                    Console.BackgroundColor = BackgroundColor;
+                    Console.Write(" ");
                 }
+            }
 
             float real_percent = (float)Width / 100 * Percent;
 
@@ -70,14 +71,14 @@ namespace WindowsLibrary
             }
 
             Console.ForegroundColor = TextColor;
-            Console.BackgroundColor = BackgroundColor;
-            Console.SetCursorPosition(Left + Width / 2 - Value.Length / 2, Top + Height);
+            Console.BackgroundColor = BackgroundTextColor;
+            Console.SetCursorPosition(Left + Width / 2 - Value.Length / 2, Top + Height-1);
             Console.WriteLine(Value);
 
-            Console.SetCursorPosition(Left, Top + Height);
+            Console.SetCursorPosition(Left, Top + Height-1);
             Console.WriteLine(Min);
 
-            Console.SetCursorPosition(Left+Width-Max.Length, Top + Height);
+            Console.SetCursorPosition(Left + Width - Max.Length, Top + Height-1);
             Console.WriteLine(Max);
 
             Console.ResetColor();
