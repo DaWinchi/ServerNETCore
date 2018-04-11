@@ -310,11 +310,12 @@ namespace ApplicationServer
 
 
             LabelObject labelName = new LabelObject(networkWindow.Left + 2, networkWindow.Top + 2, 40, 1, false, false, "Интерфейсы");
-            labelName.BackgroundColor = ConsoleColor.DarkRed;
-            labelName.TextColor = ConsoleColor.White;
+            labelName.BackgroundColor = ConsoleColor.Green;
+            labelName.TextColor = ConsoleColor.Black;
 
-            ListObject listInterfaces = new ListObject(networkWindow.Left + 2, networkWindow.Top + 4, 66, 3, false, false);
+            ListObject listInterfaces = new ListObject(networkWindow.Left + 2, networkWindow.Top + 3, 66, 3, false, false);
             listInterfaces.BackgroundColor = ConsoleColor.DarkRed;
+            listInterfaces.BackgroundActiveColor = ConsoleColor.White;
             listInterfaces.TextColor = ConsoleColor.White;
 
             listInterfaces.List = new List<string>();
@@ -323,10 +324,48 @@ namespace ApplicationServer
                 listInterfaces.List.Add(networkInterfaces[i].Name);
             }
 
-            
+            /////////////////////////////////////////
+            LabelObject labelTitle = new LabelObject(listInterfaces.Left, listInterfaces.Top + 4, 9, 1, false, false, "Название: ");
+            labelTitle.BackgroundColor = ConsoleColor.DarkRed;
+            labelTitle.TextColor = ConsoleColor.White;
+
+
+            LabelObject labelDescription = new LabelObject(listInterfaces.Left, labelTitle.Top + 1, 9, 1, false, false, "Описание: ");
+            labelDescription.BackgroundColor = ConsoleColor.DarkRed;
+            labelDescription.TextColor = ConsoleColor.White;
+
+            LabelObject labelMAC = new LabelObject(listInterfaces.Left, labelTitle.Top + 2, 10, 1, false, false, "MAC-адрес: ");
+            labelMAC.BackgroundColor = ConsoleColor.DarkRed;
+            labelMAC.TextColor = ConsoleColor.White;
+
+
+
+            ///////////////////////////////////////////
+            LabelObject labelTitleinfo = new LabelObject(labelTitle.Left+labelTitle.Width+1, labelTitle.Top, 40, 1, false, false, 
+                networkInterfaces[listInterfaces.ActiveLine].Name);
+            labelTitleinfo.BackgroundColor = ConsoleColor.DarkRed;
+            labelTitleinfo.TextColor = ConsoleColor.White;
+
+            LabelObject labelDescriptioninfo = new LabelObject(labelDescription.Left + labelTitle.Width + 1, labelTitle.Top+1, 55, 1, false, false,
+                networkInterfaces[listInterfaces.ActiveLine].Description);
+            labelDescriptioninfo.BackgroundColor = ConsoleColor.DarkRed;
+            labelDescriptioninfo.TextColor = ConsoleColor.White;
+
+            LabelObject labelMACinfo = new LabelObject(labelMAC.Left + labelTitle.Width + 2, labelMAC.Top, 55, 1, false, false,
+                networkInterfaces[listInterfaces.ActiveLine].GetPhysicalAddress().ToString());
+            labelMACinfo.BackgroundColor = ConsoleColor.DarkRed;
+            labelMACinfo.TextColor = ConsoleColor.White;
+
+
             networkWindow.AddChildren(btnExitNetwork);
             networkWindow.AddChildren(labelName);
             networkWindow.AddChildren(listInterfaces);
+            networkWindow.AddChildren(labelTitle);
+            networkWindow.AddChildren(labelMAC);
+            networkWindow.AddChildren(labelDescription);
+            networkWindow.AddChildren(labelTitleinfo);
+            networkWindow.AddChildren(labelDescriptioninfo);
+            networkWindow.AddChildren(labelMACinfo);
         }
 
         private void BtnExit_ButtonClicked1(object sender, EventArgs e)
