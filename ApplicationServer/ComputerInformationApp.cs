@@ -31,6 +31,8 @@ namespace ApplicationServer
 
         Window processWindow;
 
+        Window networkWindow;
+
         private void InitializeApplication()
         {
             app = new Application();
@@ -38,6 +40,7 @@ namespace ApplicationServer
             InitializeMainWindow();
             InitializeCharacterWindow();
             InitializeProcessWindow();
+            InitializeNetworkWindow();
 
             app.AddWindow(mainWindow);
 
@@ -52,13 +55,13 @@ namespace ApplicationServer
             mainWindow.TextColor = ConsoleColor.White;
 
             listWnd = new ListObject(mainWindow.Left + 2, mainWindow.Top + 1, 29, 3, true, true);
-            listWnd.BackgroundActiveColor= ConsoleColor.White;
+            listWnd.BackgroundActiveColor = ConsoleColor.White;
             listWnd.BackgroundColor = ConsoleColor.DarkRed;
 
             listWnd.List = new List<string>();
             listWnd.ButtonClicked += ListWnd_ButtonClicked;
             listWnd.List.Add("Информация о системе");
-            listWnd.List.Add("Список процессов");
+            listWnd.List.Add("Информация о процессах");
             listWnd.List.Add("Сетевая статистика");
 
             btnExit = new ButtonObject(mainWindow.Left + 31, mainWindow.Top + 3, 7, 1, false, true, "Выход");
@@ -90,10 +93,17 @@ namespace ApplicationServer
 
 
             }
+            if (((ListObject)sender).ActiveLine == 2)
+            {
+                networkWindow.Update();
+                app.AddWindow(networkWindow);
+
+
+            }
         }
         private void InitializeCharacterWindow()
         {
-            characterWindow = new Window(80, 1, 70, 16, "Информация о системе", false, 1, ref app);
+            characterWindow = new Window(70, 1, 70, 16, "Информация о системе", false, 1, ref app);
             characterWindow.BackgroundColor = ConsoleColor.DarkRed;
             characterWindow.TextColor = ConsoleColor.White;
             characterWindow.TimerTick += CharacterWindow_TimerTick;
@@ -165,9 +175,7 @@ namespace ApplicationServer
                                     40, 2, false, false, Environment.UserName);
             labelUserNameinfo.BackgroundColor = ConsoleColor.DarkRed;
             labelUserNameinfo.TextColor = ConsoleColor.White;
-            #endregion
-
-           
+            #endregion           
 
             #region Системное время
             LabelObject labelTime = new LabelObject(labelOS.Left, labelUserNameinfo.Top + 2,
@@ -232,24 +240,41 @@ namespace ApplicationServer
 
         private void InitializeProcessWindow()
         {
-            processWindow = new Window(10, 15, 60, 12, "Список процессов", false, 2, ref app);
+            processWindow = new Window(2, 15, 60, 18, "Информация о процессах", false, 2, ref app);
+            processWindow.BackgroundColor = ConsoleColor.DarkRed;
+            processWindow.TextColor = ConsoleColor.White;
 
             ButtonObject btnExitProcessWindow = new ButtonObject(processWindow.Left + processWindow.Width - 12,
                 processWindow.Top + processWindow.Height - 3, 9, 1, false, false, "Закрыть");
             btnExitProcessWindow.ButtonClicked += BtnExitProcessWindow_ButtonClicked;
+            btnExitProcessWindow.BackgroundColor = ConsoleColor.Red;
 
-            ListObject listProcess = new ListObject(processWindow.Left + 1, processWindow.Top + 1,
+            #region Заголовок "Процессы"
+            LabelObject labelProcess = new LabelObject(processWindow.Left + 4, processWindow.Top + 2,
+                                    10, 1, false, false, "Процессы");
+            labelProcess.BackgroundColor = ConsoleColor.DarkRed;
+            labelProcess.TextColor = ConsoleColor.White;
+            #endregion
+
+
+            #region Список процессов
+            ListObject listProcess = new ListObject(processWindow.Left + 2, processWindow.Top + 3,
                 20, 10, true, false);
+            listProcess.BackgroundColor = ConsoleColor.DarkRed;
+            listProcess.BackgroundActiveColor = ConsoleColor.White;
             listProcess.List = new List<string>();
 
             Process[] process = Process.GetProcesses();
             List<string> allprocess = new List<string>();
+
             for (int i = 0; i < process.Length; i++)
             {
                 allprocess.Add(process[i].ProcessName);
             }
             listProcess.List.AddRange(allprocess);
+            #endregion
 
+            processWindow.AddChildren(labelProcess);
             processWindow.AddChildren(listProcess);
             processWindow.AddChildren(btnExitProcessWindow);
         }
@@ -259,6 +284,25 @@ namespace ApplicationServer
             foreach (Window win in app.windows)
             {
                 if (win.IdentificationNumber == 2) win.CloseWindow();
+            }
+        }
+
+        private void InitializeNetworkWindow()
+        {
+            networkWindow = new Window(70, 18, 60, 18, "Сетевая статистика", false, 3, ref app);
+            networkWindow.BackgroundColor = ConsoleColor.DarkRed;
+            ButtonObject btnExitNetwork = new ButtonObject(networkWindow.Left + networkWindow.Width - 12
+                                , networkWindow.Top + networkWindow.Height - 2, 9, 1, true, false, "Закрыть");
+            btnExitNetwork.BackgroundColor = ConsoleColor.Red;
+            btnExitNetwork.ButtonClicked += BtnExit_ButtonClicked1;
+            networkWindow.AddChildren(btnExitNetwork);
+        }
+
+        private void BtnExit_ButtonClicked1(object sender, EventArgs e)
+        {
+            foreach (Window win in app.windows)
+            {
+                if (win.IdentificationNumber == 3) win.CloseWindow();
             }
         }
     }
