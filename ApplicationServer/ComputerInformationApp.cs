@@ -338,6 +338,9 @@ namespace ApplicationServer
             labelMAC.BackgroundColor = ConsoleColor.DarkRed;
             labelMAC.TextColor = ConsoleColor.White;
 
+            LabelObject labelStatictic = new LabelObject(labelMAC.Left, labelMAC.Top + 2, 40, 1, false, false, "Статистика");
+            labelStatictic.BackgroundColor = ConsoleColor.Green;
+            labelStatictic.TextColor = ConsoleColor.Black;
 
 
             ///////////////////////////////////////////
@@ -362,6 +365,7 @@ namespace ApplicationServer
             networkWindow.AddChildren(listInterfaces);
             networkWindow.AddChildren(labelTitle);
             networkWindow.AddChildren(labelMAC);
+            networkWindow.AddChildren(labelStatictic);
             networkWindow.AddChildren(labelDescription);
             networkWindow.AddChildren(labelTitleinfo);
             networkWindow.AddChildren(labelDescriptioninfo);

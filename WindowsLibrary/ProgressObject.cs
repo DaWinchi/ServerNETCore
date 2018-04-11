@@ -4,13 +4,17 @@ using System.Text;
 
 namespace WindowsLibrary
 {
-   public  class ProgressObject:Element
+    public class ProgressObject : Element
     {
 
         /*Целочисленный процент*/
         public int Percent { get; set; }
 
         public ConsoleColor PercentColor;
+
+        public string Min { get; set; }
+        public string Max { get; set; }
+        public string Value { get; set; }
 
         /*Конструктор прогресс-бара
       @ p_Left - координата левой верхней границы  по горизонтали
@@ -20,7 +24,7 @@ namespace WindowsLibrary
       @ p_active - флаг активности кнопки при инициализации(при большом количестве элементов в окне в положении true может быть только у одного элемента)
       @ p_parentActive - флаг активности родителя(устанавливается согласно родителю)       
       */
-        public ProgressObject(int p_Left, int p_Top, int p_Width, int p_Height, bool p_active, bool p_parentActive )
+        public ProgressObject(int p_Left, int p_Top, int p_Width, int p_Height, bool p_active, bool p_parentActive)
         {
             Left = p_Left;
             Top = p_Top;
@@ -33,13 +37,16 @@ namespace WindowsLibrary
             BackgroundColor = ConsoleColor.Gray;
             TextColor = ConsoleColor.Black;
             PercentColor = ConsoleColor.DarkBlue;
+            Min = "1";
+            Max = "100";
+            Value = "50";
         }
 
         /*Метод перерисовывает прогресс-бар и отображает процент*/
         internal override void ReDraw()
         {
             if (IsParentActive)
-            
+
                 for (int i = 0; i < Width; i++)
                 {
                     for (int j = 0; j < Height; j++)
@@ -50,24 +57,31 @@ namespace WindowsLibrary
                     }
                 }
 
-                float real_percent = (float)Width / 100 * Percent;
+            float real_percent = (float)Width / 100 * Percent;
 
-                for (int i = 0; i < (int)real_percent; i++)
+            for (int i = 0; i < (int)real_percent; i++)
+            {
+                for (int j = 0; j < Height - 1; j++)
                 {
-                    for (int j = 0; j < Height; j++)
-                    {
-                        Console.SetCursorPosition(Left + i, Top + j);
-                        Console.BackgroundColor = PercentColor;
-                        Console.Write(" ");
-                    }
+                    Console.SetCursorPosition(Left + i, Top + j);
+                    Console.BackgroundColor = PercentColor;
+                    Console.Write(" ");
                 }
+            }
 
-                string bufstring = Title + Percent.ToString() + "%";
-                Console.ForegroundColor = TextColor;
-                Console.SetCursorPosition(Left + Width / 2 - bufstring.Length / 2, Top + Height / 2);
-                Console.WriteLine(bufstring);
-                Console.ResetColor();
-            
+            Console.ForegroundColor = TextColor;
+            Console.BackgroundColor = BackgroundColor;
+            Console.SetCursorPosition(Left + Width / 2 - Value.Length / 2, Top + Height);
+            Console.WriteLine(Value);
+
+            Console.SetCursorPosition(Left, Top + Height);
+            Console.WriteLine(Min);
+
+            Console.SetCursorPosition(Left+Width-Max.Length, Top + Height);
+            Console.WriteLine(Max);
+
+            Console.ResetColor();
+
             Console.SetCursorPosition(Console.WindowWidth - 2, Console.WindowHeight - 2);
         }
 
@@ -79,7 +93,7 @@ namespace WindowsLibrary
             {
                 switch (key)
                 {
-                    case ConsoleKey.Tab: IsActive = false; break;                    
+                    case ConsoleKey.Tab: IsActive = false; break;
                     default: break;
                 }
             }
