@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.NetworkInformation;
 using System.Text;
 using WindowsLibrary;
 
@@ -32,6 +33,7 @@ namespace ApplicationServer
         Window processWindow;
 
         Window networkWindow;
+        List<NetworkInterface> networkInterfaces;
 
         private void InitializeApplication()
         {
@@ -289,6 +291,16 @@ namespace ApplicationServer
 
         private void InitializeNetworkWindow()
         {
+            /*Нахожу поднятые интерфейсы*/
+            networkInterfaces = new List<NetworkInterface>();
+            NetworkInterface[] allInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+            for (int i = 0; i < allInterfaces.Length; ++i)
+            {
+                if (allInterfaces[i].OperationalStatus == OperationalStatus.Up)
+                    networkInterfaces.Add(allInterfaces[i]);
+            }
+
+
             networkWindow = new Window(70, 18, 70, 22, "Сетевая статистика", false, 3, ref app);
             networkWindow.BackgroundColor = ConsoleColor.DarkRed;
             ButtonObject btnExitNetwork = new ButtonObject(networkWindow.Left + networkWindow.Width - 12
@@ -297,13 +309,20 @@ namespace ApplicationServer
             btnExitNetwork.ButtonClicked += BtnExit_ButtonClicked1;
 
 
-            LabelObject labelName = new LabelObject(networkWindow.Left + 2, networkWindow.Top + 2, 40, 3, false, false, "Интерфейсы");
+            LabelObject labelName = new LabelObject(networkWindow.Left + 2, networkWindow.Top + 2, 40, 1, false, false, "Интерфейсы");
             labelName.BackgroundColor = ConsoleColor.DarkRed;
             labelName.TextColor = ConsoleColor.White;
 
-            ListObject listInterfaces = new ListObject(networkWindow.Left + 2, networkWindow.Top + 3, 66, 3, false, false);
+            ListObject listInterfaces = new ListObject(networkWindow.Left + 2, networkWindow.Top + 4, 66, 3, false, false);
             listInterfaces.BackgroundColor = ConsoleColor.DarkRed;
             listInterfaces.TextColor = ConsoleColor.White;
+
+            listInterfaces.List = new List<string>();
+            for (int i=0; i<networkInterfaces.Count;++i)
+            {
+                listInterfaces.List.Add(networkInterfaces[i].Name);
+            }
+
             
             networkWindow.AddChildren(btnExitNetwork);
             networkWindow.AddChildren(labelName);
