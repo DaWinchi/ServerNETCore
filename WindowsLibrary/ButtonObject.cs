@@ -33,7 +33,7 @@ namespace WindowsLibrary
             IsClicked = false;
             BackgroundColor = ConsoleColor.White;
             TextColor = ConsoleColor.Black;
-            BackgroundActiveColor = ConsoleColor.DarkGray;
+            BackgroundActiveColor = ConsoleColor.White;
             TextActiveColor = ConsoleColor.Black;
         }
 
@@ -55,7 +55,6 @@ namespace WindowsLibrary
                     for (int j = 0; j < Height; j++)
                     {
                         Console.SetCursorPosition(Left + i, Top + j);
-                        Console.BackgroundColor = ConsoleColor.Gray;
                         Console.Write(" ");
                     }
                 }
@@ -63,7 +62,6 @@ namespace WindowsLibrary
                 string bufstring;
                 if (Title.Length >= Width) bufstring = Title.Substring(0, Width);
                 else bufstring = Title;
-                Console.ForegroundColor = ConsoleColor.Black;
                 Console.SetCursorPosition(Left + Width / 2 - bufstring.Length / 2, Top + Height / 2);
                 Console.WriteLine(bufstring);
                 Console.ResetColor();
@@ -77,7 +75,6 @@ namespace WindowsLibrary
                     for (int j = 0; j < Height; j++)
                     {
                         Console.SetCursorPosition(Left + i, Top + j);
-                        Console.BackgroundColor = ConsoleColor.White;
                         Console.Write(" ");
                     }
                 }
@@ -85,7 +82,7 @@ namespace WindowsLibrary
                 string bufstring;
                 if (Title.Length >= Width) bufstring = Title.Substring(0, Width);
                 else bufstring = Title;
-                Console.ForegroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = TextColor;
                 Console.SetCursorPosition(Left + Width / 2 - bufstring.Length / 2, Top + Height / 2);
                 Console.WriteLine(bufstring);
                 Console.ResetColor();

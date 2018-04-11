@@ -54,6 +54,7 @@ namespace ApplicationServer
             listWnd = new ListObject(mainWindow.Left + 2, mainWindow.Top + 1, 29, 3, true, true);
             listWnd.BackgroundActiveColor= ConsoleColor.White;
             listWnd.BackgroundColor = ConsoleColor.DarkRed;
+
             listWnd.List = new List<string>();
             listWnd.ButtonClicked += ListWnd_ButtonClicked;
             listWnd.List.Add("Информация о системе");
@@ -61,6 +62,9 @@ namespace ApplicationServer
             listWnd.List.Add("Сетевая статистика");
 
             btnExit = new ButtonObject(mainWindow.Left + 31, mainWindow.Top + 3, 7, 1, false, true, "Выход");
+            btnExit.BackgroundColor = ConsoleColor.Green;
+            btnExit.TextColor = ConsoleColor.DarkRed;
+            btnExit.BackgroundActiveColor = ConsoleColor.White;
             btnExit.ButtonClicked += BtnExit_ButtonClicked;
 
             mainWindow.AddChildren(btnExit);
