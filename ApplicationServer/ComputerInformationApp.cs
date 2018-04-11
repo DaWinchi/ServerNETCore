@@ -62,7 +62,7 @@ namespace ApplicationServer
             listWnd.List.Add("Сетевая статистика");
 
             btnExit = new ButtonObject(mainWindow.Left + 31, mainWindow.Top + 3, 7, 1, false, true, "Выход");
-            btnExit.BackgroundColor = ConsoleColor.Green;
+            btnExit.BackgroundColor = ConsoleColor.Red;
             btnExit.TextColor = ConsoleColor.DarkRed;
             btnExit.BackgroundActiveColor = ConsoleColor.White;
             btnExit.ButtonClicked += BtnExit_ButtonClicked;
@@ -94,25 +94,27 @@ namespace ApplicationServer
         private void InitializeCharacterWindow()
         {
             characterWindow = new Window(80, 1, 70, 16, "Информация о системе", false, 1, ref app);
+            characterWindow.BackgroundColor = ConsoleColor.DarkRed;
+            characterWindow.TextColor = ConsoleColor.White;
             characterWindow.TimerTick += CharacterWindow_TimerTick;
             #region Операционная система
             LabelObject labelOS = new LabelObject(characterWindow.Left + 2, characterWindow.Top + 2,
                                     21, 1, false, false, "Операционная система:");
-            labelOS.BackgroundColor = ConsoleColor.Black;
+            labelOS.BackgroundColor = ConsoleColor.DarkRed;
             labelOS.TextColor = ConsoleColor.White;
 
 
             LabelObject labelOSinfo = new LabelObject(characterWindow.Left + 2 + 24, characterWindow.Top + 2,
                                     40, 2, false, false, Environment.OSVersion.VersionString +
                                     " " + Environment.OSVersion.Platform.ToString());
-            labelOSinfo.BackgroundColor = ConsoleColor.Black;
+            labelOSinfo.BackgroundColor = ConsoleColor.DarkRed;
             labelOSinfo.TextColor = ConsoleColor.White;
             #endregion
 
             #region Разрядность
             LabelObject labelBit = new LabelObject(labelOS.Left, labelOSinfo.Top + 2,
                                    21, 1, false, false, "Разрядность:");
-            labelBit.BackgroundColor = ConsoleColor.Black;
+            labelBit.BackgroundColor = ConsoleColor.DarkRed;
             labelBit.TextColor = ConsoleColor.White;
 
             bool Is64 = Environment.Is64BitOperatingSystem;
@@ -123,45 +125,45 @@ namespace ApplicationServer
 
             LabelObject labelBitinfo = new LabelObject(labelOSinfo.Left, labelOSinfo.Top + 2,
                                     40, 2, false, false, bit);
-            labelBitinfo.BackgroundColor = ConsoleColor.Black;
+            labelBitinfo.BackgroundColor = ConsoleColor.DarkRed;
             labelBitinfo.TextColor = ConsoleColor.White;
             #endregion
 
             #region Число ядер процессора
             LabelObject labelCore = new LabelObject(labelOS.Left, labelBitinfo.Top + 2,
                                    21, 1, false, false, "Число ядер:");
-            labelCore.BackgroundColor = ConsoleColor.Black;
+            labelCore.BackgroundColor = ConsoleColor.DarkRed;
             labelCore.TextColor = ConsoleColor.White;
 
             LabelObject labelCoreinfo = new LabelObject(labelOSinfo.Left, labelBitinfo.Top + 2,
                         40, 2, false, false, Environment.ProcessorCount.ToString());
-            labelCoreinfo.BackgroundColor = ConsoleColor.Black;
+            labelCoreinfo.BackgroundColor = ConsoleColor.DarkRed;
             labelCoreinfo.TextColor = ConsoleColor.White;
             #endregion
 
             #region Имя компьютера
             LabelObject labelMachineName = new LabelObject(labelOS.Left, labelCoreinfo.Top + 2,
                                     21, 1, false, false, "Имя компьютера:");
-            labelMachineName.BackgroundColor = ConsoleColor.Black;
+            labelMachineName.BackgroundColor = ConsoleColor.DarkRed;
             labelMachineName.TextColor = ConsoleColor.White;
 
 
             LabelObject labelMachineNameinfo = new LabelObject(labelOSinfo.Left, labelCoreinfo.Top + 2,
                                     40, 2, false, false, Environment.MachineName);
-            labelMachineNameinfo.BackgroundColor = ConsoleColor.Black;
+            labelMachineNameinfo.BackgroundColor = ConsoleColor.DarkRed;
             labelMachineNameinfo.TextColor = ConsoleColor.White;
             #endregion
 
             #region Имя пользователя
             LabelObject labelUserName = new LabelObject(labelOS.Left, labelMachineName.Top + 2,
                                    21, 1, false, false, "Имя пользователя:");
-            labelUserName.BackgroundColor = ConsoleColor.Black;
+            labelUserName.BackgroundColor = ConsoleColor.DarkRed;
             labelUserName.TextColor = ConsoleColor.White;
 
 
             LabelObject labelUserNameinfo = new LabelObject(labelOSinfo.Left, labelMachineName.Top + 2,
                                     40, 2, false, false, Environment.UserName);
-            labelUserNameinfo.BackgroundColor = ConsoleColor.Black;
+            labelUserNameinfo.BackgroundColor = ConsoleColor.DarkRed;
             labelUserNameinfo.TextColor = ConsoleColor.White;
             #endregion
 
@@ -170,18 +172,20 @@ namespace ApplicationServer
             #region Системное время
             LabelObject labelTime = new LabelObject(labelOS.Left, labelUserNameinfo.Top + 2,
                                    21, 1, false, false, "Системное время:");
-            labelTime.BackgroundColor = ConsoleColor.Black;
+            labelTime.BackgroundColor = ConsoleColor.DarkRed;
             labelTime.TextColor = ConsoleColor.White;
 
 
             LabelObject labelTimeinfo = new LabelObject(labelOSinfo.Left, labelUserNameinfo.Top + 2,
                                     40, 2, false, false, DateTime.Now.ToLongTimeString());
-            labelTimeinfo.BackgroundColor = ConsoleColor.Black;
+            labelTimeinfo.BackgroundColor = ConsoleColor.DarkRed;
             labelTimeinfo.TextColor = ConsoleColor.White;
             #endregion
 
             ButtonObject btnExitCharacterWindow = new ButtonObject(characterWindow.Left + characterWindow.Width - 11,
                                             characterWindow.Top + characterWindow.Height - 2, 9, 1, true, false, "Закрыть");
+            btnExitCharacterWindow.TextColor = ConsoleColor.Black;
+            btnExitCharacterWindow.BackgroundColor = ConsoleColor.Red;
             btnExitCharacterWindow.ButtonClicked += BtnExitCharacterWindow_ButtonClicked;
 
             characterWindow.AddChildren(labelOS);

@@ -46,7 +46,7 @@ namespace WindowsLibrary
         /*Метод перерисовывает кнопку и отображает на ней текст*/
         internal override void ReDraw()
         {
-            if (IsActive)
+            if (IsActive&&IsActive&&IsParentActive)
             {
                 Console.BackgroundColor = BackgroundActiveColor;
                 Console.ForegroundColor = TextActiveColor;
