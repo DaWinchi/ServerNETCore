@@ -85,7 +85,13 @@ namespace WindowsLibrary
                         Console.WriteLine(bufstring);
                         Console.ResetColor();
                     }
-                    else Console.WriteLine(bufstring);
+                    else
+                    {
+                        Console.BackgroundColor = BackgroundColor;
+                        Console.ForegroundColor = TextColor;
+                        Console.WriteLine(bufstring);
+                        Console.ResetColor();
+                    }
                 }           
                 
             }
@@ -109,7 +115,13 @@ namespace WindowsLibrary
                             Console.WriteLine(bufstring);
                             Console.ResetColor();
                         }
-                        else Console.WriteLine(bufstring);
+                        else
+                        {
+                            Console.BackgroundColor = BackgroundColor;
+                            Console.ForegroundColor = TextColor;
+                            Console.WriteLine(bufstring);
+                            Console.ResetColor();
+                        }
                     }
                 }
                 else
@@ -129,7 +141,13 @@ namespace WindowsLibrary
                             Console.WriteLine(bufstring);
                             Console.ResetColor();
                         }
-                        else Console.WriteLine(bufstring);
+                        else
+                        {
+                            Console.BackgroundColor = BackgroundColor;
+                            Console.ForegroundColor = TextColor;
+                            Console.WriteLine(bufstring);
+                            Console.ResetColor();
+                        }
                     }
                 }
             }

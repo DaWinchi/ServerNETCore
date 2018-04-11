@@ -34,7 +34,7 @@ namespace ApplicationServer
         private void InitializeApplication()
         {
             app = new Application();
-            app.GlobalBackgroundColor = ConsoleColor.Gray;
+            app.GlobalBackgroundColor = ConsoleColor.DarkCyan;
             InitializeMainWindow();
             InitializeCharacterWindow();
             InitializeProcessWindow();
@@ -48,12 +48,15 @@ namespace ApplicationServer
         {
             //Создал окно
             mainWindow = new Window(2, 2, 40, 5, "Информация о компьютере", true, 0, ref app);
-
+            mainWindow.BackgroundColor = ConsoleColor.DarkRed;
+            mainWindow.TextColor = ConsoleColor.White;
 
             listWnd = new ListObject(mainWindow.Left + 2, mainWindow.Top + 1, 29, 3, true, true);
+            listWnd.BackgroundActiveColor= ConsoleColor.White;
+            listWnd.BackgroundColor = ConsoleColor.DarkRed;
             listWnd.List = new List<string>();
             listWnd.ButtonClicked += ListWnd_ButtonClicked;
-            listWnd.List.Add("Характеристики системы");
+            listWnd.List.Add("Информация о системе");
             listWnd.List.Add("Список процессов");
             listWnd.List.Add("Сетевая статистика");
 
@@ -86,7 +89,7 @@ namespace ApplicationServer
         }
         private void InitializeCharacterWindow()
         {
-            characterWindow = new Window(40, 10, 70, 20, "Характеристики системы", false, 1, ref app);
+            characterWindow = new Window(80, 1, 70, 16, "Информация о системе", false, 1, ref app);
             characterWindow.TimerTick += CharacterWindow_TimerTick;
             #region Операционная система
             LabelObject labelOS = new LabelObject(characterWindow.Left + 2, characterWindow.Top + 2,
@@ -158,27 +161,16 @@ namespace ApplicationServer
             labelUserNameinfo.TextColor = ConsoleColor.White;
             #endregion
 
-            #region Системный каталог
-            LabelObject labelCatalog = new LabelObject(labelOS.Left, labelUserNameinfo.Top + 2,
-                                   21, 1, false, false, "Системный каталог:");
-            labelCatalog.BackgroundColor = ConsoleColor.Black;
-            labelCatalog.TextColor = ConsoleColor.White;
-
-
-            LabelObject labelCataloginfo = new LabelObject(labelOSinfo.Left, labelUserNameinfo.Top + 2,
-                                    40, 2, false, false, Environment.SystemDirectory);
-            labelCataloginfo.BackgroundColor = ConsoleColor.Black;
-            labelCataloginfo.TextColor = ConsoleColor.White;
-            #endregion
+           
 
             #region Системное время
-            LabelObject labelTime = new LabelObject(labelOS.Left, labelCataloginfo.Top + 2,
+            LabelObject labelTime = new LabelObject(labelOS.Left, labelUserNameinfo.Top + 2,
                                    21, 1, false, false, "Системное время:");
             labelTime.BackgroundColor = ConsoleColor.Black;
             labelTime.TextColor = ConsoleColor.White;
 
 
-            LabelObject labelTimeinfo = new LabelObject(labelOSinfo.Left, labelCataloginfo.Top + 2,
+            LabelObject labelTimeinfo = new LabelObject(labelOSinfo.Left, labelUserNameinfo.Top + 2,
                                     40, 2, false, false, DateTime.Now.ToLongTimeString());
             labelTimeinfo.BackgroundColor = ConsoleColor.Black;
             labelTimeinfo.TextColor = ConsoleColor.White;
@@ -198,8 +190,6 @@ namespace ApplicationServer
             characterWindow.AddChildren(labelMachineNameinfo);
             characterWindow.AddChildren(labelUserName);
             characterWindow.AddChildren(labelUserNameinfo);
-            characterWindow.AddChildren(labelCatalog);
-            characterWindow.AddChildren(labelCataloginfo);
             characterWindow.AddChildren(labelTime);
             characterWindow.AddChildren(labelTimeinfo);
             characterWindow.AddChildren(btnExitCharacterWindow);
@@ -220,8 +210,8 @@ namespace ApplicationServer
             {
                 if (win.IdentificationNumber == 1)
                 {
-                    ((LabelObject)win.Children[13]).Text = DateTime.Now.ToLongTimeString();
-                    win.UpdateChildren(13);
+                    ((LabelObject)win.Children[11]).Text = DateTime.Now.ToLongTimeString();
+                    win.UpdateChildren(11);
                 }
             }
         }

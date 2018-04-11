@@ -26,7 +26,7 @@ namespace WindowsLibrary
         public Application()
         {
             windows = new List<Window>();
-            GlobalBackgroundColor = ConsoleColor.Gray;
+            GlobalBackgroundColor = ConsoleColor.DarkCyan;
             Console.BackgroundColor = GlobalBackgroundColor;
             Console.Clear();
         }
@@ -335,7 +335,7 @@ namespace WindowsLibrary
                             {
                                 foreach (Window win in windows)
                                 {
-                                    if (win.IdentificationNumber == msg.update.identificatorWindow&&win.IsActive)
+                                    if (win.IdentificationNumber == msg.update.identificatorWindow)
                                     {
                                         win.Children[msg.update.identificatorChild].ReDraw();
                                     }
