@@ -289,13 +289,25 @@ namespace ApplicationServer
 
         private void InitializeNetworkWindow()
         {
-            networkWindow = new Window(70, 18, 60, 18, "Сетевая статистика", false, 3, ref app);
+            networkWindow = new Window(70, 18, 70, 22, "Сетевая статистика", false, 3, ref app);
             networkWindow.BackgroundColor = ConsoleColor.DarkRed;
             ButtonObject btnExitNetwork = new ButtonObject(networkWindow.Left + networkWindow.Width - 12
                                 , networkWindow.Top + networkWindow.Height - 2, 9, 1, true, false, "Закрыть");
             btnExitNetwork.BackgroundColor = ConsoleColor.Red;
             btnExitNetwork.ButtonClicked += BtnExit_ButtonClicked1;
+
+
+            LabelObject labelName = new LabelObject(networkWindow.Left + 2, networkWindow.Top + 2, 40, 3, false, false, "Интерфейсы");
+            labelName.BackgroundColor = ConsoleColor.DarkRed;
+            labelName.TextColor = ConsoleColor.White;
+
+            ListObject listInterfaces = new ListObject(networkWindow.Left + 2, networkWindow.Top + 3, 66, 3, false, false);
+            listInterfaces.BackgroundColor = ConsoleColor.DarkRed;
+            listInterfaces.TextColor = ConsoleColor.White;
+            
             networkWindow.AddChildren(btnExitNetwork);
+            networkWindow.AddChildren(labelName);
+            networkWindow.AddChildren(listInterfaces);
         }
 
         private void BtnExit_ButtonClicked1(object sender, EventArgs e)
