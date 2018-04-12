@@ -10,7 +10,7 @@ namespace ApplicationServer
       
         static void Main(string[] args)
         {
-            Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+           Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
             ComputerInformationApp compInfo = new ComputerInformationApp();
             compInfo.app.Run();            
 
