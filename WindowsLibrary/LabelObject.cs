@@ -40,6 +40,7 @@ namespace WindowsLibrary
             Console.ForegroundColor = TextColor;
             bool endOftext = false;
             char[] text = Text.ToCharArray();
+            if (text.Length < 1) { text = new char[1]; text[0] = '-'; }
             int size = text.Length;
             int counterSymbol = 0;
 

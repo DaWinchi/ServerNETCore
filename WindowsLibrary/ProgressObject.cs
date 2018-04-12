@@ -57,6 +57,12 @@ namespace WindowsLibrary
                     Console.Write(" ");
                 }
             }
+            for (int i=0; i<Width; ++i)
+            {
+                Console.SetCursorPosition(Left + i, Top + Height - 1);
+                Console.BackgroundColor = BackgroundTextColor;
+                Console.Write(" ");
+            }
 
             float real_percent = (float)Width / 100 * Percent;
 

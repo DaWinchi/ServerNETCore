@@ -322,6 +322,7 @@ namespace ApplicationServer
             labelName.TextColor = ConsoleColor.Black;
 
             ListObject listInterfaces = new ListObject(networkWindow.Left + 2, networkWindow.Top + 3, 66, 3, false, false);
+            listInterfaces.ButtonClicked += ListInterfaces_ButtonClicked;
             listInterfaces.BackgroundColor = ConsoleColor.DarkRed;
             listInterfaces.BackgroundActiveColor = ConsoleColor.White;
             listInterfaces.TextColor = ConsoleColor.White;
@@ -414,7 +415,7 @@ namespace ApplicationServer
             progressOutput.Min = "0";
             progressOutput.Max = (networkInterfaces[currentInterface].Speed / 1000 / 1000).ToString() + " Мбит/c";
 
-            MaxSpeed = networkInterfaces[currentInterface].Speed/1000/1000;
+            MaxSpeed = networkInterfaces[currentInterface].Speed / 1000 / 1000;
 
             networkWindow.AddChildren(btnExitNetwork);
             networkWindow.AddChildren(labelName);
@@ -436,6 +437,37 @@ namespace ApplicationServer
             networkWindow.AddChildren(progressInput);
         }
 
+        private void ListInterfaces_ButtonClicked(object sender, EventArgs e)
+        {
+            currentInterface = ((ListObject)sender).ActiveLine;
+            var ipstat = networkInterfaces[currentInterface].GetIPv4Statistics();
+            oldBytesRecived = ipstat.BytesReceived;
+            oldBytesSent = ipstat.BytesSent;
+            foreach (Window win in app.windows)
+            {
+                if (win.IdentificationNumber == 3)
+                {
+                    ((LabelObject)win.Children[11]).Text = networkInterfaces[currentInterface].Name;
+                    ((LabelObject)win.Children[12]).Text = networkInterfaces[currentInterface].Description;
+                    ((LabelObject)win.Children[13]).Text = networkInterfaces[currentInterface].GetPhysicalAddress().ToString();
+                    ((LabelObject)win.Children[14]).Text = ipstat.UnicastPacketsReceived.ToString() + "/"
+                        + (ipstat.BytesReceived / 1024 / 1024).ToString() + " Мбайт";
+                    ((LabelObject)win.Children[15]).Text = ipstat.UnicastPacketsSent.ToString() + "/" +
+                        (ipstat.BytesSent / 1024 / 1024).ToString() + " Мбайт";
+                    ((ProgressObject)win.Children[16]).Max=(networkInterfaces[currentInterface].Speed / 1000 / 1000).ToString() + " Мбит/c";
+                    ((ProgressObject)win.Children[17]).Max = (networkInterfaces[currentInterface].Speed / 1000 / 1000).ToString() + " Мбит/c";
+
+                    win.UpdateChildren(11);
+                    win.UpdateChildren(12);
+                    win.UpdateChildren(13);
+                    win.UpdateChildren(14);
+                    win.UpdateChildren(15);
+                    win.UpdateChildren(16);
+                    win.UpdateChildren(17);
+                }
+            }
+        }
+
         private void NetworkWindow_TimerTick(object sender, EventArgs e)
         {
             foreach (Window win in app.windows)
@@ -448,26 +480,26 @@ namespace ApplicationServer
                     long packsrecived = ipstat.UnicastPacketsReceived;
                     long packssent = ipstat.UnicastPacketsSent;
 
-                    double speedIn = (((double)bytesrecived - (double)oldBytesRecived) * 8 / 1000/1000);
-                    double speedOut = (double)((bytessent - oldBytesSent) * 8f / 1000f/1000f);
+                    double speedIn = (((double)bytesrecived - (double)oldBytesRecived) * 8 / 1000 / 1000);
+                    double speedOut = (double)((bytessent - oldBytesSent) * 8f / 1000f / 1000f);
 
-                    int percentIn = (int)(speedIn / MaxSpeed*100);
+                    int percentIn = (int)(speedIn / MaxSpeed * 100);
                     int percentOut = (int)(speedOut / MaxSpeed * 100);
 
                     string speedI, speedO;
-                    if (speedIn < 1) { speedI = (speedIn*1000).ToString("F1") + " Кбит/с "; }
-                    else { speedI = (speedIn).ToString("F1") + " Mбит/c ";  }
+                    if (speedIn < 1) { speedI = (speedIn * 1000).ToString("F1") + " Кбит/с "; }
+                    else { speedI = (speedIn).ToString("F1") + " Mбит/c "; }
 
-                    if (speedOut < 1) { speedO = (speedOut*1000).ToString("F1") + " Кбит/c "; }
+                    if (speedOut < 1) { speedO = (speedOut * 1000).ToString("F1") + " Кбит/c "; }
                     else { speedO = (speedOut).ToString("F1") + " Mбит/c "; }
 
                     oldBytesRecived = bytesrecived;
                     oldBytesSent = bytessent;
 
                     ((LabelObject)win.Children[14]).Text = packsrecived + "/" +
-                        (bytesrecived/1024/1024).ToString() + " Мбайт";
+                        (bytesrecived / 1024 / 1024).ToString() + " Мбайт";
                     ((LabelObject)win.Children[15]).Text = packssent + "/" +
-                        (bytessent/1024/1024).ToString() + " Мбайт";
+                        (bytessent / 1024 / 1024).ToString() + " Мбайт";
                     ((ProgressObject)win.Children[16]).Value = speedO;
                     ((ProgressObject)win.Children[16]).Percent = percentOut;
                     ((ProgressObject)win.Children[17]).Value = speedI;
