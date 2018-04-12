@@ -6,9 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="WindowsLibrary">
-      <HintPath>..\WindowsLibrary\bin\Debug\netcoreapp2.0\WindowsLibrary.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\WindowsLibrary\WindowsLibrary.csproj" />
   </ItemGroup>
 
 </Project>

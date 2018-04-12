@@ -260,6 +260,12 @@ namespace ApplicationServer
             btnExitProcessWindow.ButtonClicked += BtnExitProcessWindow_ButtonClicked;
             btnExitProcessWindow.BackgroundColor = ConsoleColor.Red;
 
+            ButtonObject btnUpdateProcess = new ButtonObject(processWindow.Left + processWindow.Width - 31,
+                processWindow.Top + processWindow.Height - 2, 19, 1, false, false, "Обновить процессы");
+            btnUpdateProcess.ButtonClicked += BtnUpdateProcess_ButtonClicked;
+            
+            btnUpdateProcess.BackgroundColor = ConsoleColor.Red;
+
             #region Заголовок "Процессы"
             LabelObject labelProcess = new LabelObject(processWindow.Left + 2, processWindow.Top + 2,
                                     20, 1, false, false, "Процессы");
@@ -296,7 +302,7 @@ namespace ApplicationServer
 
             #region Список модулей для выбранного процесса
             LabelObject labelModule = new LabelObject(labelProcess.Left + labelProcess.Width + 1, labelProcess.Top,
-                45, 1, true, false, "Список модулей для " + process[listProcess.ActiveLine].ProcessName);
+                45, 1, false, false, "Список модулей для " + process[listProcess.ActiveLine].ProcessName);
             labelModule.BackgroundColor = ConsoleColor.Green;
             labelModule.TextColor = ConsoleColor.Black;
 
@@ -321,6 +327,37 @@ namespace ApplicationServer
             processWindow.AddChildren(listProcess);
             processWindow.AddChildren(listModule);
             processWindow.AddChildren(btnExitProcessWindow);
+            processWindow.AddChildren(btnUpdateProcess);
+        }
+
+        private void BtnUpdateProcess_ButtonClicked(object sender, EventArgs e)
+        {
+            Process[] allprocess = Process.GetProcesses();
+            processModule = new List<ProcessModuleCollection>();
+            process = new List<Process>();
+            for (int i = 0; i < allprocess.Length; i++)
+            {
+                try
+                {
+                    processModule.Add(allprocess[i].Modules);
+                    process.Add(allprocess[i]);
+                }
+                catch { continue; }
+            }
+
+            foreach(Window win in app.windows)
+            {
+                if (win.IdentificationNumber == 2)
+                {
+                    ((ListObject)win.Children[2]).List.Clear();
+                    for (int i = 0; i < process.Count; ++i)
+                    {
+                        ((ListObject)win.Children[2]).List.Add(process[i].ProcessName);
+                    }
+                    win.UpdateChildren(2);
+                }
+                     
+            }
         }
 
         private void ListProcess_ButtonClicked(object sender, EventArgs e)
