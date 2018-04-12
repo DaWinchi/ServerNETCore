@@ -37,6 +37,7 @@ namespace ApplicationServer
         int currentInterface;
         long oldBytesRecived;
         long oldBytesSent;
+        long MaxSpeed;
 
         private void InitializeApplication()
         {
@@ -413,6 +414,8 @@ namespace ApplicationServer
             progressOutput.Min = "0";
             progressOutput.Max = (networkInterfaces[currentInterface].Speed / 1000 / 1000).ToString() + " Мбит/c";
 
+            MaxSpeed = networkInterfaces[currentInterface].Speed/1000/1000;
+
             networkWindow.AddChildren(btnExitNetwork);
             networkWindow.AddChildren(labelName);
             networkWindow.AddChildren(listInterfaces);
@@ -445,15 +448,18 @@ namespace ApplicationServer
                     long packsrecived = ipstat.UnicastPacketsReceived;
                     long packssent = ipstat.UnicastPacketsSent;
 
-                    double speedIn = (double)(bytesrecived - oldBytesRecived) * 8 / 1000 / 1000;
-                    double speedOut = (double)(bytessent - oldBytesSent) * 8 / 1000 / 1000;
+                    double speedIn = (((double)bytesrecived - (double)oldBytesRecived) * 8 / 1000/1000);
+                    double speedOut = (double)((bytessent - oldBytesSent) * 8f / 1000f/1000f);
+
+                    int percentIn = (int)(speedIn / MaxSpeed*100);
+                    int percentOut = (int)(speedOut / MaxSpeed * 100);
 
                     string speedI, speedO;
-                    if (speedIn < 1) { speedI = (speedIn * 1000).ToString("F1") + " Кбит/с "; }
-                    else { speedI = speedIn.ToString("F1") + " Mбит/c ";  }
+                    if (speedIn < 1) { speedI = (speedIn*1000).ToString("F1") + " Кбит/с "; }
+                    else { speedI = (speedIn).ToString("F1") + " Mбит/c ";  }
 
-                    if (speedOut < 1) { speedO = (speedOut * 1000).ToString("F1") + " Кбит/c "; }
-                    else { speedO = speedOut.ToString("F1") + " Mбит/c "; }
+                    if (speedOut < 1) { speedO = (speedOut*1000).ToString("F1") + " Кбит/c "; }
+                    else { speedO = (speedOut).ToString("F1") + " Mбит/c "; }
 
                     oldBytesRecived = bytesrecived;
                     oldBytesSent = bytessent;
@@ -463,7 +469,9 @@ namespace ApplicationServer
                     ((LabelObject)win.Children[15]).Text = packssent + "/" +
                         (bytessent/1024/1024).ToString() + " Мбайт";
                     ((ProgressObject)win.Children[16]).Value = speedO;
+                    ((ProgressObject)win.Children[16]).Percent = percentOut;
                     ((ProgressObject)win.Children[17]).Value = speedI;
+                    ((ProgressObject)win.Children[17]).Percent = percentIn;
                     win.UpdateChildren(14);
                     win.UpdateChildren(15);
                     win.UpdateChildren(16);
