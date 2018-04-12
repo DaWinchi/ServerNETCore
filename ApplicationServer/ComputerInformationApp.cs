@@ -399,13 +399,16 @@ namespace ApplicationServer
             labelUploadinfo.BackgroundColor = ConsoleColor.DarkRed;
             labelUploadinfo.TextColor = ConsoleColor.White;
 
+
+            MaxSpeed = 100;
+
             ProgressObject progressInput = new ProgressObject(labelStatistics.Left, labelDownloadSpeed.Top + 1, 50, 2, false, false);
             progressInput.TextColor = ConsoleColor.White;
             progressInput.BackgroundTextColor = ConsoleColor.DarkRed;
             progressInput.BackgroundColor = ConsoleColor.DarkCyan;
             progressInput.PercentColor = ConsoleColor.Yellow;
             progressInput.Min = "0";
-            progressInput.Max = (networkInterfaces[currentInterface].Speed / 1000 / 1000).ToString() + " Мбит/c";
+            progressInput.Max = MaxSpeed.ToString() + " Мбит/c";
 
             ProgressObject progressOutput = new ProgressObject(labelStatistics.Left, labelUploadSpeed.Top + 1, 50, 2, false, false);
             progressOutput.TextColor = ConsoleColor.White;
@@ -413,9 +416,8 @@ namespace ApplicationServer
             progressOutput.BackgroundColor = ConsoleColor.DarkCyan;
             progressOutput.PercentColor = ConsoleColor.Yellow;
             progressOutput.Min = "0";
-            progressOutput.Max = (networkInterfaces[currentInterface].Speed / 1000 / 1000).ToString() + " Мбит/c";
+            progressOutput.Max = MaxSpeed.ToString() + " Мбит/c";
 
-            MaxSpeed = networkInterfaces[currentInterface].Speed / 1000 / 1000;
 
             networkWindow.AddChildren(btnExitNetwork);
             networkWindow.AddChildren(labelName);
@@ -454,9 +456,7 @@ namespace ApplicationServer
                         + (ipstat.BytesReceived / 1024 / 1024).ToString() + " Мбайт";
                     ((LabelObject)win.Children[15]).Text = ipstat.UnicastPacketsSent.ToString() + "/" +
                         (ipstat.BytesSent / 1024 / 1024).ToString() + " Мбайт";
-                    ((ProgressObject)win.Children[16]).Max=(networkInterfaces[currentInterface].Speed / 1000 / 1000).ToString() + " Мбит/c";
-                    ((ProgressObject)win.Children[17]).Max = (networkInterfaces[currentInterface].Speed / 1000 / 1000).ToString() + " Мбит/c";
-
+                   
                     win.UpdateChildren(11);
                     win.UpdateChildren(12);
                     win.UpdateChildren(13);
