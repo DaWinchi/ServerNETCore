@@ -96,7 +96,7 @@ namespace WindowsLibrary
                     default: break;
                 }
 
-
+                Thread.Sleep(50);
 
             }
         }
@@ -358,7 +358,7 @@ namespace WindowsLibrary
                             }
                     }
                 }
-
+                Thread.Sleep(50);
             }
             Console.Clear();
             tracking_adding_queue_from_keyboard.Join();
