@@ -35,6 +35,8 @@ namespace ApplicationServer
         Window networkWindow;
         List<NetworkInterface> networkInterfaces;
         int currentInterface;
+        long oldBytesRecived;
+        long oldBytesSent;
 
         private void InitializeApplication()
         {
@@ -100,13 +102,16 @@ namespace ApplicationServer
             {
                 networkWindow.Update();
                 app.AddWindow(networkWindow);
-
+                foreach (Window win in app.windows)
+                {
+                    if (win.IdentificationNumber == 3) win.TimerStart(1000);
+                }
 
             }
         }
         private void InitializeCharacterWindow()
         {
-            characterWindow = new Window(70, 1, 70, 16, "Информация о системе", false, 1, ref app);
+            characterWindow = new Window(74, 2, 70, 16, "Информация о системе", false, 1, ref app);
             characterWindow.BackgroundColor = ConsoleColor.DarkRed;
             characterWindow.TextColor = ConsoleColor.White;
             characterWindow.TimerTick += CharacterWindow_TimerTick;
@@ -243,7 +248,7 @@ namespace ApplicationServer
 
         private void InitializeProcessWindow()
         {
-            processWindow = new Window(2, 15, 60, 18, "Информация о процессах", false, 2, ref app);
+            processWindow = new Window(74, 20, 60, 18, "Информация о процессах", false, 2, ref app);
             processWindow.BackgroundColor = ConsoleColor.DarkRed;
             processWindow.TextColor = ConsoleColor.White;
 
@@ -302,7 +307,8 @@ namespace ApplicationServer
             }
             currentInterface = 0;
 
-            networkWindow = new Window(70, 18, 70, 22, "Сетевая статистика", false, 3, ref app);
+            networkWindow = new Window(2, 14, 70, 24, "Сетевая статистика", false, 3, ref app);
+            networkWindow.TimerTick += NetworkWindow_TimerTick;
             networkWindow.BackgroundColor = ConsoleColor.DarkRed;
             ButtonObject btnExitNetwork = new ButtonObject(networkWindow.Left + networkWindow.Width - 12
                                 , networkWindow.Top + networkWindow.Height - 2, 9, 1, true, false, "Закрыть");
@@ -320,7 +326,7 @@ namespace ApplicationServer
             listInterfaces.TextColor = ConsoleColor.White;
 
             listInterfaces.List = new List<string>();
-            for (int i=0; i<networkInterfaces.Count;++i)
+            for (int i = 0; i < networkInterfaces.Count; ++i)
             {
                 listInterfaces.List.Add(networkInterfaces[i].Name);
             }
@@ -343,20 +349,24 @@ namespace ApplicationServer
             labelStatistics.BackgroundColor = ConsoleColor.Green;
             labelStatistics.TextColor = ConsoleColor.Black;
 
-            LabelObject labelDownload = new LabelObject(listInterfaces.Left, labelStatistics.Top + 1, 35, 1, false, false, "Пакетов принято(входящий траффик): ");
+            LabelObject labelDownload = new LabelObject(listInterfaces.Left, labelStatistics.Top + 1, 34, 1, false, false, "Пакетов принято(входящий трафик): ");
             labelDownload.BackgroundColor = ConsoleColor.DarkRed;
             labelDownload.TextColor = ConsoleColor.White;
 
-            LabelObject labelUpload = new LabelObject(listInterfaces.Left, labelDownload.Top + 1, 40, 1, false, false, "Пакетов отправлено(исходящий траффик): ");
+            LabelObject labelUpload = new LabelObject(listInterfaces.Left, labelDownload.Top + 1, 39, 1, false, false, "Пакетов отправлено(исходящий трафик): ");
             labelUpload.BackgroundColor = ConsoleColor.DarkRed;
             labelUpload.TextColor = ConsoleColor.White;
+
+            LabelObject labelUploadSpeed = new LabelObject(listInterfaces.Left, labelUpload.Top + 2, 40, 1, false, false, "Скорость загрузки:");
+            labelUploadSpeed.BackgroundColor = ConsoleColor.DarkRed;
+            labelUploadSpeed.TextColor = ConsoleColor.White;
             ///////////////////////////////////////////Вставляемая информация/////////////////
-            LabelObject labelTitleinfo = new LabelObject(labelTitle.Left+labelTitle.Width+1, labelTitle.Top, 40, 1, false, false, 
+            LabelObject labelTitleinfo = new LabelObject(labelTitle.Left + labelTitle.Width + 1, labelTitle.Top, 40, 1, false, false,
                 networkInterfaces[listInterfaces.ActiveLine].Name);
             labelTitleinfo.BackgroundColor = ConsoleColor.DarkRed;
             labelTitleinfo.TextColor = ConsoleColor.White;
 
-            LabelObject labelDescriptioninfo = new LabelObject(labelDescription.Left + labelTitle.Width + 1, labelTitle.Top+1, 55, 1, false, false,
+            LabelObject labelDescriptioninfo = new LabelObject(labelDescription.Left + labelTitle.Width + 1, labelTitle.Top + 1, 55, 1, false, false,
                 networkInterfaces[listInterfaces.ActiveLine].Description);
             labelDescriptioninfo.BackgroundColor = ConsoleColor.DarkRed;
             labelDescriptioninfo.TextColor = ConsoleColor.White;
@@ -367,8 +377,12 @@ namespace ApplicationServer
             labelMACinfo.TextColor = ConsoleColor.White;
 
             var ipstat = networkInterfaces[currentInterface].GetIPv4Statistics();
-            LabelObject labelDownloadinfo = new LabelObject(labelDownload.Left+ labelDownload.Width, labelDownload.Top, 20, 1, false, false,
-                ipstat.UnicastPacketsReceived.ToString()+"/"+(ipstat.BytesReceived/1024/1024).ToString()+
+            oldBytesRecived = ipstat.BytesReceived;
+
+            oldBytesSent = ipstat.BytesSent;
+
+            LabelObject labelDownloadinfo = new LabelObject(labelDownload.Left + labelDownload.Width, labelDownload.Top, 20, 1, false, false,
+                ipstat.UnicastPacketsReceived.ToString() + "/" + (ipstat.BytesReceived / 1024 / 1024).ToString() +
                 " Мбайт");
             labelDownloadinfo.BackgroundColor = ConsoleColor.DarkRed;
             labelDownloadinfo.TextColor = ConsoleColor.White;
@@ -379,28 +393,56 @@ namespace ApplicationServer
             labelUploadinfo.BackgroundColor = ConsoleColor.DarkRed;
             labelUploadinfo.TextColor = ConsoleColor.White;
 
-            ProgressObject progressOutput = new ProgressObject(labelStatistics.Left, labelStatistics.Top + 5, 50, 3, false, false);
+            ProgressObject progressOutput = new ProgressObject(labelStatistics.Left, labelStatistics.Top + 5, 50, 2, false, false);
             progressOutput.TextColor = ConsoleColor.White;
             progressOutput.BackgroundTextColor = ConsoleColor.DarkRed;
             progressOutput.BackgroundColor = ConsoleColor.DarkCyan;
             progressOutput.PercentColor = ConsoleColor.Yellow;
-            progressOutput.Max = (networkInterfaces[currentInterface].Speed/ 1000 / 1000).ToString();
+            progressOutput.Min = "0";
+            progressOutput.Max = (networkInterfaces[currentInterface].Speed / 1000 / 1000).ToString() + " Мбит";
 
             networkWindow.AddChildren(btnExitNetwork);
             networkWindow.AddChildren(labelName);
             networkWindow.AddChildren(listInterfaces);
             networkWindow.AddChildren(labelTitle);
+            networkWindow.AddChildren(labelDescription);
             networkWindow.AddChildren(labelMAC);
             networkWindow.AddChildren(labelStatistics);
             networkWindow.AddChildren(labelDownload);
             networkWindow.AddChildren(labelUpload);
-            networkWindow.AddChildren(labelDescription);
+            networkWindow.AddChildren(labelUploadSpeed);
             networkWindow.AddChildren(labelTitleinfo);
             networkWindow.AddChildren(labelDescriptioninfo);
             networkWindow.AddChildren(labelMACinfo);
             networkWindow.AddChildren(labelDownloadinfo);
             networkWindow.AddChildren(labelUploadinfo);
             networkWindow.AddChildren(progressOutput);
+        }
+
+        private void NetworkWindow_TimerTick(object sender, EventArgs e)
+        {
+            foreach (Window win in app.windows)
+            {
+                if (win.IdentificationNumber == 3)
+                {
+                    var ipstat = networkInterfaces[currentInterface].GetIPv4Statistics();
+                    long bytesrecived = ipstat.BytesReceived;
+                    long bytessent = ipstat.BytesSent;
+                    long packsrecived = ipstat.UnicastPacketsReceived;
+                    long packssent = ipstat.UnicastPacketsSent;
+
+                    long speedIn =  bytesrecived- oldBytesRecived;
+                    long speedOut = bytessent - oldBytesSent;
+
+
+                    ((LabelObject)win.Children[13]).Text = ipstat.UnicastPacketsReceived.ToString() + "/" +
+                        (ipstat.BytesReceived / 1024 / 1024).ToString() + " Мбайт";
+                    ((LabelObject)win.Children[14]).Text = ipstat.UnicastPacketsSent.ToString() + "/" +
+                        (ipstat.BytesSent / 1024 / 1024).ToString() + " Мбайт";
+                    win.UpdateChildren(13);
+                    win.UpdateChildren(14);
+                }
+            }
         }
 
         private void BtnExit_ButtonClicked1(object sender, EventArgs e)
