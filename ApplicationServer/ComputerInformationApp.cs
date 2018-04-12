@@ -295,8 +295,8 @@ namespace ApplicationServer
             #endregion
 
             #region Список модулей для выбранного процесса
-            LabelObject labelModule = new LabelObject(labelProcess.Left+labelProcess.Width + 1, labelProcess.Top,
-                45, 1, true, false, "Список модулей для " +process[listProcess.ActiveLine].ProcessName);
+            LabelObject labelModule = new LabelObject(labelProcess.Left + labelProcess.Width + 1, labelProcess.Top,
+                45, 1, true, false, "Список модулей для " + process[listProcess.ActiveLine].ProcessName);
             labelModule.BackgroundColor = ConsoleColor.Green;
             labelModule.TextColor = ConsoleColor.Black;
 
@@ -310,7 +310,7 @@ namespace ApplicationServer
             listModule.List = new List<string>();
             ProcessModuleCollection pm = processModule[listProcess.ActiveLine];
 
-            for (int i=0; i<pm.Count; ++i)
+            for (int i = 0; i < pm.Count; ++i)
             {
                 listModule.List.Add(pm[i].FileName);
             }
@@ -327,17 +327,25 @@ namespace ApplicationServer
         {
             foreach (Window win in app.windows)
             {
-                if(win.IdentificationNumber==2)
+                if (win.IdentificationNumber == 2)
                 {
                     int num = ((ListObject)sender).ActiveLine;
                     ((LabelObject)win.Children[1]).Text = "Список модулей для " + process[num].ProcessName;
-                    ((ListObject)win.Children[3]).List.Clear();
-                    ProcessModuleCollection pm = processModule[num];
-                    for (int i = 0; i < pm.Count; ++i)
+                    try
                     {
-                        ((ListObject)win.Children[3]).List.Add(pm[i].FileName);
+                        ((ListObject)win.Children[3]).List.Clear();
+                        ProcessModuleCollection pm = processModule[num];
+                        for (int i = 0; i < pm.Count; ++i)
+                        {
+                            ((ListObject)win.Children[3]).List.Add(pm[i].FileName);
+                        }
                     }
+                    catch
+                    {
+                        ((ListObject)win.Children[3]).List.Clear();
+                        ((ListObject)win.Children[3]).List.Add("Модули не загружены");
 
+                    }
                     win.UpdateChildren(1);
                     win.UpdateChildren(3);
 
