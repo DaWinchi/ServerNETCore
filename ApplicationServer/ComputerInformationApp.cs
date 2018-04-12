@@ -31,6 +31,8 @@ namespace ApplicationServer
         /************************************/
 
         Window processWindow;
+        List<Process> process;
+        List<ProcessModuleCollection> processModule;
 
         Window networkWindow;
         List<NetworkInterface> networkInterfaces;
@@ -249,43 +251,98 @@ namespace ApplicationServer
 
         private void InitializeProcessWindow()
         {
-            processWindow = new Window(74, 20, 60, 18, "Информация о процессах", false, 2, ref app);
+            processWindow = new Window(74, 20, 70, 18, "Информация о процессах", false, 2, ref app);
             processWindow.BackgroundColor = ConsoleColor.DarkRed;
             processWindow.TextColor = ConsoleColor.White;
 
-            ButtonObject btnExitProcessWindow = new ButtonObject(processWindow.Left + processWindow.Width - 12,
-                processWindow.Top + processWindow.Height - 3, 9, 1, false, false, "Закрыть");
+            ButtonObject btnExitProcessWindow = new ButtonObject(processWindow.Left + processWindow.Width - 11,
+                processWindow.Top + processWindow.Height - 2, 9, 1, false, false, "Закрыть");
             btnExitProcessWindow.ButtonClicked += BtnExitProcessWindow_ButtonClicked;
             btnExitProcessWindow.BackgroundColor = ConsoleColor.Red;
 
             #region Заголовок "Процессы"
-            LabelObject labelProcess = new LabelObject(processWindow.Left + 4, processWindow.Top + 2,
-                                    10, 1, false, false, "Процессы");
-            labelProcess.BackgroundColor = ConsoleColor.DarkRed;
-            labelProcess.TextColor = ConsoleColor.White;
+            LabelObject labelProcess = new LabelObject(processWindow.Left + 2, processWindow.Top + 2,
+                                    20, 1, false, false, "Процессы");
+            labelProcess.BackgroundColor = ConsoleColor.Green;
+            labelProcess.TextColor = ConsoleColor.Black;
             #endregion
 
 
             #region Список процессов
-            ListObject listProcess = new ListObject(processWindow.Left + 2, processWindow.Top + 3,
+            ListObject listProcess = new ListObject(processWindow.Left + 2, labelProcess.Top + 2,
                 20, 10, true, false);
             listProcess.BackgroundColor = ConsoleColor.DarkRed;
             listProcess.BackgroundActiveColor = ConsoleColor.White;
+            listProcess.ButtonClicked += ListProcess_ButtonClicked;
             listProcess.List = new List<string>();
 
-            Process[] process = Process.GetProcesses();
-            List<string> allprocess = new List<string>();
-
-            for (int i = 0; i < process.Length; i++)
+            Process[] allprocess = Process.GetProcesses();
+            processModule = new List<ProcessModuleCollection>();
+            process = new List<Process>();
+            for (int i = 0; i < allprocess.Length; i++)
             {
-                allprocess.Add(process[i].ProcessName);
+                try
+                {
+                    processModule.Add(allprocess[i].Modules);
+                    process.Add(allprocess[i]);
+                }
+                catch { continue; }
             }
-            listProcess.List.AddRange(allprocess);
+            for (int i = 0; i < process.Count; ++i)
+            {
+                listProcess.List.Add(process[i].ProcessName);
+            }
+            #endregion
+
+            #region Список модулей для выбранного процесса
+            LabelObject labelModule = new LabelObject(labelProcess.Left+labelProcess.Width + 1, labelProcess.Top,
+                45, 1, true, false, "Список модулей для " +process[listProcess.ActiveLine].ProcessName);
+            labelModule.BackgroundColor = ConsoleColor.Green;
+            labelModule.TextColor = ConsoleColor.Black;
+
+            #endregion
+
+            #region Список модулей
+            ListObject listModule = new ListObject(labelModule.Left, labelModule.Top + 2,
+                45, 10, false, false);
+            listModule.BackgroundColor = ConsoleColor.DarkRed;
+            listModule.BackgroundActiveColor = ConsoleColor.White;
+            listModule.List = new List<string>();
+            ProcessModuleCollection pm = processModule[listProcess.ActiveLine];
+
+            for (int i=0; i<pm.Count; ++i)
+            {
+                listModule.List.Add(pm[i].FileName);
+            }
             #endregion
 
             processWindow.AddChildren(labelProcess);
+            processWindow.AddChildren(labelModule);
             processWindow.AddChildren(listProcess);
+            processWindow.AddChildren(listModule);
             processWindow.AddChildren(btnExitProcessWindow);
+        }
+
+        private void ListProcess_ButtonClicked(object sender, EventArgs e)
+        {
+            foreach (Window win in app.windows)
+            {
+                if(win.IdentificationNumber==2)
+                {
+                    int num = ((ListObject)sender).ActiveLine;
+                    ((LabelObject)win.Children[1]).Text = "Список модулей для " + process[num].ProcessName;
+                    ((ListObject)win.Children[3]).List.Clear();
+                    ProcessModuleCollection pm = processModule[num];
+                    for (int i = 0; i < pm.Count; ++i)
+                    {
+                        ((ListObject)win.Children[3]).List.Add(pm[i].FileName);
+                    }
+
+                    win.UpdateChildren(1);
+                    win.UpdateChildren(3);
+
+                }
+            }
         }
 
         private void BtnExitProcessWindow_ButtonClicked(object sender, EventArgs e)
@@ -321,7 +378,7 @@ namespace ApplicationServer
             labelName.BackgroundColor = ConsoleColor.Green;
             labelName.TextColor = ConsoleColor.Black;
 
-            ListObject listInterfaces = new ListObject(networkWindow.Left + 2, networkWindow.Top + 3, 66, 3, false, false);
+            ListObject listInterfaces = new ListObject(networkWindow.Left + 2, networkWindow.Top + 3, 66, 2, false, false);
             listInterfaces.ButtonClicked += ListInterfaces_ButtonClicked;
             listInterfaces.BackgroundColor = ConsoleColor.DarkRed;
             listInterfaces.BackgroundActiveColor = ConsoleColor.White;
@@ -334,7 +391,7 @@ namespace ApplicationServer
             }
 
             /////////////////////////////////////////Заголовки подписей/////////////////
-            LabelObject labelTitle = new LabelObject(listInterfaces.Left, listInterfaces.Top + 4, 9, 1, false, false, "Название: ");
+            LabelObject labelTitle = new LabelObject(listInterfaces.Left, listInterfaces.Top + 3, 9, 1, false, false, "Название: ");
             labelTitle.BackgroundColor = ConsoleColor.DarkRed;
             labelTitle.TextColor = ConsoleColor.White;
 
@@ -363,7 +420,7 @@ namespace ApplicationServer
             labelDownloadSpeed.BackgroundColor = ConsoleColor.DarkRed;
             labelDownloadSpeed.TextColor = ConsoleColor.White;
 
-            LabelObject labelUploadSpeed = new LabelObject(listInterfaces.Left, labelDownloadSpeed.Top + 4, 40, 1, false, false, "Скорость загрузки:");
+            LabelObject labelUploadSpeed = new LabelObject(listInterfaces.Left, labelDownloadSpeed.Top + 4, 40, 1, false, false, "Скорость отдачи:");
             labelUploadSpeed.BackgroundColor = ConsoleColor.DarkRed;
             labelUploadSpeed.TextColor = ConsoleColor.White;
             ///////////////////////////////////////////Вставляемая информация/////////////////
@@ -456,7 +513,7 @@ namespace ApplicationServer
                         + (ipstat.BytesReceived / 1024 / 1024).ToString() + " Мбайт";
                     ((LabelObject)win.Children[15]).Text = ipstat.UnicastPacketsSent.ToString() + "/" +
                         (ipstat.BytesSent / 1024 / 1024).ToString() + " Мбайт";
-                   
+
                     win.UpdateChildren(11);
                     win.UpdateChildren(12);
                     win.UpdateChildren(13);
