@@ -59,12 +59,12 @@ namespace ApplicationServer
         {
             //Создал окно
             mainWindow = new Window(2, 2, 40, 5, "Информация о компьютере", true, 0, ref app);
-            mainWindow.BackgroundColor = ConsoleColor.DarkRed;
+            mainWindow.BackgroundColor = ConsoleColor.Blue;
             mainWindow.TextColor = ConsoleColor.White;
 
             listWnd = new ListObject(mainWindow.Left + 2, mainWindow.Top + 1, 29, 3, true, true);
             listWnd.BackgroundActiveColor = ConsoleColor.White;
-            listWnd.BackgroundColor = ConsoleColor.DarkRed;
+            listWnd.BackgroundColor = ConsoleColor.Blue;
 
             listWnd.List = new List<string>();
             listWnd.ButtonClicked += ListWnd_ButtonClicked;
@@ -73,8 +73,8 @@ namespace ApplicationServer
             listWnd.List.Add("Сетевая статистика");
 
             btnExit = new ButtonObject(mainWindow.Left + 31, mainWindow.Top + 3, 7, 1, false, true, "Выход");
-            btnExit.BackgroundColor = ConsoleColor.Red;
-            btnExit.TextColor = ConsoleColor.DarkRed;
+            btnExit.BackgroundColor = ConsoleColor.DarkGray;
+            btnExit.TextColor = ConsoleColor.Black;
             btnExit.BackgroundActiveColor = ConsoleColor.White;
             btnExit.ButtonClicked += BtnExit_ButtonClicked;
 
@@ -115,27 +115,27 @@ namespace ApplicationServer
         private void InitializeCharacterWindow()
         {
             characterWindow = new Window(74, 2, 70, 16, "Информация о системе", false, 1, ref app);
-            characterWindow.BackgroundColor = ConsoleColor.DarkRed;
+            characterWindow.BackgroundColor = ConsoleColor.Blue;
             characterWindow.TextColor = ConsoleColor.White;
             characterWindow.TimerTick += CharacterWindow_TimerTick;
             #region Операционная система
             LabelObject labelOS = new LabelObject(characterWindow.Left + 2, characterWindow.Top + 2,
                                     21, 1, false, false, "Операционная система:");
-            labelOS.BackgroundColor = ConsoleColor.DarkRed;
+            labelOS.BackgroundColor = ConsoleColor.Blue;
             labelOS.TextColor = ConsoleColor.White;
 
 
             LabelObject labelOSinfo = new LabelObject(characterWindow.Left + 2 + 24, characterWindow.Top + 2,
                                     40, 2, false, false, Environment.OSVersion.VersionString +
                                     " " + Environment.OSVersion.Platform.ToString());
-            labelOSinfo.BackgroundColor = ConsoleColor.DarkRed;
+            labelOSinfo.BackgroundColor = ConsoleColor.Blue;
             labelOSinfo.TextColor = ConsoleColor.White;
             #endregion
 
             #region Разрядность
             LabelObject labelBit = new LabelObject(labelOS.Left, labelOSinfo.Top + 2,
                                    21, 1, false, false, "Разрядность:");
-            labelBit.BackgroundColor = ConsoleColor.DarkRed;
+            labelBit.BackgroundColor = ConsoleColor.Blue;
             labelBit.TextColor = ConsoleColor.White;
 
             bool Is64 = Environment.Is64BitOperatingSystem;
@@ -146,65 +146,65 @@ namespace ApplicationServer
 
             LabelObject labelBitinfo = new LabelObject(labelOSinfo.Left, labelOSinfo.Top + 2,
                                     40, 2, false, false, bit);
-            labelBitinfo.BackgroundColor = ConsoleColor.DarkRed;
+            labelBitinfo.BackgroundColor = ConsoleColor.Blue;
             labelBitinfo.TextColor = ConsoleColor.White;
             #endregion
 
             #region Число ядер процессора
             LabelObject labelCore = new LabelObject(labelOS.Left, labelBitinfo.Top + 2,
                                    21, 1, false, false, "Число ядер:");
-            labelCore.BackgroundColor = ConsoleColor.DarkRed;
+            labelCore.BackgroundColor = ConsoleColor.Blue;
             labelCore.TextColor = ConsoleColor.White;
 
             LabelObject labelCoreinfo = new LabelObject(labelOSinfo.Left, labelBitinfo.Top + 2,
                         40, 2, false, false, Environment.ProcessorCount.ToString());
-            labelCoreinfo.BackgroundColor = ConsoleColor.DarkRed;
+            labelCoreinfo.BackgroundColor = ConsoleColor.Blue;
             labelCoreinfo.TextColor = ConsoleColor.White;
             #endregion
 
             #region Имя компьютера
             LabelObject labelMachineName = new LabelObject(labelOS.Left, labelCoreinfo.Top + 2,
                                     21, 1, false, false, "Имя компьютера:");
-            labelMachineName.BackgroundColor = ConsoleColor.DarkRed;
+            labelMachineName.BackgroundColor = ConsoleColor.Blue;
             labelMachineName.TextColor = ConsoleColor.White;
 
 
             LabelObject labelMachineNameinfo = new LabelObject(labelOSinfo.Left, labelCoreinfo.Top + 2,
                                     40, 2, false, false, Environment.MachineName);
-            labelMachineNameinfo.BackgroundColor = ConsoleColor.DarkRed;
+            labelMachineNameinfo.BackgroundColor = ConsoleColor.Blue;
             labelMachineNameinfo.TextColor = ConsoleColor.White;
             #endregion
 
             #region Имя пользователя
             LabelObject labelUserName = new LabelObject(labelOS.Left, labelMachineName.Top + 2,
                                    21, 1, false, false, "Имя пользователя:");
-            labelUserName.BackgroundColor = ConsoleColor.DarkRed;
+            labelUserName.BackgroundColor = ConsoleColor.Blue;
             labelUserName.TextColor = ConsoleColor.White;
 
 
             LabelObject labelUserNameinfo = new LabelObject(labelOSinfo.Left, labelMachineName.Top + 2,
                                     40, 2, false, false, Environment.UserName);
-            labelUserNameinfo.BackgroundColor = ConsoleColor.DarkRed;
+            labelUserNameinfo.BackgroundColor = ConsoleColor.Blue;
             labelUserNameinfo.TextColor = ConsoleColor.White;
             #endregion           
 
             #region Системное время
             LabelObject labelTime = new LabelObject(labelOS.Left, labelUserNameinfo.Top + 2,
                                    21, 1, false, false, "Системное время:");
-            labelTime.BackgroundColor = ConsoleColor.DarkRed;
+            labelTime.BackgroundColor = ConsoleColor.Blue;
             labelTime.TextColor = ConsoleColor.White;
 
 
             LabelObject labelTimeinfo = new LabelObject(labelOSinfo.Left, labelUserNameinfo.Top + 2,
                                     40, 2, false, false, DateTime.Now.ToLongTimeString());
-            labelTimeinfo.BackgroundColor = ConsoleColor.DarkRed;
+            labelTimeinfo.BackgroundColor = ConsoleColor.Blue;
             labelTimeinfo.TextColor = ConsoleColor.White;
             #endregion
 
             ButtonObject btnExitCharacterWindow = new ButtonObject(characterWindow.Left + characterWindow.Width - 11,
                                             characterWindow.Top + characterWindow.Height - 2, 9, 1, true, false, "Закрыть");
             btnExitCharacterWindow.TextColor = ConsoleColor.Black;
-            btnExitCharacterWindow.BackgroundColor = ConsoleColor.Red;
+            btnExitCharacterWindow.BackgroundColor = ConsoleColor.DarkGray;
             btnExitCharacterWindow.ButtonClicked += BtnExitCharacterWindow_ButtonClicked;
 
             characterWindow.AddChildren(labelOS);
@@ -252,24 +252,24 @@ namespace ApplicationServer
         private void InitializeProcessWindow()
         {
             processWindow = new Window(74, 20, 70, 18, "Информация о процессах", false, 2, ref app);
-            processWindow.BackgroundColor = ConsoleColor.DarkRed;
+            processWindow.BackgroundColor = ConsoleColor.Blue;
             processWindow.TextColor = ConsoleColor.White;
 
             ButtonObject btnExitProcessWindow = new ButtonObject(processWindow.Left + processWindow.Width - 11,
                 processWindow.Top + processWindow.Height - 2, 9, 1, false, false, "Закрыть");
             btnExitProcessWindow.ButtonClicked += BtnExitProcessWindow_ButtonClicked;
-            btnExitProcessWindow.BackgroundColor = ConsoleColor.Red;
+            btnExitProcessWindow.BackgroundColor = ConsoleColor.DarkGray;
 
             ButtonObject btnUpdateProcess = new ButtonObject(processWindow.Left + processWindow.Width - 31,
                 processWindow.Top + processWindow.Height - 2, 19, 1, false, false, "Обновить процессы");
             btnUpdateProcess.ButtonClicked += BtnUpdateProcess_ButtonClicked;
             
-            btnUpdateProcess.BackgroundColor = ConsoleColor.Red;
+            btnUpdateProcess.BackgroundColor = ConsoleColor.DarkGray;
 
             #region Заголовок "Процессы"
             LabelObject labelProcess = new LabelObject(processWindow.Left + 2, processWindow.Top + 2,
                                     20, 1, false, false, "Процессы");
-            labelProcess.BackgroundColor = ConsoleColor.Green;
+            labelProcess.BackgroundColor = ConsoleColor.Gray;
             labelProcess.TextColor = ConsoleColor.Black;
             #endregion
 
@@ -277,7 +277,7 @@ namespace ApplicationServer
             #region Список процессов
             ListObject listProcess = new ListObject(processWindow.Left + 2, labelProcess.Top + 2,
                 20, 10, true, false);
-            listProcess.BackgroundColor = ConsoleColor.DarkRed;
+            listProcess.BackgroundColor = ConsoleColor.Blue;
             listProcess.BackgroundActiveColor = ConsoleColor.White;
             listProcess.ButtonClicked += ListProcess_ButtonClicked;
             listProcess.List = new List<string>();
@@ -303,7 +303,7 @@ namespace ApplicationServer
             #region Список модулей для выбранного процесса
             LabelObject labelModule = new LabelObject(labelProcess.Left + labelProcess.Width + 1, labelProcess.Top,
                 45, 1, false, false, "Список модулей для " + process[listProcess.ActiveLine].ProcessName);
-            labelModule.BackgroundColor = ConsoleColor.Green;
+            labelModule.BackgroundColor = ConsoleColor.Gray;
             labelModule.TextColor = ConsoleColor.Black;
 
             #endregion
@@ -311,7 +311,7 @@ namespace ApplicationServer
             #region Список модулей
             ListObject listModule = new ListObject(labelModule.Left, labelModule.Top + 2,
                 45, 10, false, false);
-            listModule.BackgroundColor = ConsoleColor.DarkRed;
+            listModule.BackgroundColor = ConsoleColor.Blue;
             listModule.BackgroundActiveColor = ConsoleColor.White;
             listModule.List = new List<string>();
             ProcessModuleCollection pm = processModule[listProcess.ActiveLine];
@@ -412,20 +412,20 @@ namespace ApplicationServer
 
             networkWindow = new Window(2, 14, 70, 24, "Сетевая статистика", false, 3, ref app);
             networkWindow.TimerTick += NetworkWindow_TimerTick;
-            networkWindow.BackgroundColor = ConsoleColor.DarkRed;
+            networkWindow.BackgroundColor = ConsoleColor.Blue;
             ButtonObject btnExitNetwork = new ButtonObject(networkWindow.Left + networkWindow.Width - 12
                                 , networkWindow.Top + networkWindow.Height - 2, 9, 1, true, false, "Закрыть");
-            btnExitNetwork.BackgroundColor = ConsoleColor.Red;
+            btnExitNetwork.BackgroundColor = ConsoleColor.DarkGray;
             btnExitNetwork.ButtonClicked += BtnExit_ButtonClicked1;
 
 
             LabelObject labelName = new LabelObject(networkWindow.Left + 2, networkWindow.Top + 2, 40, 1, false, false, "Интерфейсы");
-            labelName.BackgroundColor = ConsoleColor.Green;
+            labelName.BackgroundColor = ConsoleColor.Gray;
             labelName.TextColor = ConsoleColor.Black;
 
             ListObject listInterfaces = new ListObject(networkWindow.Left + 2, networkWindow.Top + 3, 66, 2, false, false);
             listInterfaces.ButtonClicked += ListInterfaces_ButtonClicked;
-            listInterfaces.BackgroundColor = ConsoleColor.DarkRed;
+            listInterfaces.BackgroundColor = ConsoleColor.Blue;
             listInterfaces.BackgroundActiveColor = ConsoleColor.White;
             listInterfaces.TextColor = ConsoleColor.White;
 
@@ -437,51 +437,51 @@ namespace ApplicationServer
 
             /////////////////////////////////////////Заголовки подписей/////////////////
             LabelObject labelTitle = new LabelObject(listInterfaces.Left, listInterfaces.Top + 3, 9, 1, false, false, "Название: ");
-            labelTitle.BackgroundColor = ConsoleColor.DarkRed;
+            labelTitle.BackgroundColor = ConsoleColor.Blue;
             labelTitle.TextColor = ConsoleColor.White;
 
 
             LabelObject labelDescription = new LabelObject(listInterfaces.Left, labelTitle.Top + 1, 9, 1, false, false, "Описание: ");
-            labelDescription.BackgroundColor = ConsoleColor.DarkRed;
+            labelDescription.BackgroundColor = ConsoleColor.Blue;
             labelDescription.TextColor = ConsoleColor.White;
 
             LabelObject labelMAC = new LabelObject(listInterfaces.Left, labelTitle.Top + 2, 10, 1, false, false, "MAC-адрес: ");
-            labelMAC.BackgroundColor = ConsoleColor.DarkRed;
+            labelMAC.BackgroundColor = ConsoleColor.Blue;
             labelMAC.TextColor = ConsoleColor.White;
 
             LabelObject labelStatistics = new LabelObject(labelMAC.Left, labelMAC.Top + 2, 40, 1, false, false, "Статистика");
-            labelStatistics.BackgroundColor = ConsoleColor.Green;
+            labelStatistics.BackgroundColor = ConsoleColor.Gray;
             labelStatistics.TextColor = ConsoleColor.Black;
 
             LabelObject labelDownload = new LabelObject(listInterfaces.Left, labelStatistics.Top + 1, 34, 1, false, false, "Пакетов принято(входящий трафик): ");
-            labelDownload.BackgroundColor = ConsoleColor.DarkRed;
+            labelDownload.BackgroundColor = ConsoleColor.Blue;
             labelDownload.TextColor = ConsoleColor.White;
 
             LabelObject labelUpload = new LabelObject(listInterfaces.Left, labelDownload.Top + 1, 39, 1, false, false, "Пакетов отправлено(исходящий трафик): ");
-            labelUpload.BackgroundColor = ConsoleColor.DarkRed;
+            labelUpload.BackgroundColor = ConsoleColor.Blue;
             labelUpload.TextColor = ConsoleColor.White;
 
             LabelObject labelDownloadSpeed = new LabelObject(listInterfaces.Left, labelUpload.Top + 2, 40, 1, false, false, "Скорость получения:");
-            labelDownloadSpeed.BackgroundColor = ConsoleColor.DarkRed;
+            labelDownloadSpeed.BackgroundColor = ConsoleColor.Blue;
             labelDownloadSpeed.TextColor = ConsoleColor.White;
 
             LabelObject labelUploadSpeed = new LabelObject(listInterfaces.Left, labelDownloadSpeed.Top + 4, 40, 1, false, false, "Скорость отдачи:");
-            labelUploadSpeed.BackgroundColor = ConsoleColor.DarkRed;
+            labelUploadSpeed.BackgroundColor = ConsoleColor.Blue;
             labelUploadSpeed.TextColor = ConsoleColor.White;
             ///////////////////////////////////////////Вставляемая информация/////////////////
             LabelObject labelTitleinfo = new LabelObject(labelTitle.Left + labelTitle.Width + 1, labelTitle.Top, 40, 1, false, false,
                 networkInterfaces[listInterfaces.ActiveLine].Name);
-            labelTitleinfo.BackgroundColor = ConsoleColor.DarkRed;
+            labelTitleinfo.BackgroundColor = ConsoleColor.Blue;
             labelTitleinfo.TextColor = ConsoleColor.White;
 
             LabelObject labelDescriptioninfo = new LabelObject(labelDescription.Left + labelTitle.Width + 1, labelTitle.Top + 1, 55, 1, false, false,
                 networkInterfaces[listInterfaces.ActiveLine].Description);
-            labelDescriptioninfo.BackgroundColor = ConsoleColor.DarkRed;
+            labelDescriptioninfo.BackgroundColor = ConsoleColor.Blue;
             labelDescriptioninfo.TextColor = ConsoleColor.White;
 
             LabelObject labelMACinfo = new LabelObject(labelMAC.Left + labelTitle.Width + 2, labelMAC.Top, 55, 1, false, false,
                 networkInterfaces[listInterfaces.ActiveLine].GetPhysicalAddress().ToString());
-            labelMACinfo.BackgroundColor = ConsoleColor.DarkRed;
+            labelMACinfo.BackgroundColor = ConsoleColor.Blue;
             labelMACinfo.TextColor = ConsoleColor.White;
 
             var ipstat = networkInterfaces[currentInterface].GetIPv4Statistics();
@@ -492,13 +492,13 @@ namespace ApplicationServer
             LabelObject labelDownloadinfo = new LabelObject(labelDownload.Left + labelDownload.Width, labelDownload.Top, 20, 1, false, false,
                 ipstat.UnicastPacketsReceived.ToString() + "/" + (ipstat.BytesReceived / 1024 / 1024).ToString() +
                 " Мбайт");
-            labelDownloadinfo.BackgroundColor = ConsoleColor.DarkRed;
+            labelDownloadinfo.BackgroundColor = ConsoleColor.Blue;
             labelDownloadinfo.TextColor = ConsoleColor.White;
 
             LabelObject labelUploadinfo = new LabelObject(labelUpload.Left + labelUpload.Width, labelUpload.Top, 20, 1, false, false,
                 ipstat.UnicastPacketsSent.ToString() + "/" + (ipstat.BytesSent / 1024 / 1024).ToString() +
                 " Мбайт");
-            labelUploadinfo.BackgroundColor = ConsoleColor.DarkRed;
+            labelUploadinfo.BackgroundColor = ConsoleColor.Blue;
             labelUploadinfo.TextColor = ConsoleColor.White;
 
 
@@ -506,7 +506,7 @@ namespace ApplicationServer
 
             ProgressObject progressInput = new ProgressObject(labelStatistics.Left, labelDownloadSpeed.Top + 1, 50, 2, false, false);
             progressInput.TextColor = ConsoleColor.White;
-            progressInput.BackgroundTextColor = ConsoleColor.DarkRed;
+            progressInput.BackgroundTextColor = ConsoleColor.Blue;
             progressInput.BackgroundColor = ConsoleColor.DarkCyan;
             progressInput.PercentColor = ConsoleColor.Yellow;
             progressInput.Min = "0";
@@ -514,7 +514,7 @@ namespace ApplicationServer
 
             ProgressObject progressOutput = new ProgressObject(labelStatistics.Left, labelUploadSpeed.Top + 1, 50, 2, false, false);
             progressOutput.TextColor = ConsoleColor.White;
-            progressOutput.BackgroundTextColor = ConsoleColor.DarkRed;
+            progressOutput.BackgroundTextColor = ConsoleColor.Blue;
             progressOutput.BackgroundColor = ConsoleColor.DarkCyan;
             progressOutput.PercentColor = ConsoleColor.Yellow;
             progressOutput.Min = "0";

@@ -26,7 +26,7 @@ namespace WindowsLibrary
         public Application()
         {
             windows = new List<Window>();
-            GlobalBackgroundColor = ConsoleColor.DarkCyan;
+            GlobalBackgroundColor = ConsoleColor.DarkGray;
             Console.BackgroundColor = GlobalBackgroundColor;
             Console.Clear();
         }
