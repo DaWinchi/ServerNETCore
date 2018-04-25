@@ -125,7 +125,7 @@ namespace WindowsLibrary
             TimerTick(this, new EventArgs());
         }
         /// <summary>
-        /// Пустая  функция события
+        /// Пустой обработчик события таймера
         /// </summary>
         /// <param name="sender"> объект, вызвавший событие </param>
         /// <param name="e"> набор аргументов </param>
