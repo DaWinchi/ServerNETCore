@@ -4,21 +4,27 @@ using System.Text;
 
 namespace WindowsLibrary
 {
+    /// <summary>
+    /// Класс текстовой метки
+    /// </summary>
     public class LabelObject : Element
     {
 
-        /*Текст в метке*/
+        /// <summary>
+        /// Задаёт или получает текст метки
+        /// </summary>
         public string Text { get; set; }
 
-        /*Конструктор прогресс-бара
-    @ p_Left - координата левой верхней границы  по горизонтали
-    @ p_Top - координата левой верхней границы  по вертикали
-    @ p_Width - ширина 
-    @ p_Height - высота 
-    @ p_active - флаг активности кнопки при инициализации(при большом количестве элементов в окне в положении true может быть только у одного элемента)
-    @ p_parentActive - флаг активности родителя(устанавливается согласно родителю)   
-    @ p_text - текст в метке
-    */
+        /// <summary>
+        /// Конструктор текстовой метки
+        /// </summary>
+        /// <param name="p_Left">горизонтальная координата левого верхнего угла метки</param>
+        /// <param name="p_Top">вертикальная координата левого верхнего угла метки</param>
+        /// <param name="p_Width">ширина метки</param>
+        /// <param name="p_Height">высота метки</param>
+        /// <param name="p_active">активность метки</param>
+        /// <param name="p_parentActive">активность окна-родителя</param>
+        /// <param name="p_text">текст</param>
         public LabelObject(int p_Left, int p_Top, int p_Width, int p_Height, bool p_active, bool p_parentActive, string p_text)
         {
             Left = p_Left;
@@ -33,7 +39,9 @@ namespace WindowsLibrary
             TextColor= ConsoleColor.Black;
         }
 
-        /*Метод перерисовывает элемент*/
+       /// <summary>
+       /// Перерисовывает текстовую метку
+       /// </summary>
         internal override void ReDraw()
         {
             Console.BackgroundColor = BackgroundColor;
@@ -69,8 +77,10 @@ namespace WindowsLibrary
             Console.SetCursorPosition(Console.WindowWidth - 2, Console.WindowHeight - 2);
 
         }
-
-        /*Метод обработки нажатой на клавиатуре клавиши для данного элемента*/
+        /// <summary>
+        ///  Обрабатывает событие нажатия клавиши клавиатуры на метке
+        /// </summary>
+        /// <param name="key">  Информация о нажатой клавише  </param>
         internal override void ReadKey(ConsoleKey key)
         {
             if (IsActive)
@@ -83,13 +93,17 @@ namespace WindowsLibrary
             }
         }
 
-        /*Метод перерисовки дочерних элементов(не используется)*/
+        /// <summary>
+        /// Перерисовывает дочерние объекты (не используется) 
+        /// </summary>
         internal override void ReDrawChildren()
         {
             throw new NotImplementedException();
         }
-
-        /*Метод добавления дочерних элементов(не используется)*/
+        /// <summary>
+        /// Добавляет элемент в список дочерних объектов (не используется)
+        /// </summary>
+        /// <param name="p_element"> Добавляемый объект </param>
         public override void AddChildren(Element p_element)
         {
             throw new NotImplementedException();
