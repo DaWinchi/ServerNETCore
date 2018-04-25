@@ -5,24 +5,41 @@ using System.Threading;
 
 namespace WindowsLibrary
 {
-    /*Класс приложения*/
+    /// <summary>
+    /// Класс приложения
+    /// </summary>
     public class Application
     {
-        /*Условие закрытия приложения*/
+        /// <summary>
+        /// Поле, отвечающее за выход из приложения
+        /// </summary>
         public bool exit = false;
+        /// <summary>
+        /// Задаёт или получает фоновый цвет консоли
+        /// </summary>
         public ConsoleColor GlobalBackgroundColor { get; set; }
 
-        /*Поток, производящий слежение за клавиатурой*/
+        /// <summary>
+        /// Поток, следящий за клавиатурой
+        /// </summary>
        private Thread tracking_adding_queue_from_keyboard;
-        /*Объект синхронизации*/
+        /// <summary>
+        /// Объект синхронизации
+        /// </summary>
         static object locker = new object();
-        /*Очередь сообщений*/
+        /// <summary>
+        /// Очередь сообщений
+        /// </summary>
         public Queue<Message> queue_messages;
-        /*Набор окон данного приложения*/
+        /// <summary>
+        /// Список окон, принадлежащих данному приложению
+        /// </summary>
         public List<Window> windows;
         
 
-        /*Конструктор*/
+        /// <summary>
+        /// Конструктор по умолчанию
+        /// </summary>
         public Application()
         {
             windows = new List<Window>();
@@ -31,7 +48,10 @@ namespace WindowsLibrary
             Console.Clear();
         }
 
-        /*Метод, добавляющий окна в набор*/
+        /// <summary>
+        /// Прикрепляет окно к приложению
+        /// </summary>
+        /// <param name="win"> добавляемое окно </param>
         public void AddWindow(Window win)
         {
             bool isNewWindow = true;
@@ -46,7 +66,9 @@ namespace WindowsLibrary
                 windows.Add(win);
             }
         }
-        /*Функция потока, следящего за клавиатурой*/
+      /// <summary>
+      /// Функция потока, следящего за клавиатурой
+      /// </summary>
         private void TrackingKeyboard()
         {
             ConsoleKeyInfo pressed_key;
@@ -101,7 +123,9 @@ namespace WindowsLibrary
             }
         }
 
-        /*Цикл обработки сообщений*/
+      /// <summary>
+      /// Цикл обработки сообщений
+      /// </summary>
         private void HandlingMessages()
         {
             while (!exit)
@@ -366,7 +390,9 @@ namespace WindowsLibrary
             
         }
 
-        /*Главная функция приложения*/
+        /// <summary>
+        /// Запускает приложение
+        /// </summary>
         public void Run()
         {
             tracking_adding_queue_from_keyboard = new Thread(TrackingKeyboard);
