@@ -44,7 +44,7 @@ namespace ApplicationServer
         private void InitializeApplication()
         {
             app = new Application();
-            app.GlobalBackgroundColor = ConsoleColor.DarkCyan;
+            app.GlobalBackgroundColor = ConsoleColor.DarkGray;
             InitializeMainWindow();
             InitializeCharacterWindow();
             InitializeProcessWindow();
