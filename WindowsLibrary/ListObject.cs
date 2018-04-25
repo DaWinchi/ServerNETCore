@@ -4,29 +4,43 @@ using System.Text;
 
 namespace WindowsLibrary
 {
+    /// <summary>
+    /// Класс списка
+    /// </summary>
     public class ListObject:Element
     {
-        /*Список имен строк списка*/
+        /// <summary>
+        /// Список строк
+        /// </summary>
         public List<string> List;
 
+        /// <summary>
+        /// Задаёт или получает цвет текста активной строки
+        /// </summary>
         public ConsoleColor TextActiveColor { get; set; }
+        /// <summary>
+        /// Задаёт или получает цвет фона активной строки
+        /// </summary>
         public ConsoleColor BackgroundActiveColor { get; set; }
 
-        /*Свойство отображает или задаёт какая строка в данный момент активна*/
+       /// <summary>
+       /// Задаёт или получает номер активной строки
+       /// </summary>
         public int ActiveLine { get; private set; }
-
-        /*Событие нажатия на элемент списка*/
+        /// <summary>
+        /// Событие нажатия на элемент списка
+        /// </summary>
         public event EventHandler ButtonClicked;
 
-
-        /*Конструктор списка
-       @ p_Left - координата левой верхней границы кнопки по горизонтали
-       @ p_Top - координата левой верхней границы кнопки по вертикали
-       @ p_Width - ширина кнопки
-       @ p_Height - высота кнопки
-       @ p_active - флаг активности кнопки при инициализации(при большом количестве элементов в окне в положении true может быть только у одного элемента)
-       @ p_parentActive - флаг активности родителя(устанавливается согласно родителю)       
-       */
+        /// <summary>
+        /// Конструктор списка
+        /// </summary>
+        /// <param name="p_Left">горизонтальная координата левого верхнего угла списка</param>
+        /// <param name="p_Top">горизонтальная координата левого верхнего угла списка</param>
+        /// <param name="p_Width">ширина списка</param>
+        /// <param name="p_Height">высота</param>
+        /// <param name="p_active">активность списка</param>
+        /// <param name="p_parentActive">активность окна-родителя</param>
         public ListObject(int p_Left, int p_Top, int p_Width, int p_Height, bool p_active, bool p_parentActive)
         {
             ButtonClicked += ListObject_ButtonClicked;
@@ -46,14 +60,20 @@ namespace WindowsLibrary
             TextActiveColor = ConsoleColor.Black;
         }
 
-        /*Пустой обработчик события клика*/
+        /// <summary>
+        /// Пустой обработчик события клика
+        /// </summary>
+        /// <param name="sender">объект, вызвавший событие</param>
+        /// <param name="e">набор аргументов</param>
         private void ListObject_ButtonClicked(object sender, EventArgs e)
         {
            
         }
 
 
-        /*Метод перерисовывает список на экране*/
+       /// <summary>
+       /// Перерисовывает список
+       /// </summary>
         internal override void ReDraw()
         {
             Console.BackgroundColor = BackgroundColor;
@@ -154,8 +174,10 @@ namespace WindowsLibrary
             
             Console.SetCursorPosition(Console.WindowWidth - 2, Console.WindowHeight - 2);
         }
-
-        /*Метод обработки нажатой на клавиатуре клавиши для данной кнопки*/
+        /// <summary>
+        ///  Обрабатывает событие нажатия клавиши клавиатуры на списке
+        /// </summary>
+        /// <param name="key">  Информация о нажатой клавише  </param>
         internal override void ReadKey(ConsoleKey key)
         {
             if (IsActive)
@@ -173,14 +195,18 @@ namespace WindowsLibrary
                 }
             }
         }
-
-        /*Метод перерисовки дочерних элементов(не используется)*/
+        /// <summary>
+        /// Перерисовывает дочерние объекты (не используется) 
+        /// </summary>
         internal override void ReDrawChildren()
         {
            
         }
 
-        /*Метод добавления дочерних элементов(не используется)*/
+        /// <summary>
+        /// Добавляет элемент в список дочерних объектов (не используется)
+        /// </summary>
+        /// <param name="p_element"> Добавляемый объект </param>
         public override void AddChildren(Element p_element)
         {
             
