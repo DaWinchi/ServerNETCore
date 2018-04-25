@@ -4,27 +4,45 @@ using System.Text;
 
 namespace WindowsLibrary
 {
+   /// <summary>
+   /// Класс прогресс-бара
+   /// </summary>
     public class ProgressObject : Element
     {
-
-        /*Целочисленный процент*/
+        /// <summary>
+        /// Задаёт или получает процент
+        /// </summary>
         public int Percent { get; set; }
+        /// <summary>
+        /// Задаёт или получает цвет за текстом
+        /// </summary>
+        public ConsoleColor BackgroundTextColor { get; set; }
+        /// <summary>
+        /// Задаёт или получает цвет текста
+        /// </summary>
+        public ConsoleColor PercentColor { get; set; }
 
-        public ConsoleColor BackgroundTextColor;
-        public ConsoleColor PercentColor;
-
+        /// <summary>
+        /// Задаёт или получает минимум
+        /// </summary>
         public string Min { get; set; }
+        /// <summary>
+        /// Задаёт или получает максимум
+        /// </summary>
         public string Max { get; set; }
+        /// <summary>
+        /// Задаёт или получает значение строки процента
+        /// </summary>
         public string Value { get; set; }
-
-        /*Конструктор прогресс-бара
-      @ p_Left - координата левой верхней границы  по горизонтали
-      @ p_Top - координата левой верхней границы  по вертикали
-      @ p_Width - ширина 
-      @ p_Height - высота 
-      @ p_active - флаг активности кнопки при инициализации(при большом количестве элементов в окне в положении true может быть только у одного элемента)
-      @ p_parentActive - флаг активности родителя(устанавливается согласно родителю)       
-      */
+        /// <summary>
+        /// Конструктор прогресс-бара
+        /// </summary>
+        /// <param name="p_Left">горизонтальная координата левого верхнего угла прогресс-бара</param>
+        /// <param name="p_Top">горизонтальная координата левого верхнего угла прогресс-бара</param>
+        /// <param name="p_Width">ширина прогресс-бара</param>
+        /// <param name="p_Height">высота прогресс-бара</param>
+        /// <param name="p_active">активность прогресс-бара</param>
+        /// <param name="p_parentActive"> активность окна-родителя</param>
         public ProgressObject(int p_Left, int p_Top, int p_Width, int p_Height, bool p_active, bool p_parentActive)
         {
             Left = p_Left;
@@ -44,7 +62,9 @@ namespace WindowsLibrary
             Value = "50";
         }
 
-        /*Метод перерисовывает прогресс-бар и отображает процент*/
+        /// <summary>
+        /// Перерисовывает прогресс-бар
+        /// </summary>
         internal override void ReDraw()
         {
 
@@ -93,7 +113,10 @@ namespace WindowsLibrary
         }
 
 
-        /*Метод обработки нажатой на клавиатуре клавиши для данного элемента*/
+        /// <summary>
+        ///  Обрабатывает событие нажатия клавиши клавиатуры на прогресс-баре
+        /// </summary>
+        /// <param name="key">  Информация о нажатой клавише  </param>
         internal override void ReadKey(ConsoleKey key)
         {
             if (IsActive)
@@ -106,13 +129,18 @@ namespace WindowsLibrary
             }
         }
 
-        /*Метод перерисовки дочерних элементов(не используется)*/
+        /// <summary>
+        /// Перерисовывает дочерние объекты (не используется) 
+        /// </summary>
         internal override void ReDrawChildren()
         {
             throw new NotImplementedException();
         }
 
-        /*Метод добавления дочерних элементов(не используется)*/
+        /// <summary>
+        /// Добавляет элемент в список дочерних объектов (не используется)
+        /// </summary>
+        /// <param name="p_element"> Добавляемый объект </param>
         public override void AddChildren(Element p_element)
         {
             throw new NotImplementedException();
